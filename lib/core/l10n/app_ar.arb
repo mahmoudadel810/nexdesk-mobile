@@ -1,0 +1,18 @@
+{
+  "@@locale": "ar",
+  "appName": "NexDesk",
+  "tagline": "مكتب الدعم في جيبك.",
+  "signInTitle": "سجّل الدخول إلى مساحة عملك",
+  "signInSubtitle": "استخدم البريد الإلكتروني وكلمة المرور نفسيهما على الويب.",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "signIn": "تسجيل الدخول",
+  "forgotPassword": "نسيت كلمة المرور؟",
+  "language": "اللغة",
+  "languageEnglish": "English",
+  "languageArabic": "العربية",
+  "comingSoon": "هذا الجزء من التطبيق قادم قريبًا.",
+  "inbox": "الوارد",
+  "notifications": "الإشعارات",
+  "profile": "الملف الشخصي"
+}
