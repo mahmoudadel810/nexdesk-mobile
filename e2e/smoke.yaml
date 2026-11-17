@@ -1,0 +1,11 @@
+# Launches the dev build from a clean state and checks the sign-in screen in English, then in Arabic.
+appId: app.nexdesk.mobile.dev
+---
+- launchApp:
+    clearState: true
+- assertVisible: "Sign in to your workspace"
+- assertVisible: "Email"
+- tapOn: "العربية"
+- assertVisible: "سجّل الدخول إلى مساحة عملك"
+- tapOn: "English"
+- assertVisible: "Sign in to your workspace"

@@ -1,0 +1,19 @@
+{
+  "@@locale": "en",
+  "appName": "NexDesk",
+  "@appName": { "description": "The product name." },
+  "tagline": "Your help desk, in your pocket.",
+  "signInTitle": "Sign in to your workspace",
+  "signInSubtitle": "Use the email and password you use on the web.",
+  "email": "Email",
+  "password": "Password",
+  "signIn": "Sign in",
+  "forgotPassword": "Forgot your password?",
+  "language": "Language",
+  "languageEnglish": "English",
+  "languageArabic": "العربية",
+  "comingSoon": "This part of the app is on its way.",
+  "inbox": "Inbox",
+  "notifications": "Notifications",
+  "profile": "Profile"
+}
