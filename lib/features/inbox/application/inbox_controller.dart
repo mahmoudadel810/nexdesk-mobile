@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/generated/nex_desk_api.dart';
 import '../../../core/errors/app_error.dart';
+import '../../../core/realtime/live_hub.dart';
+import '../../../core/realtime/realtime_controller.dart';
 import '../data/inbox_query.dart';
 import '../data/tickets_repository.dart';
 
@@ -66,10 +70,31 @@ class InboxController extends Notifier<InboxState> {
 
   TicketsRepository get _tickets => ref.read(ticketsRepositoryProvider);
 
+  Timer? _reload;
+
   @override
   InboxState build() {
+    final events = ref.watch(liveEventsProvider).listen(_onEvent);
+    ref.onDispose(() {
+      unawaited(events.cancel());
+      _reload?.cancel();
+    });
     Future.microtask(_start);
     return const InboxState();
+  }
+
+  /// Ticket changes come in bursts (a bulk update, an automation run), so they reload page 1 once, a second
+  /// after the last one. A reconnect reloads straight away to catch up on what was missed.
+  void _onEvent(LiveEvent event) {
+    switch (event) {
+      case TicketChanged():
+        _reload?.cancel();
+        _reload = Timer(const Duration(seconds: 1), () => unawaited(refresh()));
+      case LiveConnected() when !state.loading:
+        unawaited(refresh());
+      case _:
+        break;
+    }
   }
 
   Future<void> _start() async {
@@ -89,6 +114,7 @@ class InboxController extends Notifier<InboxState> {
   Future<void> refresh() async {
     try {
       final fresh = await _tickets.fetch(query, 1);
+      if (!ref.mounted) return;
       state = InboxState(
         items: fresh.result.items,
         page: 1,
@@ -96,7 +122,7 @@ class InboxController extends Notifier<InboxState> {
         loading: false,
       );
     } on AppError catch (error) {
-      state = state.copyWith(loading: false, error: error);
+      if (ref.mounted) state = state.copyWith(loading: false, error: error);
     }
   }
 

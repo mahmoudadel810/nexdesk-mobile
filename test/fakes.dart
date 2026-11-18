@@ -12,6 +12,8 @@ import 'package:nexdesk_mobile/core/auth/session_controller.dart';
 import 'package:nexdesk_mobile/core/auth/token_store.dart';
 import 'package:nexdesk_mobile/core/cache/database.dart';
 import 'package:nexdesk_mobile/core/cache/file_cache.dart';
+import 'package:nexdesk_mobile/core/realtime/live_hub.dart';
+import 'package:nexdesk_mobile/core/realtime/realtime_controller.dart';
 
 typedef FakeHandler = FutureOr<ResponseBody> Function(RequestOptions request);
 
@@ -88,19 +90,50 @@ Map<String, Object?> authBody({
   },
 };
 
+/// Stands in for the live connection: records starts and stops, and lets a test push events.
+class FakeLiveHub implements LiveHub {
+  final _events = StreamController<LiveEvent>.broadcast(sync: true);
+
+  /// What the next start answers.
+  bool connects = true;
+  int starts = 0;
+  int stops = 0;
+
+  void emit(LiveEvent event) => _events.add(event);
+
+  @override
+  Stream<LiveEvent> get events => _events.stream;
+
+  @override
+  Future<bool> start() async {
+    starts++;
+    if (connects) emit(const LiveConnected());
+    return connects;
+  }
+
+  @override
+  Future<void> stop() async => stops++;
+}
+
 /// Stands in for the OS cache directory, which path_provider cannot reach in tests.
 final testCacheDirectory = Directory.systemTemp.createTempSync('nexdesk-test-cache');
 
 Dio fakeDio(FakeApi api) => Dio(BaseOptions(baseUrl: 'http://api.test'))..httpClientAdapter = api;
 
 /// A container wired to the fake API, an in-memory token store and an in-memory database.
-ProviderContainer fakeContainer(FakeApi api, {MemoryTokenStore? tokens, List<Object> extra = const []}) {
+ProviderContainer fakeContainer(
+  FakeApi api, {
+  MemoryTokenStore? tokens,
+  FakeLiveHub? hub,
+  List<Object> extra = const [],
+}) {
   final database = AppDatabase(NativeDatabase.memory());
   final container = ProviderContainer(
     overrides: [
       tokenStoreProvider.overrideWithValue(tokens ?? MemoryTokenStore()),
       databaseProvider.overrideWithValue(database),
       fileCacheProvider.overrideWithValue(FileCache(() async => testCacheDirectory)),
+      liveHubProvider.overrideWithValue(hub ?? FakeLiveHub()),
       authApiProvider.overrideWith((ref) => NexDeskApi(fakeDio(api))),
       dioProvider.overrideWith((ref) {
         final dio = fakeDio(api);
