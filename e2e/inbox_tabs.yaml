@@ -1,0 +1,41 @@
+# Maya's inbox: her tickets, then the other tabs, a saved view from the web, and scrolling to page 2.
+appId: app.nexdesk.mobile.dev
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "maya@brightpath.demo"
+- tapOn: "Password"
+- inputText: "NexDesk-demo-2026"
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "#\\d+ .*"
+    timeout: 30000
+- takeScreenshot: build/e2e/inbox-mine
+- tapOn: "Unassigned\n.*"
+- tapOn: "SLA\n.*"
+- assertVisible: ".*Breached.*"
+- tapOn: "All\n.*"
+- extendedWaitUntil:
+    visible: "#\\d+ .*"
+    timeout: 30000
+- scrollUntilVisible:
+    element: "#\\d+ .*"
+    direction: DOWN
+- swipe:
+    direction: UP
+- swipe:
+    direction: UP
+- swipe:
+    direction: UP
+- swipe:
+    direction: UP
+- assertVisible: "#\\d+ .*"
+- tapOn: "Saved views"
+- extendedWaitUntil:
+    visible: "Urgent and open|Waiting on customers|No saved views.*"
+    timeout: 15000

@@ -130,11 +130,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profile => 'الملف الشخصي';
 
   @override
-  String greeting(String name) {
-    return 'مرحبًا، $name';
-  }
-
-  @override
   String get workspace => 'مساحة العمل';
 
   @override
@@ -148,4 +143,206 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get cancel => 'إلغاء';
+
+  @override
+  String get tabMine => 'تذاكري';
+
+  @override
+  String get tabUnassigned => 'غير مسندة';
+
+  @override
+  String get tabSla => 'مستوى الخدمة';
+
+  @override
+  String get tabAll => 'الكل';
+
+  @override
+  String get slaBreached => 'متجاوزة';
+
+  @override
+  String get slaAtRisk => 'معرّضة للتجاوز';
+
+  @override
+  String get searchTickets => 'بحث في التذاكر';
+
+  @override
+  String get searchHint => 'الموضوع أو الرسالة أو العميل أو رقم التذكرة';
+
+  @override
+  String get savedViews => 'العروض المحفوظة';
+
+  @override
+  String get noSavedViews => 'لا توجد عروض محفوظة بعد. احفظ عرضًا على الويب وسيظهر هنا.';
+
+  @override
+  String get sharedView => 'مشترك';
+
+  @override
+  String get clearView => 'العودة إلى الوارد';
+
+  @override
+  String get emptyMine => 'لا شيء مسند إليك. استمتع بالهدوء.';
+
+  @override
+  String get emptyList => 'لا توجد تذاكر هنا.';
+
+  @override
+  String get emptySearch => 'لا توجد تذاكر مطابقة.';
+
+  @override
+  String get retry => 'حاول مرة أخرى';
+
+  @override
+  String offlineSince(String time) {
+    return 'لا يوجد اتصال. تُعرض التذاكر كما كانت $time.';
+  }
+
+  @override
+  String ticketCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تذكرة',
+      many: '$count تذكرة',
+      few: '$count تذاكر',
+      two: 'تذكرتان',
+      one: 'تذكرة واحدة',
+      zero: 'لا توجد تذاكر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get unassignedPerson => 'غير مسندة';
+
+  @override
+  String get statusNew => 'جديدة';
+
+  @override
+  String get statusOpen => 'مفتوحة';
+
+  @override
+  String get statusPending => 'بانتظار العميل';
+
+  @override
+  String get statusOnHold => 'معلّقة';
+
+  @override
+  String get statusSolved => 'محلولة';
+
+  @override
+  String get statusClosed => 'مغلقة';
+
+  @override
+  String get priorityLow => 'منخفضة';
+
+  @override
+  String get priorityNormal => 'عادية';
+
+  @override
+  String get priorityHigh => 'مرتفعة';
+
+  @override
+  String get priorityUrgent => 'عاجلة';
+
+  @override
+  String minutesShort(int count) {
+    return '$count د';
+  }
+
+  @override
+  String hoursShort(int count) {
+    return '$count س';
+  }
+
+  @override
+  String daysShort(int count) {
+    return '$count ي';
+  }
+
+  @override
+  String slaDueIn(String time) {
+    return 'خلال $time';
+  }
+
+  @override
+  String slaOverdue(String time) {
+    return 'متأخرة $time';
+  }
+
+  @override
+  String get slaPaused => 'متوقف';
+
+  @override
+  String get slaMet => 'في الوقت';
+
+  @override
+  String slaFirstResponseDue(String time) {
+    return 'الرد الأول مطلوب خلال $time';
+  }
+
+  @override
+  String slaResolutionDue(String time) {
+    return 'الحل مطلوب خلال $time';
+  }
+
+  @override
+  String slaFirstResponseOverdue(String time) {
+    return 'الرد الأول متأخر $time';
+  }
+
+  @override
+  String slaResolutionOverdue(String time) {
+    return 'الحل متأخر $time';
+  }
+
+  @override
+  String get justNow => 'الآن';
+
+  @override
+  String agoMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'قبل $count دقيقة',
+      few: 'قبل $count دقائق',
+      two: 'قبل دقيقتين',
+      one: 'قبل دقيقة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String agoHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'قبل $count ساعة',
+      few: 'قبل $count ساعات',
+      two: 'قبل ساعتين',
+      one: 'قبل ساعة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String agoDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'قبل $count يومًا',
+      few: 'قبل $count أيام',
+      two: 'قبل يومين',
+      one: 'أمس',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ticketTitle(String number) {
+    return 'التذكرة رقم $number';
+  }
+
+  @override
+  String get selectTicket => 'اختر تذكرة لعرضها هنا.';
 }

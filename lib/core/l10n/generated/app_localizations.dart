@@ -326,12 +326,6 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get profile;
 
-  /// No description provided for @greeting.
-  ///
-  /// In en, this message translates to:
-  /// **'Hello, {name}'**
-  String greeting(String name);
-
   /// No description provided for @workspace.
   ///
   /// In en, this message translates to:
@@ -361,6 +355,282 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// No description provided for @tabMine.
+  ///
+  /// In en, this message translates to:
+  /// **'Mine'**
+  String get tabMine;
+
+  /// No description provided for @tabUnassigned.
+  ///
+  /// In en, this message translates to:
+  /// **'Unassigned'**
+  String get tabUnassigned;
+
+  /// No description provided for @tabSla.
+  ///
+  /// In en, this message translates to:
+  /// **'SLA'**
+  String get tabSla;
+
+  /// No description provided for @tabAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get tabAll;
+
+  /// No description provided for @slaBreached.
+  ///
+  /// In en, this message translates to:
+  /// **'Breached'**
+  String get slaBreached;
+
+  /// No description provided for @slaAtRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'At risk'**
+  String get slaAtRisk;
+
+  /// No description provided for @searchTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'Search tickets'**
+  String get searchTickets;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject, message, requester or #number'**
+  String get searchHint;
+
+  /// No description provided for @savedViews.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved views'**
+  String get savedViews;
+
+  /// No description provided for @noSavedViews.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved views yet. Save one on the web and it shows here.'**
+  String get noSavedViews;
+
+  /// No description provided for @sharedView.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared'**
+  String get sharedView;
+
+  /// No description provided for @clearView.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to the inbox'**
+  String get clearView;
+
+  /// No description provided for @emptyMine.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing assigned to you. Enjoy the quiet.'**
+  String get emptyMine;
+
+  /// No description provided for @emptyList.
+  ///
+  /// In en, this message translates to:
+  /// **'No tickets here.'**
+  String get emptyList;
+
+  /// No description provided for @emptySearch.
+  ///
+  /// In en, this message translates to:
+  /// **'No tickets match.'**
+  String get emptySearch;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get retry;
+
+  /// No description provided for @offlineSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline. Showing tickets from {time}.'**
+  String offlineSince(String time);
+
+  /// No description provided for @ticketCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No tickets} =1{1 ticket} other{{count} tickets}}'**
+  String ticketCount(int count);
+
+  /// No description provided for @unassignedPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Unassigned'**
+  String get unassignedPerson;
+
+  /// No description provided for @statusNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get statusNew;
+
+  /// No description provided for @statusOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get statusOpen;
+
+  /// No description provided for @statusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get statusPending;
+
+  /// No description provided for @statusOnHold.
+  ///
+  /// In en, this message translates to:
+  /// **'On hold'**
+  String get statusOnHold;
+
+  /// No description provided for @statusSolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Solved'**
+  String get statusSolved;
+
+  /// No description provided for @statusClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get statusClosed;
+
+  /// No description provided for @priorityLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get priorityLow;
+
+  /// No description provided for @priorityNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get priorityNormal;
+
+  /// No description provided for @priorityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get priorityHigh;
+
+  /// No description provided for @priorityUrgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgent'**
+  String get priorityUrgent;
+
+  /// No description provided for @minutesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min'**
+  String minutesShort(int count);
+
+  /// No description provided for @hoursShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} h'**
+  String hoursShort(int count);
+
+  /// No description provided for @daysShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} d'**
+  String daysShort(int count);
+
+  /// No description provided for @slaDueIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Due in {time}'**
+  String slaDueIn(String time);
+
+  /// No description provided for @slaOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue {time}'**
+  String slaOverdue(String time);
+
+  /// No description provided for @slaPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get slaPaused;
+
+  /// No description provided for @slaMet.
+  ///
+  /// In en, this message translates to:
+  /// **'On time'**
+  String get slaMet;
+
+  /// No description provided for @slaFirstResponseDue.
+  ///
+  /// In en, this message translates to:
+  /// **'First response due in {time}'**
+  String slaFirstResponseDue(String time);
+
+  /// No description provided for @slaResolutionDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolution due in {time}'**
+  String slaResolutionDue(String time);
+
+  /// No description provided for @slaFirstResponseOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'First response overdue by {time}'**
+  String slaFirstResponseOverdue(String time);
+
+  /// No description provided for @slaResolutionOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolution overdue by {time}'**
+  String slaResolutionOverdue(String time);
+
+  /// No description provided for @justNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get justNow;
+
+  /// No description provided for @agoMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 minute ago} other{{count} minutes ago}}'**
+  String agoMinutes(int count);
+
+  /// No description provided for @agoHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 hour ago} other{{count} hours ago}}'**
+  String agoHours(int count);
+
+  /// No description provided for @agoDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{yesterday} other{{count} days ago}}'**
+  String agoDays(int count);
+
+  /// No description provided for @ticketTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket #{number}'**
+  String ticketTitle(String number);
+
+  /// No description provided for @selectTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a ticket to see it here.'**
+  String get selectTicket;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
