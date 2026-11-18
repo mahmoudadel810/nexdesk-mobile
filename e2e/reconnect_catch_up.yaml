@@ -1,0 +1,46 @@
+# The phone loses its network while Maya has a ticket open, and Daniel adds a note meanwhile. When the network
+# comes back the live connection reconnects and reloads the ticket, so the note appears with no refresh.
+appId: app.nexdesk.mobile.dev
+env:
+  PASSWORD: "NexDesk-demo-2026"
+onFlowComplete:
+  - setAirplaneMode: disabled
+---
+- runScript: scripts/mention_token.js
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "maya@brightpath.demo"
+- tapOn: "Password"
+- inputText: ${PASSWORD}
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 30000
+- tapOn:
+    text: "(?s)#\\d+  .*"
+    index: 0
+- extendedWaitUntil:
+    visible: "Reply to .*"
+    timeout: 20000
+- copyTextFrom: "#\\d+"
+- setAirplaneMode: enabled
+- runScript:
+    file: scripts/daniel_mentions_maya.js
+    env:
+      PASSWORD: ${PASSWORD}
+      NUMBER: ${maestro.copiedText}
+- assertTrue: ${output.noteSent}
+- setAirplaneMode: disabled
+# Back online: the reconnect (back-off of up to 10 s by now) reloads the ticket by itself.
+- scrollUntilVisible:
+    element: "(?s).*@Maya Chen live check ${output.mention}.*"
+    direction: DOWN
+    timeout: 90000
+    speed: 80
+    visibilityPercentage: 50
+- takeScreenshot: build/e2e/reconnect-catch-up

@@ -55,7 +55,8 @@ class PluginDeviceFiles implements DeviceFiles {
       maxHeight: _longEdge,
       imageQuality: _quality,
     );
-    return picked == null ? null : _asJpeg(picked.path, picked.name);
+    // The picker hands back temporary names such as "scaled_19.jpg"; recipients get one that says what it is.
+    return picked == null ? null : _asJpeg(picked.path, photoName(DateTime.now()));
   }
 
   @override

@@ -9,6 +9,7 @@ appId: app.nexdesk.mobile.dev
 - runFlow: ../mention_tom.yaml
 - runFlow: ../attach_photo.yaml
 - runFlow: ../live_updates.yaml
+- runFlow: ../reconnect_catch_up.yaml
 - runFlow: ../create_ticket.yaml
 - runFlow: ../push_tap_routing.yaml
 - runFlow: ../deeplink_ticket.yaml

@@ -1,10 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../core/api/generated/nex_desk_api.dart';
+import '../../../core/errors/app_error.dart';
 import '../../../core/l10n/generated/app_localizations.dart';
+import '../attachment_repository.dart';
 import '../attachment_rules.dart';
 import '../device_files.dart';
+import 'attachment_text.dart';
 
 /// A file being added to a reply: uploading, uploaded, or refused with the reason.
 class Outgoing {
@@ -17,6 +21,75 @@ class Outgoing {
   String? problem;
 
   bool get uploading => uploaded == null && problem == null;
+}
+
+/// The files being added to a reply or a new ticket: picks one, checks it against the API's limits, uploads it
+/// with progress, and keeps the reason when it is refused. Listen to it to rebuild.
+class OutgoingFiles extends ChangeNotifier {
+  OutgoingFiles(this._ref);
+
+  final WidgetRef _ref;
+  final items = <Outgoing>[];
+  bool _disposed = false;
+
+  bool get uploading => items.any((o) => o.uploading);
+
+  List<String> get uploadedIds => [for (final o in items) ?o.uploaded?.id];
+
+  Future<void> pick(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
+    final source = await chooseAttachSource(context);
+    if (source == null || _disposed) return;
+    final files = _ref.read(deviceFilesProvider);
+    final picked = await switch (source) {
+      AttachSource.camera => files.takePhoto(),
+      AttachSource.gallery => files.choosePhoto(),
+      AttachSource.files => files.chooseFile(),
+    };
+    if (picked == null || _disposed) return;
+    final item = Outgoing(picked);
+    final problem = checkAttachment(picked.name, picked.sizeBytes);
+    if (problem != null) item.problem = attachmentProblemText(problem, l10n);
+    items.add(item);
+    notifyListeners();
+    if (problem != null) return;
+    try {
+      item.uploaded = await _ref
+          .read(attachmentRepositoryProvider)
+          .upload(
+            picked,
+            cancel: item.cancel,
+            onProgress: (progress) {
+              item.progress = progress;
+              if (!_disposed) notifyListeners();
+            },
+          );
+    } on AppError catch (error) {
+      if (error.code == AttachmentCodes.cancelled) return;
+      item.problem = attachmentErrorText(error, l10n);
+    }
+    if (!_disposed) notifyListeners();
+  }
+
+  void remove(Outgoing item) {
+    item.cancel.cancel();
+    items.remove(item);
+    notifyListeners();
+  }
+
+  void clear() {
+    items.clear();
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    for (final item in items) {
+      item.cancel.cancel();
+    }
+    super.dispose();
+  }
 }
 
 /// Where a new attachment comes from.

@@ -25,7 +25,8 @@ customers keep using the web help centre ([nexdesk-web](https://github.com/mahmo
 - **Push and links**: pushes for assignments, replies, notes, mentions and SLA warnings and breaches, in
   the account's language and without message text on the lock screen. Tapping one opens the ticket, after
   sign-in if needed. Ticket links in notification emails open in the app.
-- **New ticket** for requests that came by phone, chat or in person, with customer search by email.
+- **New ticket** for requests that came by phone, chat or in person, with customer search by email and
+  attachments.
 - **Profile**: availability, language (saved on the account, so the web and emails follow), theme,
   per-event notification settings (in the app, email, phone), and an app lock with fingerprint, face or
   screen lock that asks again after 5 minutes away. The app switcher shows a cover, never ticket content.
@@ -199,7 +200,8 @@ scripts/verify.sh --e2e    # plus: build the dev app and run every Maestro flow 
 - **Goldens** of sign-in, the inbox (light and dark, both directions) and the Arabic new-ticket form are in
   `test/goldens/`; refresh them on purpose with `flutter test --update-goldens`.
 - **Maestro** (`e2e/`) drives the dev app against the seeded local API: sign-in, Arabic, inbox tabs and
-  search, reply and note, Tom's mention notification, photo attachment, live updates, new ticket, language
+  search, reply and note, Tom's mention notification, photo attachment, live updates, catching up after the
+  network drops (airplane mode on and off), new ticket, language
   switch, push tap routing, a deep link while signed out, the draft surviving a kill, and the viewer's
   read-only ticket. Scripts in `e2e/scripts/` check results through the API, such as Tom's notification
   or the stored photo's size. `e2e/suites/full_demo.yaml` chains them all.
