@@ -15,6 +15,7 @@ Future<ProviderContainer> pumpApp(
   String? language,
   FakeApi? api,
   MemoryTokenStore? tokens,
+  FakeLiveHub? hub,
   Size size = const Size(400, 860),
   List<Object> overrides = const [],
 }) async {
@@ -36,6 +37,7 @@ Future<ProviderContainer> pumpApp(
   final container = fakeContainer(
     fake,
     tokens: tokens,
+    hub: hub,
     extra: [sharedPreferencesProvider.overrideWithValue(preferences), ...overrides],
   );
   addTearDown(container.dispose);

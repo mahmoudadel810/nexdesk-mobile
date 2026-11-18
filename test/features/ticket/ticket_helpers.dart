@@ -35,12 +35,14 @@ FakeApi ticketApi({required List<String> permissions}) {
 Future<ProviderContainer> openTicket(
   WidgetTester tester,
   FakeApi api, {
+  FakeLiveHub? hub,
   List<Object> overrides = const [],
 }) async {
   final container = await pumpApp(
     tester,
     api: api,
     tokens: MemoryTokenStore('r1'),
+    hub: hub,
     overrides: [clockProvider.overrideWithValue(() => now), ...overrides],
   );
   container.read(routerProvider).go('/app/tickets/$ticketId');

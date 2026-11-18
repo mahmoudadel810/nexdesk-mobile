@@ -119,9 +119,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageArabic => 'العربية';
 
   @override
-  String get comingSoon => 'This part of the app is on its way.';
-
-  @override
   String get inbox => 'Inbox';
 
   @override
@@ -561,6 +558,64 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String removeAttachment(String name) {
     return 'Remove $name';
+  }
+
+  @override
+  String get markAllRead => 'Mark all as read';
+
+  @override
+  String get metricFirstResponse => 'first response';
+
+  @override
+  String get metricResolution => 'resolution';
+
+  @override
+  String get notificationsEmpty => 'You are all caught up.';
+
+  @override
+  String get someone => 'Someone';
+
+  @override
+  String get open => 'Open';
+
+  @override
+  String notificationsUnread(int count) {
+    return 'Notifications, $count unread';
+  }
+
+  @override
+  String notifyTicketAssigned(String actor, int number) {
+    return '$actor assigned ticket #$number to you';
+  }
+
+  @override
+  String notifyTicketReply(String actor, int number) {
+    return '$actor replied on ticket #$number';
+  }
+
+  @override
+  String notifyTicketNote(String actor, int number) {
+    return '$actor added a note on ticket #$number';
+  }
+
+  @override
+  String notifySlaWarning(int number, String metric) {
+    return 'Ticket #$number is close to its $metric deadline';
+  }
+
+  @override
+  String notifySlaBreach(int number, String metric) {
+    return 'Ticket #$number missed its $metric deadline';
+  }
+
+  @override
+  String notifyAutomation(String actor, int number) {
+    return '$actor: ticket #$number';
+  }
+
+  @override
+  String notifyMention(String actor, int number) {
+    return '$actor mentioned you on ticket #$number';
   }
 
   @override

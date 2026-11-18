@@ -9,9 +9,9 @@ import '../features/auth/presentation/sign_in_screen.dart';
 import '../features/auth/presentation/splash_screen.dart';
 import '../features/inbox/presentation/inbox_screen.dart';
 import '../features/inbox/presentation/search_screen.dart';
+import '../features/notifications/presentation/notifications_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
 import '../features/shell/presentation/app_shell.dart';
-import '../features/shell/presentation/placeholder_screen.dart';
 import '../features/ticket/presentation/ticket_screen.dart';
 
 /// The same paths as the web app, so a link from an email or a push opens the same place.
@@ -77,12 +77,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             ],
           ),
           StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: Routes.notifications,
-                builder: (_, _) => const PlaceholderScreen(section: Section.notifications),
-              ),
-            ],
+            routes: [GoRoute(path: Routes.notifications, builder: (_, _) => const NotificationsScreen())],
           ),
           StatefulShellBranch(
             routes: [GoRoute(path: Routes.profile, builder: (_, _) => const ProfileScreen())],

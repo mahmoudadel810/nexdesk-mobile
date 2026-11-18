@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/generated/nex_desk_api.dart';
 import '../../../core/errors/app_error.dart';
+import '../../../core/realtime/live_hub.dart';
+import '../../../core/realtime/realtime_controller.dart';
 import '../data/ticket_repository.dart';
 
 /// A change to the ticket's fields, built against whatever version is current when it is applied.
@@ -48,8 +52,21 @@ class TicketController extends Notifier<TicketState> {
 
   @override
   TicketState build() {
+    final events = ref.watch(liveEventsProvider).listen(_onEvent);
+    ref.onDispose(() => unawaited(events.cancel()));
     Future.microtask(_start);
     return const TicketState();
+  }
+
+  /// Someone else changed this ticket, or the live connection is back after a gap: reload it, which also
+  /// updates the copy kept on the phone. A send or change in flight reloads on its own.
+  void _onEvent(LiveEvent event) {
+    final relevant = switch (event) {
+      TicketChanged(:final ticketId) => ticketId == id,
+      LiveConnected() => state.view != null,
+      _ => false,
+    };
+    if (relevant && !state.busy && ref.mounted) unawaited(refresh());
   }
 
   Future<void> _start() async {
@@ -60,9 +77,10 @@ class TicketController extends Notifier<TicketState> {
 
   Future<void> refresh() async {
     try {
-      state = state.copyWith(view: await _tickets.fetch(id), loading: false, clearError: true);
+      final view = await _tickets.fetch(id);
+      if (ref.mounted) state = state.copyWith(view: view, loading: false, clearError: true);
     } on AppError catch (error) {
-      state = state.copyWith(loading: false, error: error);
+      if (ref.mounted) state = state.copyWith(loading: false, error: error);
     }
   }
 

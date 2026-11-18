@@ -118,9 +118,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get languageArabic => 'العربية';
 
   @override
-  String get comingSoon => 'هذا الجزء من التطبيق قادم قريبًا.';
-
-  @override
   String get inbox => 'الوارد';
 
   @override
@@ -569,6 +566,64 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String removeAttachment(String name) {
     return 'إزالة $name';
+  }
+
+  @override
+  String get markAllRead => 'تعليم الكل كمقروء';
+
+  @override
+  String get metricFirstResponse => 'أول رد';
+
+  @override
+  String get metricResolution => 'الحل';
+
+  @override
+  String get notificationsEmpty => 'لا جديد لديك.';
+
+  @override
+  String get someone => 'شخص ما';
+
+  @override
+  String get open => 'فتح';
+
+  @override
+  String notificationsUnread(int count) {
+    return 'الإشعارات، $count غير مقروءة';
+  }
+
+  @override
+  String notifyTicketAssigned(String actor, int number) {
+    return 'أسند $actor إليك التذكرة رقم $number';
+  }
+
+  @override
+  String notifyTicketReply(String actor, int number) {
+    return 'ردّ $actor على التذكرة رقم $number';
+  }
+
+  @override
+  String notifyTicketNote(String actor, int number) {
+    return 'أضاف $actor ملاحظة على التذكرة رقم $number';
+  }
+
+  @override
+  String notifySlaWarning(int number, String metric) {
+    return 'التذكرة رقم $number تقترب من موعد $metric';
+  }
+
+  @override
+  String notifySlaBreach(int number, String metric) {
+    return 'التذكرة رقم $number تجاوزت موعد $metric';
+  }
+
+  @override
+  String notifyAutomation(String actor, int number) {
+    return '$actor: التذكرة رقم $number';
+  }
+
+  @override
+  String notifyMention(String actor, int number) {
+    return 'أشار إليك $actor في التذكرة رقم $number';
   }
 
   @override

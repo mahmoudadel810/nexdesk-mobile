@@ -18,6 +18,7 @@ This is Phase 16. The plan, with every decision and the steps 16.1 to 16.12, is 
 | 16.6 | Inbox: Mine, Unassigned, SLA (breached / at risk) and All, saved views from the web, search, paging, pull to refresh, cached lists offline, tablet split | here |
 | 16.7 | Ticket detail: header with live SLA countdowns, timeline with internal notes set apart, reply or note composer with @mentions and a per-ticket draft, send and set status, actions sheet (status, priority, tags, assign, watch), stale-ticket banner with Apply again, read-only for viewers | here, nexdesk-api (nullable enums in OpenAPI) |
 | 16.8 | Attachments: camera, photo library and files; photos sent as JPEG at most 2048 px (HEIC converted); 10 MB and blocked-type checks before upload; upload progress and cancel; timeline files downloaded to the cache and opened in the phone's viewer; "File no longer available"; cache wiped on sign-out | here |
+| 16.9 | Live updates: SignalR open only in the foreground (closed 30 s after leaving, or as soon as the phone cuts the network), back-off reconnects, catch-up reload after every (re)connect, open ticket and inbox reload on others' changes; notification centre with the web's wording, unread badge, mark read / mark all read, in-app banner | here |
 
 
 ### How the session works

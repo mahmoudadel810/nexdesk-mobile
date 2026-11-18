@@ -302,12 +302,6 @@ abstract class AppLocalizations {
   /// **'العربية'**
   String get languageArabic;
 
-  /// No description provided for @comingSoon.
-  ///
-  /// In en, this message translates to:
-  /// **'This part of the app is on its way.'**
-  String get comingSoon;
-
   /// No description provided for @inbox.
   ///
   /// In en, this message translates to:
@@ -1009,6 +1003,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove {name}'**
   String removeAttachment(String name);
+
+  /// No description provided for @markAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get markAllRead;
+
+  /// No description provided for @metricFirstResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'first response'**
+  String get metricFirstResponse;
+
+  /// No description provided for @metricResolution.
+  ///
+  /// In en, this message translates to:
+  /// **'resolution'**
+  String get metricResolution;
+
+  /// No description provided for @notificationsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'You are all caught up.'**
+  String get notificationsEmpty;
+
+  /// No description provided for @someone.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone'**
+  String get someone;
+
+  /// No description provided for @open.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get open;
+
+  /// No description provided for @notificationsUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications, {count} unread'**
+  String notificationsUnread(int count);
+
+  /// No description provided for @notifyTicketAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} assigned ticket #{number} to you'**
+  String notifyTicketAssigned(String actor, int number);
+
+  /// No description provided for @notifyTicketReply.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} replied on ticket #{number}'**
+  String notifyTicketReply(String actor, int number);
+
+  /// No description provided for @notifyTicketNote.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} added a note on ticket #{number}'**
+  String notifyTicketNote(String actor, int number);
+
+  /// No description provided for @notifySlaWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket #{number} is close to its {metric} deadline'**
+  String notifySlaWarning(int number, String metric);
+
+  /// No description provided for @notifySlaBreach.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket #{number} missed its {metric} deadline'**
+  String notifySlaBreach(int number, String metric);
+
+  /// No description provided for @notifyAutomation.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor}: ticket #{number}'**
+  String notifyAutomation(String actor, int number);
+
+  /// No description provided for @notifyMention.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} mentioned you on ticket #{number}'**
+  String notifyMention(String actor, int number);
 
   /// No description provided for @uploading.
   ///

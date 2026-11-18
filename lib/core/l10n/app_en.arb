@@ -45,7 +45,6 @@
   "language": "Language",
   "languageEnglish": "English",
   "languageArabic": "العربية",
-  "comingSoon": "This part of the app is on its way.",
   "inbox": "Inbox",
   "notifications": "Notifications",
   "profile": "Profile",
@@ -451,6 +450,97 @@
     "placeholders": {
       "name": {
         "type": "String"
+      }
+    }
+  },
+  "markAllRead": "Mark all as read",
+  "metricFirstResponse": "first response",
+  "metricResolution": "resolution",
+  "notificationsEmpty": "You are all caught up.",
+  "someone": "Someone",
+  "open": "Open",
+  "notificationsUnread": "Notifications, {count} unread",
+  "@notificationsUnread": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifyTicketAssigned": "{actor} assigned ticket #{number} to you",
+  "@notifyTicketAssigned": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "notifyTicketReply": "{actor} replied on ticket #{number}",
+  "@notifyTicketReply": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "notifyTicketNote": "{actor} added a note on ticket #{number}",
+  "@notifyTicketNote": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "notifySlaWarning": "Ticket #{number} is close to its {metric} deadline",
+  "@notifySlaWarning": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "metric": {
+        "type": "String"
+      }
+    }
+  },
+  "notifySlaBreach": "Ticket #{number} missed its {metric} deadline",
+  "@notifySlaBreach": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "metric": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyAutomation": "{actor}: ticket #{number}",
+  "@notifyAutomation": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "notifyMention": "{actor} mentioned you on ticket #{number}",
+  "@notifyMention": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "number": {
+        "type": "int"
       }
     }
   },
