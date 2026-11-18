@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../app/router.dart';
 import '../../../core/auth/session.dart';
 import '../../../core/auth/session_controller.dart';
 import '../../../core/l10n/generated/app_localizations.dart';
@@ -47,6 +49,14 @@ class ProfileScreen extends ConsumerWidget {
             ),
           if (session.user.role case final role?)
             ListTile(leading: const Icon(Icons.badge_outlined), title: Text(l10n.role), subtitle: Text(role)),
+          const Divider(),
+          ListTile(
+            key: const Key('notification-settings'),
+            leading: const Icon(Icons.notifications_active_outlined),
+            title: Text(l10n.notificationSettings),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.go(Routes.notificationSettings),
+          ),
           const Divider(),
           ListTile(
             key: const Key('sign-out'),

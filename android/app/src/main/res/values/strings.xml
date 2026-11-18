@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Names of the notification channels, shown in the phone's notification settings. -->
+<resources>
+    <string name="channel_tickets">Tickets</string>
+    <string name="channel_sla">SLA warnings and breaches</string>
+</resources>

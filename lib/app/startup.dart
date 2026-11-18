@@ -12,6 +12,9 @@ import 'theme.dart';
 /// This build's number, compared with the API's minimum. Set at launch from the package info.
 final buildNumberProvider = Provider<int>((ref) => 1);
 
+/// `1.0.0+1`, sent with the device registration so support can see which build a phone runs.
+final appVersionProvider = Provider<String>((ref) => '0.0.0+0');
+
 /// The web app's address, from /mobile/config, for the pages the app leaves to the web.
 class WebBaseUrl extends Notifier<String?> {
   @override

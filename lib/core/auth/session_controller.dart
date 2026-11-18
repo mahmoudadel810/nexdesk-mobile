@@ -8,6 +8,7 @@ import '../api/generated/nex_desk_api.dart';
 import '../cache/database.dart';
 import '../cache/file_cache.dart';
 import '../errors/app_error.dart';
+import '../push/device_registration.dart';
 import 'session.dart';
 import 'token_store.dart';
 
@@ -122,6 +123,8 @@ class SessionController extends Notifier<SessionState> {
   Future<void> signOut() async {
     final stored = await _tokens.read();
     if (stored != null) {
+      // While still signed in: the API stops sending pushes to this phone.
+      await ref.read(deviceRegistrationProvider).unregister();
       await _revoke(stored);
     }
 

@@ -1,0 +1,36 @@
+# Tapping a push opens its ticket. The development build's simulate-push route feeds the payload the API sends
+# (type, ticketId, ticketNumber, link) through the same parsing as a real tap, so this runs without Firebase.
+appId: app.nexdesk.mobile.dev
+env:
+  PASSWORD: "NexDesk-demo-2026"
+---
+- runScript:
+    file: scripts/pick_ticket.js
+    env:
+      PASSWORD: ${PASSWORD}
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "maya@brightpath.demo"
+- tapOn: "Password"
+- inputText: ${PASSWORD}
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 30000
+- tapOn: "Profile.*"
+- openLink: "nexdesk://open/simulate-push?type=TicketAssigned&ticketId=${output.ticketId}&ticketNumber=${output.ticketNumber}&link=%2Fapp%2Ftickets%2F${output.ticketId}"
+- extendedWaitUntil:
+    visible: "#${output.ticketNumber}"
+    timeout: 20000
+- assertVisible: "Reply to .*"
+# A payload pointing anywhere else is ignored and lands on the inbox.
+- openLink: "nexdesk://open/simulate-push?type=TicketAssigned&link=%2Fapp%2Fprofile"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 20000
+- assertNotVisible: "Reply to .*"

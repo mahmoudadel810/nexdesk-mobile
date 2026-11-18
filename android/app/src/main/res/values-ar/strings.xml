@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_tickets">التذاكر</string>
+    <string name="channel_sla">تنبيهات وتجاوزات اتفاقية مستوى الخدمة</string>
+</resources>
