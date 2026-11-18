@@ -18,6 +18,9 @@ appId: app.nexdesk.mobile.dev
 - assertVisible: "الوارد"
 - takeScreenshot: build/e2e/layla-inbox
 - tapOn: "الملف الشخصي\n.*"
+- scrollUntilVisible:
+    element: "تسجيل الخروج"
+    direction: DOWN
 - tapOn: "تسجيل الخروج"
 - tapOn: "تسجيل الخروج"
 - assertVisible: "سجّل الدخول إلى مساحة عملك"
