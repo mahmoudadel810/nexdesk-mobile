@@ -11,6 +11,7 @@ import '../../../core/errors/app_error.dart';
 import '../../../core/errors/error_messages.dart';
 import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../shared/ticket_badges.dart';
+import '../../attachments/presentation/outgoing_attachments.dart';
 
 String typeLabel(TicketType type, AppLocalizations l10n) => switch (type) {
   TicketTypeKnown(value: TicketTypeValue.incident) => l10n.typeIncident,
@@ -39,9 +40,15 @@ class _CreateTicketScreenState extends ConsumerState<CreateTicketScreen> {
   TicketType _type = TicketType.question;
   bool _saving = false;
   AppError? _error;
+  late final _files = OutgoingFiles(ref)..addListener(_rebuild);
+
+  void _rebuild() {
+    if (mounted) setState(() {});
+  }
 
   @override
   void dispose() {
+    _files.dispose();
     _subject.dispose();
     _description.dispose();
     _name.dispose();
@@ -81,6 +88,7 @@ class _CreateTicketScreenState extends ConsumerState<CreateTicketScreen> {
               requesterName: customer == null && _name.text.trim().isNotEmpty ? _name.text.trim() : null,
               priority: _priority,
               type: _type,
+              attachmentIds: _files.uploadedIds.isEmpty ? null : _files.uploadedIds,
             ),
           );
       if (!mounted) return;
@@ -220,10 +228,31 @@ class _CreateTicketScreenState extends ConsumerState<CreateTicketScreen> {
               ],
               onChanged: (t) => setState(() => _type = t ?? _type),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 12),
+            if (_files.items.isNotEmpty) ...[
+              OutgoingAttachments(items: _files.items, onRemove: _files.remove),
+              const SizedBox(height: 8),
+            ],
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: TextButton.icon(
+                key: const Key('attach'),
+                icon: const Icon(Icons.attach_file),
+                label: Text(l10n.attach),
+                onPressed: _saving
+                    ? null
+                    : () {
+                        // Otherwise focus returns to the email field after picking, and its suggestions cover the
+                        // form.
+                        FocusScope.of(context).unfocus();
+                        unawaited(_files.pick(context));
+                      },
+              ),
+            ),
+            const SizedBox(height: 16),
             FilledButton(
               key: const Key('create-ticket'),
-              onPressed: _saving ? null : () => unawaited(_submit()),
+              onPressed: _saving || _files.uploading ? null : () => unawaited(_submit()),
               child: _saving
                   ? const SizedBox.square(dimension: 20, child: CircularProgressIndicator(strokeWidth: 2))
                   : Text(l10n.createTicket),

@@ -5,7 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:nexdesk_mobile/app/router.dart';
 
+import 'package:nexdesk_mobile/features/attachments/attachment_repository.dart';
+import 'package:nexdesk_mobile/features/attachments/device_files.dart';
+import 'package:nexdesk_mobile/features/ticket/presentation/create_ticket_screen.dart';
+
 import '../../fakes.dart';
+import '../attachments/attachments_screen_test.dart'
+    show FakeAttachments, FakeDeviceFiles, attachFrom, picked, uploaded;
 import 'ticket_helpers.dart';
 
 const creator = ['tickets.view', 'tickets.create', 'tickets.reply', 'tickets.edit'];
@@ -103,6 +109,42 @@ void main() {
     expect(sent['requesterId'], isNull);
     expect(sent['requesterEmail'], 'new.person@example.com');
     expect(sent['requesterName'], 'New Person');
+  });
+
+  testWidgets('files added to the form are sent with the new ticket', (tester) async {
+    final api = createApi();
+    final attachments = FakeAttachments()..onUpload = (file, _) async => uploaded(file.name, file.sizeBytes);
+    final container = await openTicket(
+      tester,
+      api,
+      overrides: [
+        deviceFilesProvider.overrideWithValue(FakeDeviceFiles(picked('screenshot.jpg', 3000))),
+        attachmentRepositoryProvider.overrideWithValue(attachments),
+      ],
+    );
+    container.read(routerProvider).go(Routes.newTicket);
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byKey(const Key('requester-email')), 'new.person@example.com');
+    await tester.enterText(find.byKey(const Key('subject')), 'Screenshot of the error');
+    await tester.enterText(find.byKey(const Key('description')), 'See the attached screenshot.');
+    await tester.ensureVisible(find.byKey(const Key('attach')));
+    await attachFrom(tester, 'attach-gallery');
+    await tester.pumpAndSettle();
+    expect(find.textContaining('screenshot.jpg · 3 KB'), findsOneWidget);
+
+    final form = find
+        .descendant(of: find.byType(CreateTicketScreen), matching: find.byType(Scrollable))
+        .first;
+    await tester.drag(form, const Offset(0, -600));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('create-ticket')));
+    await tester.pumpAndSettle();
+
+    final sent = jsonDecode(
+      api.calls.singleWhere((c) => c.method == 'POST' && c.path == '/api/v1/tickets').data as String,
+    ) as Map<String, Object?>;
+    expect(sent['attachmentIds'], ['att-1']);
   });
 
   testWidgets('the form in Arabic, right to left', (tester) async {
