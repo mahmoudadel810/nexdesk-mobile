@@ -79,3 +79,9 @@ kotlin {
 flutter {
     source = "../.."
 }
+
+// Firebase is optional: scripts/firebase-config.sh copies each flavor's google-services.json from
+// ~/.config/nexdesk-mobile/<flavor>/ when there is one. Without it the app builds and runs with push off.
+if (listOf("dev", "prod").any { file("src/$it/google-services.json").exists() }) {
+    apply(plugin = "com.google.gms.google-services")
+}

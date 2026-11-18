@@ -561,6 +561,45 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get notificationSettings => 'Notification settings';
+
+  @override
+  String get notificationSettingsSubtitle => 'Choose what you want to hear about, and where.';
+
+  @override
+  String get channelInApp => 'In the app';
+
+  @override
+  String get channelEmail => 'By email';
+
+  @override
+  String get channelPush => 'On my phone';
+
+  @override
+  String get pushUnavailable => 'Push isn\'t set up in this build, so this phone gets no push notifications.';
+
+  @override
+  String get prefTicketAssigned => 'A ticket is assigned to me';
+
+  @override
+  String get prefTicketReply => 'Someone replies on a ticket I follow';
+
+  @override
+  String get prefTicketNote => 'Someone adds an internal note on a ticket I follow';
+
+  @override
+  String get prefSlaWarning => 'A deadline of my ticket is close';
+
+  @override
+  String get prefSlaBreach => 'A deadline is missed';
+
+  @override
+  String get prefAutomation => 'An automation rule notifies me';
+
+  @override
+  String get prefMention => 'A teammate mentions me';
+
+  @override
   String get markAllRead => 'Mark all as read';
 
   @override

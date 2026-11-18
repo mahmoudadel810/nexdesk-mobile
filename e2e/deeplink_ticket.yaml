@@ -1,0 +1,29 @@
+# A ticket link opened while signed out (as from a notification email) waits through sign-in, then opens the ticket.
+# The flow uses the development scheme; https links to the web host take the same route once verified.
+appId: app.nexdesk.mobile.dev
+env:
+  PASSWORD: "NexDesk-demo-2026"
+---
+- runScript:
+    file: scripts/pick_ticket.js
+    env:
+      PASSWORD: ${PASSWORD}
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- openLink: "nexdesk://open/app/tickets/${output.ticketId}"
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 20000
+- tapOn: "Email"
+- inputText: "maya@brightpath.demo"
+- tapOn: "Password"
+- inputText: ${PASSWORD}
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "#${output.ticketNumber}"
+    timeout: 30000
+- takeScreenshot: build/e2e/deeplink-ticket

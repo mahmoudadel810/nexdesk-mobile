@@ -569,6 +569,45 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get notificationSettings => 'إعدادات الإشعارات';
+
+  @override
+  String get notificationSettingsSubtitle => 'اختر ما تريد أن تُبلَّغ به، وأين.';
+
+  @override
+  String get channelInApp => 'داخل التطبيق';
+
+  @override
+  String get channelEmail => 'بالبريد الإلكتروني';
+
+  @override
+  String get channelPush => 'على جوالي';
+
+  @override
+  String get pushUnavailable => 'الإشعارات الفورية غير مُعدّة في هذا الإصدار، لذا لن تصل إلى هذا الهاتف.';
+
+  @override
+  String get prefTicketAssigned => 'إسناد تذكرة إليّ';
+
+  @override
+  String get prefTicketReply => 'رد على تذكرة أتابعها';
+
+  @override
+  String get prefTicketNote => 'ملاحظة داخلية على تذكرة أتابعها';
+
+  @override
+  String get prefSlaWarning => 'اقتراب موعد إحدى تذاكري';
+
+  @override
+  String get prefSlaBreach => 'تجاوز أحد المواعيد';
+
+  @override
+  String get prefAutomation => 'عندما تنبّهني قاعدة أتمتة';
+
+  @override
+  String get prefMention => 'عندما يشير إليّ أحد زملائي';
+
+  @override
   String get markAllRead => 'تعليم الكل كمقروء';
 
   @override

@@ -36,7 +36,10 @@ flutter test
 
 if [[ "${1:-}" == "--e2e" ]]; then
   echo "== End to end (Maestro)"
+  scripts/firebase-config.sh
   flutter build apk --flavor dev -t lib/main_dev.dart --debug
+  # The Gradle daemon keeps about 1.5 GB after the build; with the emulator running that exhausts a 16 GB machine.
+  (cd android && ./gradlew --stop -q) || true
   adb install -r build/app/outputs/flutter-apk/app-dev-debug.apk >/dev/null
   scripts/e2e-fixtures.sh
   # One flow at a time, retried once: Maestro's Android driver sometimes drops between flows and fails the next

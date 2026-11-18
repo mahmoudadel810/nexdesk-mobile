@@ -11,7 +11,7 @@ void main() {
   final signedIn = SignedIn(Session.from(MobileAuthResponse.fromJson(authBody(access: 'a', refresh: 'r'))));
 
   test('each session state has its place', () {
-    expect(redirectFor(const SessionLoading(), Uri.parse('/app/tickets')), Routes.splash);
+    expect(redirectFor(const SessionLoading(), Uri.parse('/login')), Routes.splash);
     expect(redirectFor(const Blocked(BlockedReason.tenantSuspended), Uri.parse('/login')), Routes.blocked);
     expect(redirectFor(const SignedOut(), Uri.parse('/')), Routes.signIn);
     expect(redirectFor(const SignedOut(), Uri.parse('/login')), isNull);
@@ -25,6 +25,25 @@ void main() {
     expect(kept, '/login?from=%2Fapp%2Ftickets%2F42');
     expect(redirectFor(signedIn, Uri.parse(kept)), '/app/tickets/42');
     expect(redirectFor(signedIn, Uri.parse('/login?from=https://evil.example')), Routes.inbox);
+  });
+
+  test('a link from outside keeps only its path inside the app', () {
+    const id = '01a1eb4a-f7f9-7578-8884-e487165a1768';
+    for (final link in ['nexdesk://open/app/tickets/$id', 'https://nexdesk-web.vercel.app/app/tickets/$id']) {
+      final kept = redirectFor(const SignedOut(), Uri.parse(link))!;
+      expect(redirectFor(signedIn, Uri.parse(kept)), '/app/tickets/$id', reason: link);
+    }
+  });
+
+  test('a link that opens the app cold survives the splash screen, signed in or out', () {
+    const link = '/app/tickets/01a1eb4a-f7f9-7578-8884-e487165a1768';
+    final waiting = redirectFor(const SessionLoading(), Uri.parse(link))!;
+    expect(Uri.parse(waiting).path, Routes.splash);
+
+    expect(redirectFor(signedIn, Uri.parse(waiting)), link);
+    final toSignIn = redirectFor(const SignedOut(), Uri.parse(waiting))!;
+    expect(toSignIn, Uri(path: Routes.signIn, queryParameters: {'from': link}).toString());
+    expect(redirectFor(signedIn, Uri.parse(toSignIn)), link);
   });
 
   test('brand colours are read from the help centre setting', () {

@@ -1004,6 +1004,84 @@ abstract class AppLocalizations {
   /// **'Remove {name}'**
   String removeAttachment(String name);
 
+  /// No description provided for @notificationSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification settings'**
+  String get notificationSettings;
+
+  /// No description provided for @notificationSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose what you want to hear about, and where.'**
+  String get notificationSettingsSubtitle;
+
+  /// No description provided for @channelInApp.
+  ///
+  /// In en, this message translates to:
+  /// **'In the app'**
+  String get channelInApp;
+
+  /// No description provided for @channelEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'By email'**
+  String get channelEmail;
+
+  /// No description provided for @channelPush.
+  ///
+  /// In en, this message translates to:
+  /// **'On my phone'**
+  String get channelPush;
+
+  /// No description provided for @pushUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Push isn\'t set up in this build, so this phone gets no push notifications.'**
+  String get pushUnavailable;
+
+  /// No description provided for @prefTicketAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'A ticket is assigned to me'**
+  String get prefTicketAssigned;
+
+  /// No description provided for @prefTicketReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone replies on a ticket I follow'**
+  String get prefTicketReply;
+
+  /// No description provided for @prefTicketNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone adds an internal note on a ticket I follow'**
+  String get prefTicketNote;
+
+  /// No description provided for @prefSlaWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'A deadline of my ticket is close'**
+  String get prefSlaWarning;
+
+  /// No description provided for @prefSlaBreach.
+  ///
+  /// In en, this message translates to:
+  /// **'A deadline is missed'**
+  String get prefSlaBreach;
+
+  /// No description provided for @prefAutomation.
+  ///
+  /// In en, this message translates to:
+  /// **'An automation rule notifies me'**
+  String get prefAutomation;
+
+  /// No description provided for @prefMention.
+  ///
+  /// In en, this message translates to:
+  /// **'A teammate mentions me'**
+  String get prefMention;
+
   /// No description provided for @markAllRead.
   ///
   /// In en, this message translates to:

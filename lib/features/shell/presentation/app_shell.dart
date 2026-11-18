@@ -6,6 +6,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../../app/router.dart';
 import '../../../core/l10n/generated/app_localizations.dart';
+import '../../../core/push/device_registration.dart';
 import '../../../core/realtime/live_hub.dart';
 import '../../../core/realtime/realtime_controller.dart';
 import '../../notifications/application/notifications_controller.dart';
@@ -37,6 +38,8 @@ class _AppShellState extends ConsumerState<AppShell> {
       onPause: () => ref.read(realtimeProvider.notifier).appPaused(),
     );
     _events = ref.read(liveEventsProvider).listen(_onEvent);
+    // In context, once signed in and looking at the app; never on the splash screen.
+    unawaited(ref.read(deviceRegistrationProvider).registerIfAllowed());
   }
 
   @override
