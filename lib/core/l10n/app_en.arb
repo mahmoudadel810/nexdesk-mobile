@@ -453,6 +453,53 @@
       }
     }
   },
+  "newTicket": "New ticket",
+  "newTicketSubtitle": "Record a request you received by phone, chat or in person.",
+  "subject": "Subject",
+  "description": "Description",
+  "requesterEmail": "Customer email",
+  "requesterHint": "Start typing to find an existing customer.",
+  "requesterName": "Customer name (optional)",
+  "type": "Type",
+  "createTicket": "Create ticket",
+  "ticketCreated": "Ticket #{number} created.",
+  "@ticketCreated": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "fieldRequired": "Fill this in.",
+  "typeQuestion": "Question",
+  "typeIncident": "Incident",
+  "typeProblem": "Problem",
+  "typeTask": "Task",
+  "availability": "Availability",
+  "availabilityOnline": "Online",
+  "availabilityAway": "Away",
+  "availabilityOffline": "Offline",
+  "theme": "Theme",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "appLock": "Lock with fingerprint or face",
+  "appLockHint": "Asks again after 5 minutes away.",
+  "appLockUnavailable": "Set up a fingerprint, face or screen lock on this phone to use this.",
+  "unlock": "Unlock",
+  "lockedTitle": "NexDesk is locked",
+  "unlockReason": "Unlock NexDesk",
+  "about": "About",
+  "version": "Version {version}",
+  "@version": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutText": "NexDesk is a help desk for support teams: tickets, SLAs and a customer help centre. This app is for agents on the move; settings and reports live on the web.",
+  "openOnWeb": "Open NexDesk on the web",
   "notificationSettings": "Notification settings",
   "notificationSettingsSubtitle": "Choose what you want to hear about, and where.",
   "channelInApp": "In the app",

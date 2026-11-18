@@ -1,0 +1,34 @@
+# Maya switches her account to Arabic from the profile: the whole app turns Arabic and right to left at once.
+# She switches back at the end, so the account is left as the other flows expect.
+appId: app.nexdesk.mobile.dev
+onFlowStart:
+  - runScript: scripts/maya_in_english.js
+onFlowComplete:
+  - runScript: scripts/maya_in_english.js
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "maya@brightpath.demo"
+- tapOn: "Password"
+- inputText: "NexDesk-demo-2026"
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 30000
+- tapOn: "Profile.*"
+- tapOn: "العربية"
+- extendedWaitUntil:
+    visible: "الملف الشخصي"
+    timeout: 15000
+- assertVisible: "الوارد.*"
+- takeScreenshot: build/e2e/profile-ar
+- tapOn: "English"
+- extendedWaitUntil:
+    visible: "Profile"
+    timeout: 15000
+- assertVisible: "Inbox.*"

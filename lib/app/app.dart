@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../core/l10n/generated/app_localizations.dart';
+import 'lock_gate.dart';
 import 'preferences.dart';
 import 'push_routing.dart';
 import 'router.dart';
@@ -23,6 +24,7 @@ class NexDeskApp extends ConsumerWidget {
       onGenerateTitle: (context) => AppLocalizations.of(context).appName,
       debugShowCheckedModeBanner: false,
       routerConfig: ref.watch(routerProvider),
+      builder: (_, child) => LockGate(child: child ?? const SizedBox.shrink()),
       theme: buildTheme(seed, Brightness.light),
       darkTheme: buildTheme(seed, Brightness.dark),
       themeMode: ref.watch(themeModeProvider),

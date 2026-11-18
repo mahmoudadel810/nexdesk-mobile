@@ -2,7 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../app/router.dart';
 import '../../../core/api/generated/nex_desk_api.dart';
+import '../../../core/auth/session.dart';
+import '../../../core/auth/session_controller.dart';
 import '../../../core/l10n/generated/app_localizations.dart';
 import '../../ticket/presentation/ticket_screen.dart';
 import '../application/inbox_controller.dart';
@@ -99,6 +102,10 @@ class _InboxScreenState extends ConsumerState<InboxScreen> {
             ],
           );
 
+    final canCreate = switch (ref.watch(sessionProvider)) {
+      SignedIn(:final session) => session.can('tickets.create'),
+      _ => false,
+    };
     final inbox = Scaffold(
       appBar: AppBar(
         title: Text(view?.name ?? l10n.inbox),
@@ -137,6 +144,14 @@ class _InboxScreenState extends ConsumerState<InboxScreen> {
               ),
       ),
       body: lists,
+      floatingActionButton: canCreate
+          ? FloatingActionButton.extended(
+              key: const Key('new-ticket'),
+              icon: const Icon(Icons.add),
+              label: Text(l10n.newTicket),
+              onPressed: () => context.push(Routes.newTicket),
+            )
+          : null,
     );
 
     final body = DefaultTabController(length: 4, child: inbox);
