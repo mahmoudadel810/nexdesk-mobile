@@ -67,8 +67,20 @@ class TicketController extends Notifier<TicketState> {
   }
 
   /// Sends a reply or note. Returns whether it went, so the composer knows to clear itself.
-  Future<bool> send(String body, {required bool internal, TicketStatus? setStatus}) =>
-      _run((tickets) => tickets.send(id, body: body.trim(), internal: internal, setStatus: setStatus));
+  Future<bool> send(
+    String body, {
+    required bool internal,
+    TicketStatus? setStatus,
+    List<String> attachmentIds = const [],
+  }) => _run(
+    (tickets) => tickets.send(
+      id,
+      body: body.trim(),
+      internal: internal,
+      setStatus: setStatus,
+      attachmentIds: attachmentIds,
+    ),
+  );
 
   Future<bool> setStatus(TicketStatus status) => _change(
     (tickets, current) => tickets.update(

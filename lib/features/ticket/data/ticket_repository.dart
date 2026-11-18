@@ -55,11 +55,17 @@ class TicketRepository {
     required String body,
     required bool internal,
     TicketStatus? setStatus,
+    List<String> attachmentIds = const [],
   }) async {
     await _guard(
       () => _api.tickets.addTicketMessage(
         id: id,
-        body: AddMessageRequest(body: body, isInternal: internal, attachmentIds: null, setStatus: setStatus),
+        body: AddMessageRequest(
+          body: body,
+          isInternal: internal,
+          attachmentIds: attachmentIds.isEmpty ? null : attachmentIds,
+          setStatus: setStatus,
+        ),
       ),
     );
     await clearDraft(id);

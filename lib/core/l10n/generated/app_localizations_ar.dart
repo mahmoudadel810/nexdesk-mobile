@@ -536,4 +536,43 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get none => 'لا شيء';
+
+  @override
+  String get attach => 'إرفاق ملف';
+
+  @override
+  String get takePhoto => 'التقاط صورة';
+
+  @override
+  String get choosePhoto => 'اختيار صورة';
+
+  @override
+  String get chooseFile => 'اختيار ملف';
+
+  @override
+  String fileTooLarge(String limit) {
+    return 'يتجاوز الحد المسموح ($limit)';
+  }
+
+  @override
+  String get fileTypeBlocked => 'لا يمكن إرسال هذا النوع من الملفات';
+
+  @override
+  String get invalidAttachment => 'ارفع هذا الملف مرة أخرى';
+
+  @override
+  String get fileNoLongerAvailable => 'الملف لم يعد متاحًا';
+
+  @override
+  String get cannotOpenFile => 'لا يوجد تطبيق على هذا الهاتف يمكنه فتح هذا الملف.';
+
+  @override
+  String removeAttachment(String name) {
+    return 'إزالة $name';
+  }
+
+  @override
+  String uploading(int percent) {
+    return 'جارٍ الرفع، $percent٪';
+  }
 }

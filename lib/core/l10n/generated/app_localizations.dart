@@ -949,6 +949,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'none'**
   String get none;
+
+  /// No description provided for @attach.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach a file'**
+  String get attach;
+
+  /// No description provided for @takePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get takePhoto;
+
+  /// No description provided for @choosePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a photo'**
+  String get choosePhoto;
+
+  /// No description provided for @chooseFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a file'**
+  String get chooseFile;
+
+  /// No description provided for @fileTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'Over the {limit} limit'**
+  String fileTooLarge(String limit);
+
+  /// No description provided for @fileTypeBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'This type of file can\'t be sent'**
+  String get fileTypeBlocked;
+
+  /// No description provided for @invalidAttachment.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload this file again'**
+  String get invalidAttachment;
+
+  /// No description provided for @fileNoLongerAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'File no longer available'**
+  String get fileNoLongerAvailable;
+
+  /// No description provided for @cannotOpenFile.
+  ///
+  /// In en, this message translates to:
+  /// **'No app on this phone can open this file.'**
+  String get cannotOpenFile;
+
+  /// No description provided for @removeAttachment.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name}'**
+  String removeAttachment(String name);
+
+  /// No description provided for @uploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading, {percent}%'**
+  String uploading(int percent);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../api/api.dart';
 import '../api/generated/nex_desk_api.dart';
 import '../cache/database.dart';
+import '../cache/file_cache.dart';
 import '../errors/app_error.dart';
 import 'session.dart';
 import 'token_store.dart';
@@ -145,6 +146,11 @@ class SessionController extends Notifier<SessionState> {
   Future<void> _wipe() async {
     await _tokens.clear();
     await ref.read(databaseProvider).wipe();
+    try {
+      await ref.read(fileCacheProvider).wipe();
+    } on Object {
+      // The OS may already have cleared it.
+    }
   }
 
   static String _deviceName() {

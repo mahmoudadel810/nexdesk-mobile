@@ -5,6 +5,7 @@ import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../shared/mentions.dart';
 import '../../../shared/ticket_badges.dart';
 import '../../../shared/time_text.dart';
+import '../../attachments/presentation/attachment_chip.dart';
 
 String actorName(ActorDto actor, AppLocalizations l10n) =>
     actor.name ??
@@ -176,10 +177,7 @@ class TimelineEntry extends StatelessWidget {
             Wrap(
               spacing: 8,
               runSpacing: 4,
-              children: [
-                for (final file in item.attachments)
-                  Chip(avatar: const Icon(Icons.attach_file, size: 16), label: Text(file.fileName)),
-              ],
+              children: [for (final file in item.attachments) AttachmentChip(file)],
             ),
           ],
         ],

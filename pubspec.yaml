@@ -26,6 +26,11 @@ dependencies:
   cupertino_ui: ^1.1.7
   package_info_plus: ^10.2.2
   url_launcher: ^6.3.3
+  image_picker: ^1.2.4
+  file_picker: ^13.4.0
+  flutter_image_compress: ^2.5.1
+  open_filex: ^5.0.0
+  path_provider: ^2.1.6
 
 dev_dependencies:
   flutter_test:

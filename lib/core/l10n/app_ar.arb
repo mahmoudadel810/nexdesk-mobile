@@ -142,5 +142,16 @@
   "actorCustomer": "العميل",
   "actorSystem": "NexDesk",
   "actorApiKey": "تكامل خارجي",
-  "none": "لا شيء"
+  "none": "لا شيء",
+  "attach": "إرفاق ملف",
+  "takePhoto": "التقاط صورة",
+  "choosePhoto": "اختيار صورة",
+  "chooseFile": "اختيار ملف",
+  "fileTooLarge": "يتجاوز الحد المسموح ({limit})",
+  "fileTypeBlocked": "لا يمكن إرسال هذا النوع من الملفات",
+  "invalidAttachment": "ارفع هذا الملف مرة أخرى",
+  "fileNoLongerAvailable": "الملف لم يعد متاحًا",
+  "cannotOpenFile": "لا يوجد تطبيق على هذا الهاتف يمكنه فتح هذا الملف.",
+  "removeAttachment": "إزالة {name}",
+  "uploading": "جارٍ الرفع، {percent}٪"
 }
