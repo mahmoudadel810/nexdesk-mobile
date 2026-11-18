@@ -631,6 +631,324 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose a ticket to see it here.'**
   String get selectTicket;
+
+  /// No description provided for @reply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get reply;
+
+  /// No description provided for @note.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal note'**
+  String get note;
+
+  /// No description provided for @replyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply to {name}'**
+  String replyHint(String name);
+
+  /// No description provided for @noteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Note for your team. The customer won\'t see it.'**
+  String get noteHint;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// No description provided for @sendAndSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Send and set to {status}'**
+  String sendAndSet(String status);
+
+  /// No description provided for @addNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Add note'**
+  String get addNote;
+
+  /// No description provided for @internalNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal note'**
+  String get internalNote;
+
+  /// No description provided for @ticketActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket actions'**
+  String get ticketActions;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @priority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get priority;
+
+  /// No description provided for @tags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get tags;
+
+  /// No description provided for @assignee.
+  ///
+  /// In en, this message translates to:
+  /// **'Assignee'**
+  String get assignee;
+
+  /// No description provided for @team.
+  ///
+  /// In en, this message translates to:
+  /// **'Team'**
+  String get team;
+
+  /// No description provided for @requester.
+  ///
+  /// In en, this message translates to:
+  /// **'Requester'**
+  String get requester;
+
+  /// No description provided for @assignToMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign to me'**
+  String get assignToMe;
+
+  /// No description provided for @assignTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign to…'**
+  String get assignTo;
+
+  /// No description provided for @unassign.
+  ///
+  /// In en, this message translates to:
+  /// **'Unassign'**
+  String get unassign;
+
+  /// No description provided for @watch.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch'**
+  String get watch;
+
+  /// No description provided for @stopWatching.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop watching'**
+  String get stopWatching;
+
+  /// No description provided for @watchers.
+  ///
+  /// In en, this message translates to:
+  /// **'Watchers'**
+  String get watchers;
+
+  /// No description provided for @addTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a tag'**
+  String get addTag;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @firstResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'First response'**
+  String get firstResponse;
+
+  /// No description provided for @resolution.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolution'**
+  String get resolution;
+
+  /// No description provided for @slaDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get slaDone;
+
+  /// No description provided for @customFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get customFields;
+
+  /// No description provided for @noLongerAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This ticket is no longer available.'**
+  String get noLongerAvailable;
+
+  /// No description provided for @closedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'This ticket is closed. Replies open a new conversation on the web.'**
+  String get closedNotice;
+
+  /// No description provided for @staleTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone else changed this ticket. It has been reloaded with their change.'**
+  String get staleTicket;
+
+  /// No description provided for @applyAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply mine again'**
+  String get applyAgain;
+
+  /// No description provided for @dismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get dismiss;
+
+  /// No description provided for @mentionSuggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'People to mention'**
+  String get mentionSuggestions;
+
+  /// No description provided for @readOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'You can read tickets but not change them.'**
+  String get readOnly;
+
+  /// No description provided for @eventCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} created the ticket'**
+  String eventCreated(String actor);
+
+  /// No description provided for @eventSubjectChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} changed the subject from “{from}” to “{to}”'**
+  String eventSubjectChanged(String actor, String from, String to);
+
+  /// No description provided for @eventStatusChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} changed the status from {from} to {to}'**
+  String eventStatusChanged(String actor, String from, String to);
+
+  /// No description provided for @eventPriorityChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} changed the priority from {from} to {to}'**
+  String eventPriorityChanged(String actor, String from, String to);
+
+  /// No description provided for @eventTypeChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} changed the type from {from} to {to}'**
+  String eventTypeChanged(String actor, String from, String to);
+
+  /// No description provided for @eventAssigneeChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} changed the assignee from {from} to {to}'**
+  String eventAssigneeChanged(String actor, String from, String to);
+
+  /// No description provided for @eventTeamChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} changed the team from {from} to {to}'**
+  String eventTeamChanged(String actor, String from, String to);
+
+  /// No description provided for @eventTagsChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} changed the tags from {from} to {to}'**
+  String eventTagsChanged(String actor, String from, String to);
+
+  /// No description provided for @eventCustomFieldChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} changed {field} from {from} to {to}'**
+  String eventCustomFieldChanged(String actor, String field, String from, String to);
+
+  /// No description provided for @eventMergedInto.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} merged this ticket into {to}'**
+  String eventMergedInto(String actor, String to);
+
+  /// No description provided for @eventMergedFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} merged ticket {to} into this one'**
+  String eventMergedFrom(String actor, String to);
+
+  /// No description provided for @eventSlaBreached.
+  ///
+  /// In en, this message translates to:
+  /// **'The {to} deadline was missed'**
+  String eventSlaBreached(String to);
+
+  /// No description provided for @eventCsatSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} rated the support {to} out of 5'**
+  String eventCsatSubmitted(String actor, String to);
+
+  /// No description provided for @eventOther.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated the ticket'**
+  String eventOther(String actor);
+
+  /// No description provided for @actorStaff.
+  ///
+  /// In en, this message translates to:
+  /// **'An agent'**
+  String get actorStaff;
+
+  /// No description provided for @actorCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'The customer'**
+  String get actorCustomer;
+
+  /// No description provided for @actorSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'NexDesk'**
+  String get actorSystem;
+
+  /// No description provided for @actorApiKey.
+  ///
+  /// In en, this message translates to:
+  /// **'An integration'**
+  String get actorApiKey;
+
+  /// No description provided for @none.
+  ///
+  /// In en, this message translates to:
+  /// **'none'**
+  String get none;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

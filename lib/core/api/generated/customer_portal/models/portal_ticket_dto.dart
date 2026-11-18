@@ -24,7 +24,7 @@ class PortalTicketDto {
     }
     return PortalTicketDto(
       id: json["id"] as String,
-      number: _readJsonInteger(json["number"]),
+      number: json["number"] as int,
       subject: json["subject"] as String,
       status: TicketStatus.fromJson(json["status"]),
       createdAt: DateTime.parse(json["createdAt"] as String).toUtc(),
@@ -86,14 +86,4 @@ class PortalTicketDto {
     "canRate": this.canRate,
     "csat": this.csat?.toJson(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

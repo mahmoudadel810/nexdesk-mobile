@@ -26,9 +26,9 @@ class AutomationRuleDto {
       name: json["name"] as String,
       trigger: AutomationTrigger.fromJson(json["trigger"]),
       isEnabled: json["isEnabled"] as bool,
-      position: _readJsonInteger(json["position"]),
+      position: json["position"] as int,
       definition: RuleDefinition.fromJson(json["definition"] as Map<String, Object?>),
-      runCount: _readJsonInteger(json["runCount"]),
+      runCount: json["runCount"] as int,
       lastRunAt: json["lastRunAt"] == null
           ? null
           : DateTime.parse(json["lastRunAt"] as String).toUtc(),
@@ -85,14 +85,4 @@ class AutomationRuleDto {
     "lastRunAt": this.lastRunAt?.toUtc().toIso8601String(),
     "createdAt": this.createdAt.toUtc().toIso8601String(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

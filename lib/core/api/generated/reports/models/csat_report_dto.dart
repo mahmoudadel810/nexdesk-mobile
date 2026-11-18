@@ -22,7 +22,7 @@ class CsatReportDto {
     }
     return CsatReportDto(
       average: json["average"] as num?,
-      responses: _readJsonInteger(json["responses"]),
+      responses: json["responses"] as int,
       satisfiedPercent: json["satisfiedPercent"] as num?,
       distribution: (json["distribution"] as List<Object?>)
           .map((item) => RatingCount.fromJson(item as Map<String, Object?>))
@@ -66,14 +66,4 @@ class CsatReportDto {
     "distribution": this.distribution.map((item) => item.toJson()).toList(),
     "trend": this.trend.map((item) => item.toJson()).toList(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

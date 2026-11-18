@@ -18,7 +18,7 @@ class BacklogDto {
     byPriority: (json["byPriority"] as List<Object?>)
         .map((item) => PriorityCount.fromJson(item as Map<String, Object?>))
         .toList(),
-    unassigned: _readJsonInteger(json["unassigned"]),
+    unassigned: json["unassigned"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -42,14 +42,4 @@ class BacklogDto {
     "byPriority": this.byPriority.map((item) => item.toJson()).toList(),
     "unassigned": this.unassigned,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

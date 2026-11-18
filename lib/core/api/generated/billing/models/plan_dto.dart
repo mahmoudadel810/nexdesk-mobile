@@ -28,18 +28,14 @@ class PlanDto {
     return PlanDto(
       code: json["code"] as String,
       name: json["name"] as String,
-      priceCentsMonthly: _readJsonInteger(json["priceCentsMonthly"]),
+      priceCentsMonthly: json["priceCentsMonthly"] as int,
       currency: json["currency"] as String,
-      maxAgents: json["maxAgents"] == null ? null : _readJsonInteger(json["maxAgents"]),
-      maxTicketsPerMonth: json["maxTicketsPerMonth"] == null
-          ? null
-          : _readJsonInteger(json["maxTicketsPerMonth"]),
-      maxStorageBytes: _readJsonInteger(json["maxStorageBytes"]),
-      maxAutomationRules: json["maxAutomationRules"] == null
-          ? null
-          : _readJsonInteger(json["maxAutomationRules"]),
+      maxAgents: json["maxAgents"] as int?,
+      maxTicketsPerMonth: json["maxTicketsPerMonth"] as int?,
+      maxStorageBytes: json["maxStorageBytes"] as int,
+      maxAutomationRules: json["maxAutomationRules"] as int?,
       apiAccess: json["apiAccess"] as bool,
-      requestsPerMinute: _readJsonInteger(json["requestsPerMinute"]),
+      requestsPerMinute: json["requestsPerMinute"] as int,
       additionalProperties: {
         for (final entry in json.entries)
           if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -96,14 +92,4 @@ class PlanDto {
     "apiAccess": this.apiAccess,
     "requestsPerMinute": this.requestsPerMinute,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

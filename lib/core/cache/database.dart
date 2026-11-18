@@ -32,6 +32,21 @@ class AppDatabase extends _$AppDatabase {
   Future<CachedDocument?> read(String key) =>
       (select(cachedDocuments)..where((d) => d.key.equals(key))).getSingleOrNull();
 
+  Future<void> remove(String key) => (delete(cachedDocuments)..where((d) => d.key.equals(key))).go();
+
+  /// Keeps the [count] most recently stored documents whose key starts with [prefix].
+  Future<void> keepNewest(String prefix, int count) async {
+    final keep =
+        await (selectOnly(cachedDocuments)
+              ..addColumns([cachedDocuments.key])
+              ..where(cachedDocuments.key.like('$prefix%'))
+              ..orderBy([OrderingTerm.desc(cachedDocuments.storedAt)])
+              ..limit(count))
+            .map((row) => row.read(cachedDocuments.key)!)
+            .get();
+    await (delete(cachedDocuments)..where((d) => d.key.like('$prefix%') & d.key.isNotIn(keep))).go();
+  }
+
   /// Everything goes on sign-out, so the next person on this phone sees nothing of the last one.
   Future<void> wipe() => delete(cachedDocuments).go();
 }

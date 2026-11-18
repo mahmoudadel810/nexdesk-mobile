@@ -15,16 +15,8 @@ class CheckoutRequest {
     planCode: json["planCode"] as String,
     cardholderName: json.containsKey("cardholderName") ? json["cardholderName"] as String? : null,
     cardNumber: json.containsKey("cardNumber") ? json["cardNumber"] as String? : null,
-    expiryMonth: json.containsKey("expiryMonth")
-        ? json["expiryMonth"] == null
-              ? null
-              : _readJsonInteger(json["expiryMonth"])
-        : null,
-    expiryYear: json.containsKey("expiryYear")
-        ? json["expiryYear"] == null
-              ? null
-              : _readJsonInteger(json["expiryYear"])
-        : null,
+    expiryMonth: json.containsKey("expiryMonth") ? json["expiryMonth"] as int? : null,
+    expiryYear: json.containsKey("expiryYear") ? json["expiryYear"] as int? : null,
     cvc: json.containsKey("cvc") ? json["cvc"] as String? : null,
     additionalProperties: {
       for (final entry in json.entries)
@@ -65,14 +57,4 @@ class CheckoutRequest {
     if (this.expiryYear != null) "expiryYear": this.expiryYear,
     if (this.cvc != null) "cvc": this.cvc,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

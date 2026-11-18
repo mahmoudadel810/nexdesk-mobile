@@ -33,16 +33,16 @@ class OverviewDto {
     }
     return OverviewDto(
       range: ReportRangeDto.fromJson(json["range"] as Map<String, Object?>),
-      created: _readJsonInteger(json["created"]),
-      solved: _readJsonInteger(json["solved"]),
-      previousCreated: _readJsonInteger(json["previousCreated"]),
-      previousSolved: _readJsonInteger(json["previousSolved"]),
-      openBacklog: _readJsonInteger(json["openBacklog"]),
+      created: json["created"] as int,
+      solved: json["solved"] as int,
+      previousCreated: json["previousCreated"] as int,
+      previousSolved: json["previousSolved"] as int,
+      openBacklog: json["openBacklog"] as int,
       avgFirstResponseMinutes: json["avgFirstResponseMinutes"] as num?,
       avgResolutionMinutes: json["avgResolutionMinutes"] as num?,
       slaCompliancePercent: json["slaCompliancePercent"] as num?,
       csatAverage: json["csatAverage"] as num?,
-      csatResponses: _readJsonInteger(json["csatResponses"]),
+      csatResponses: json["csatResponses"] as int,
       additionalProperties: {
         for (final entry in json.entries)
           if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -103,14 +103,4 @@ class OverviewDto {
     "csatAverage": this.csatAverage,
     "csatResponses": this.csatResponses,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

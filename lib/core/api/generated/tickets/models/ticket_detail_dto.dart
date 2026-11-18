@@ -62,7 +62,7 @@ class TicketDetailDto {
     }
     return TicketDetailDto(
       id: json["id"] as String,
-      number: _readJsonInteger(json["number"]),
+      number: json["number"] as int,
       subject: json["subject"] as String,
       status: TicketStatus.fromJson(json["status"]),
       priority: TicketPriority.fromJson(json["priority"]),
@@ -95,7 +95,7 @@ class TicketDetailDto {
       mergedInto: json["mergedInto"] == null
           ? null
           : TicketLink.fromJson(json["mergedInto"] as Map<String, Object?>),
-      version: _readJsonInteger(json["version"]),
+      version: json["version"] as int,
       sla: TicketSlaDto.fromJson(json["sla"] as Map<String, Object?>),
       csat: json["csat"] == null ? null : CsatDto.fromJson(json["csat"] as Map<String, Object?>),
       additionalProperties: {
@@ -206,14 +206,4 @@ class TicketDetailDto {
     "sla": this.sla.toJson(),
     "csat": this.csat?.toJson(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

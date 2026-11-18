@@ -1,0 +1,44 @@
+# Maya opens her newest ticket, replies, then adds an internal note that @mentions Tom.
+appId: app.nexdesk.mobile.dev
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "maya@brightpath.demo"
+- tapOn: "Password"
+- inputText: "NexDesk-demo-2026"
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 30000
+- tapOn:
+    text: "(?s)#\\d+  .*"
+    index: 0
+- extendedWaitUntil:
+    visible: "Reply to .*"
+    timeout: 20000
+- tapOn: "Reply to .*"
+- inputText: "Thanks, we are looking into it from the app."
+- hideKeyboard
+- tapOn: "Send"
+- extendedWaitUntil:
+    visible: "(?s).*Thanks, we are looking into it from the app\\..*"
+    timeout: 20000
+- tapOn: "Internal note"
+- tapOn: "Note for your team.*"
+- inputText: "@tom"
+- extendedWaitUntil:
+    visible: "Tom Okafor"
+    timeout: 10000
+- tapOn: "Tom Okafor"
+- inputText: "can you check the billing side?"
+- hideKeyboard
+- tapOn: "Add note"
+- extendedWaitUntil:
+    visible: "(?s).*@Tom Okafor can you check the billing side\\?.*"
+    timeout: 20000
+- takeScreenshot: build/e2e/ticket-note

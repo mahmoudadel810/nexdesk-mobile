@@ -8,8 +8,8 @@ class RatingCount {
   });
 
   factory RatingCount.fromJson(Map<String, Object?> json) => RatingCount(
-    rating: _readJsonInteger(json["rating"]),
-    count: _readJsonInteger(json["count"]),
+    rating: json["rating"] as int,
+    count: json["count"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -30,14 +30,4 @@ class RatingCount {
     "rating": this.rating,
     "count": this.count,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

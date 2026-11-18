@@ -203,7 +203,6 @@ export 'tickets/models/ticket_sla_filter.dart';
 export 'tickets/models/ticket_status.dart';
 export 'tickets/models/ticket_type.dart';
 export 'tickets/models/timeline_item.dart';
-export 'tickets/models/timeline_item_event_type.dart';
 export 'tickets/models/timeline_kind.dart';
 export 'tickets/models/update_ticket_request.dart';
 export 'tickets/tickets_client.dart';

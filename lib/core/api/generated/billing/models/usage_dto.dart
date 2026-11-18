@@ -25,18 +25,14 @@ class UsageDto {
       throw ArgumentError("Missing required property: maxAutomationRules");
     }
     return UsageDto(
-      agents: _readJsonInteger(json["agents"]),
-      maxAgents: json["maxAgents"] == null ? null : _readJsonInteger(json["maxAgents"]),
-      ticketsThisMonth: _readJsonInteger(json["ticketsThisMonth"]),
-      maxTicketsPerMonth: json["maxTicketsPerMonth"] == null
-          ? null
-          : _readJsonInteger(json["maxTicketsPerMonth"]),
-      storageBytes: _readJsonInteger(json["storageBytes"]),
-      maxStorageBytes: _readJsonInteger(json["maxStorageBytes"]),
-      automationRules: _readJsonInteger(json["automationRules"]),
-      maxAutomationRules: json["maxAutomationRules"] == null
-          ? null
-          : _readJsonInteger(json["maxAutomationRules"]),
+      agents: json["agents"] as int,
+      maxAgents: json["maxAgents"] as int?,
+      ticketsThisMonth: json["ticketsThisMonth"] as int,
+      maxTicketsPerMonth: json["maxTicketsPerMonth"] as int?,
+      storageBytes: json["storageBytes"] as int,
+      maxStorageBytes: json["maxStorageBytes"] as int,
+      automationRules: json["automationRules"] as int,
+      maxAutomationRules: json["maxAutomationRules"] as int?,
       apiAccess: json["apiAccess"] as bool,
       additionalProperties: {
         for (final entry in json.entries)
@@ -90,14 +86,4 @@ class UsageDto {
     "maxAutomationRules": this.maxAutomationRules,
     "apiAccess": this.apiAccess,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

@@ -54,7 +54,7 @@ class AdminTenantDetail {
       createdAt: DateTime.parse(json["createdAt"] as String).toUtc(),
       planCode: json["planCode"] as String,
       planName: json["planName"] as String,
-      monthlyPriceCents: _readJsonInteger(json["monthlyPriceCents"]),
+      monthlyPriceCents: json["monthlyPriceCents"] as int,
       currentPeriodEnd: json["currentPeriodEnd"] == null
           ? null
           : DateTime.parse(json["currentPeriodEnd"] as String).toUtc(),
@@ -154,14 +154,4 @@ class AdminTenantDetail {
     "admins": this.admins.map((item) => item.toJson()).toList(),
     "recentInvoices": this.recentInvoices.map((item) => item.toJson()).toList(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

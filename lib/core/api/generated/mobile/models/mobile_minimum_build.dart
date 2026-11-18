@@ -8,8 +8,8 @@ class MobileMinimumBuild {
   });
 
   factory MobileMinimumBuild.fromJson(Map<String, Object?> json) => MobileMinimumBuild(
-    android: _readJsonInteger(json["android"]),
-    ios: _readJsonInteger(json["ios"]),
+    android: json["android"] as int,
+    ios: json["ios"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -30,14 +30,4 @@ class MobileMinimumBuild {
     "android": this.android,
     "ios": this.ios,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

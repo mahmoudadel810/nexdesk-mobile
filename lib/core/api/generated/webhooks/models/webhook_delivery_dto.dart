@@ -48,13 +48,11 @@ class WebhookDeliveryDto {
       endpointId: json["endpointId"] as String,
       event: json["event"] as String,
       status: WebhookDeliveryStatus.fromJson(json["status"]),
-      attempts: _readJsonInteger(json["attempts"]),
-      responseStatus: json["responseStatus"] == null
-          ? null
-          : _readJsonInteger(json["responseStatus"]),
+      attempts: json["attempts"] as int,
+      responseStatus: json["responseStatus"] as int?,
       responseBody: json["responseBody"] as String?,
       error: json["error"] as String?,
-      durationMs: json["durationMs"] == null ? null : _readJsonInteger(json["durationMs"]),
+      durationMs: json["durationMs"] as int?,
       payload: json["payload"] as String,
       resentFromId: json["resentFromId"] as String?,
       createdAt: DateTime.parse(json["createdAt"] as String).toUtc(),
@@ -136,14 +134,4 @@ class WebhookDeliveryDto {
     "lastAttemptAt": this.lastAttemptAt?.toUtc().toIso8601String(),
     "nextAttemptAt": this.nextAttemptAt?.toUtc().toIso8601String(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

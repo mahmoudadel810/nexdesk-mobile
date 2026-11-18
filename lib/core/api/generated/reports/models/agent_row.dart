@@ -26,12 +26,12 @@ class AgentRow {
     return AgentRow(
       userId: json["userId"] as String,
       name: json["name"] as String,
-      assignedOpen: _readJsonInteger(json["assignedOpen"]),
-      solved: _readJsonInteger(json["solved"]),
+      assignedOpen: json["assignedOpen"] as int,
+      solved: json["solved"] as int,
       avgFirstResponseMinutes: json["avgFirstResponseMinutes"] as num?,
       avgResolutionMinutes: json["avgResolutionMinutes"] as num?,
       csatAverage: json["csatAverage"] as num?,
-      csatResponses: _readJsonInteger(json["csatResponses"]),
+      csatResponses: json["csatResponses"] as int,
       additionalProperties: {
         for (final entry in json.entries)
           if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -80,14 +80,4 @@ class AgentRow {
     "csatAverage": this.csatAverage,
     "csatResponses": this.csatResponses,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

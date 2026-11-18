@@ -10,7 +10,7 @@ class BulkResult {
   });
 
   factory BulkResult.fromJson(Map<String, Object?> json) => BulkResult(
-    updated: _readJsonInteger(json["updated"]),
+    updated: json["updated"] as int,
     failed: (json["failed"] as List<Object?>)
         .map((item) => BulkFailure.fromJson(item as Map<String, Object?>))
         .toList(),
@@ -34,14 +34,4 @@ class BulkResult {
     "updated": this.updated,
     "failed": this.failed.map((item) => item.toJson()).toList(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

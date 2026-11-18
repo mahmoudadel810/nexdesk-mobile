@@ -11,7 +11,7 @@ class SaveKbCategoryRequest {
   factory SaveKbCategoryRequest.fromJson(Map<String, Object?> json) => SaveKbCategoryRequest(
     name: json["name"] as String,
     description: json.containsKey("description") ? json["description"] as String? : null,
-    position: json.containsKey("position") ? _readJsonInteger(json["position"]) : 0,
+    position: json.containsKey("position") ? json["position"] as int : 0,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -35,14 +35,4 @@ class SaveKbCategoryRequest {
     if (this.description != null) "description": this.description,
     "position": this.position,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

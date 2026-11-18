@@ -345,4 +345,195 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get selectTicket => 'اختر تذكرة لعرضها هنا.';
+
+  @override
+  String get reply => 'رد';
+
+  @override
+  String get note => 'ملاحظة داخلية';
+
+  @override
+  String replyHint(String name) {
+    return 'الرد على $name';
+  }
+
+  @override
+  String get noteHint => 'ملاحظة لفريقك. لن يراها العميل.';
+
+  @override
+  String get send => 'إرسال';
+
+  @override
+  String sendAndSet(String status) {
+    return 'إرسال وتغيير الحالة إلى $status';
+  }
+
+  @override
+  String get addNote => 'إضافة ملاحظة';
+
+  @override
+  String get internalNote => 'ملاحظة داخلية';
+
+  @override
+  String get ticketActions => 'إجراءات التذكرة';
+
+  @override
+  String get status => 'الحالة';
+
+  @override
+  String get priority => 'الأولوية';
+
+  @override
+  String get tags => 'الوسوم';
+
+  @override
+  String get assignee => 'المُسنَد إليه';
+
+  @override
+  String get team => 'الفريق';
+
+  @override
+  String get requester => 'العميل';
+
+  @override
+  String get assignToMe => 'إسناد إليّ';
+
+  @override
+  String get assignTo => 'إسناد إلى…';
+
+  @override
+  String get unassign => 'إلغاء الإسناد';
+
+  @override
+  String get watch => 'متابعة';
+
+  @override
+  String get stopWatching => 'إيقاف المتابعة';
+
+  @override
+  String get watchers => 'المتابعون';
+
+  @override
+  String get addTag => 'إضافة وسم';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get firstResponse => 'الرد الأول';
+
+  @override
+  String get resolution => 'الحل';
+
+  @override
+  String get slaDone => 'تم';
+
+  @override
+  String get customFields => 'التفاصيل';
+
+  @override
+  String get noLongerAvailable => 'هذه التذكرة لم تعد متاحة.';
+
+  @override
+  String get closedNotice => 'هذه التذكرة مغلقة. الردود تفتح محادثة جديدة على الويب.';
+
+  @override
+  String get staleTicket => 'غيّر شخص آخر هذه التذكرة. أُعيد تحميلها بتغييره.';
+
+  @override
+  String get applyAgain => 'تطبيق تغييري مجددًا';
+
+  @override
+  String get dismiss => 'تجاهل';
+
+  @override
+  String get mentionSuggestions => 'أشخاص للإشارة إليهم';
+
+  @override
+  String get readOnly => 'يمكنك قراءة التذاكر دون تعديلها.';
+
+  @override
+  String eventCreated(String actor) {
+    return 'أنشأ $actor التذكرة';
+  }
+
+  @override
+  String eventSubjectChanged(String actor, String from, String to) {
+    return 'غيّر $actor الموضوع من «$from» إلى «$to»';
+  }
+
+  @override
+  String eventStatusChanged(String actor, String from, String to) {
+    return 'غيّر $actor الحالة من $from إلى $to';
+  }
+
+  @override
+  String eventPriorityChanged(String actor, String from, String to) {
+    return 'غيّر $actor الأولوية من $from إلى $to';
+  }
+
+  @override
+  String eventTypeChanged(String actor, String from, String to) {
+    return 'غيّر $actor النوع من $from إلى $to';
+  }
+
+  @override
+  String eventAssigneeChanged(String actor, String from, String to) {
+    return 'غيّر $actor المُسنَد إليه من $from إلى $to';
+  }
+
+  @override
+  String eventTeamChanged(String actor, String from, String to) {
+    return 'غيّر $actor الفريق من $from إلى $to';
+  }
+
+  @override
+  String eventTagsChanged(String actor, String from, String to) {
+    return 'غيّر $actor الوسوم من $from إلى $to';
+  }
+
+  @override
+  String eventCustomFieldChanged(String actor, String field, String from, String to) {
+    return 'غيّر $actor الحقل $field من $from إلى $to';
+  }
+
+  @override
+  String eventMergedInto(String actor, String to) {
+    return 'دمج $actor هذه التذكرة في $to';
+  }
+
+  @override
+  String eventMergedFrom(String actor, String to) {
+    return 'دمج $actor التذكرة $to في هذه التذكرة';
+  }
+
+  @override
+  String eventSlaBreached(String to) {
+    return 'تم تجاوز موعد $to';
+  }
+
+  @override
+  String eventCsatSubmitted(String actor, String to) {
+    return 'قيّم $actor الدعم بـ $to من 5';
+  }
+
+  @override
+  String eventOther(String actor) {
+    return 'حدّث $actor التذكرة';
+  }
+
+  @override
+  String get actorStaff => 'موظف دعم';
+
+  @override
+  String get actorCustomer => 'العميل';
+
+  @override
+  String get actorSystem => 'NexDesk';
+
+  @override
+  String get actorApiKey => 'تكامل خارجي';
+
+  @override
+  String get none => 'لا شيء';
 }

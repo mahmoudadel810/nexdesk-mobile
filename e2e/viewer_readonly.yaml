@@ -1,0 +1,31 @@
+# Grace (finance@, a viewer) can open a ticket and read it, but sees no composer and no ticket actions.
+appId: app.nexdesk.mobile.dev
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "finance@brightpath.demo"
+- tapOn: "Password"
+- inputText: "NexDesk-demo-2026"
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "All\n.*"
+    timeout: 30000
+- tapOn: "All\n.*"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 30000
+- tapOn:
+    text: "(?s)#\\d+  .*"
+    index: 0
+- extendedWaitUntil:
+    visible: "You can read tickets but not change them."
+    timeout: 20000
+- assertNotVisible: "Reply to .*"
+- assertNotVisible: "Ticket actions"
+- assertNotVisible: "Internal note"
+- takeScreenshot: build/e2e/viewer-readonly

@@ -15,11 +15,7 @@ class HttpValidationProblemDetails {
       HttpValidationProblemDetails(
         type: json.containsKey("type") ? json["type"] as String? : null,
         title: json.containsKey("title") ? json["title"] as String? : null,
-        status: json.containsKey("status")
-            ? json["status"] == null
-                  ? null
-                  : _readJsonInteger(json["status"])
-            : null,
+        status: json.containsKey("status") ? json["status"] as int? : null,
         detail: json.containsKey("detail") ? json["detail"] as String? : null,
         instance: json.containsKey("instance") ? json["instance"] as String? : null,
         errors: json.containsKey("errors")
@@ -61,14 +57,4 @@ class HttpValidationProblemDetails {
     if (this.errors != null)
       "errors": this.errors?.map((key, item) => MapEntry(key, item.map((item) => item).toList())),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

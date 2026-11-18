@@ -12584,8 +12584,7 @@
           "MergedInto",
           "MergedFrom",
           "SlaBreached",
-          "CsatSubmitted",
-          null
+          "CsatSubmitted"
         ]
       },
       "TicketLink": {
@@ -12749,8 +12748,7 @@
       "TicketSlaFilter": {
         "enum": [
           "Breached",
-          "AtRisk",
-          null
+          "AtRisk"
         ]
       },
       "TicketStatus": {

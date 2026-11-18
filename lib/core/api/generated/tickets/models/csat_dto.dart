@@ -12,7 +12,7 @@ class CsatDto {
       throw ArgumentError("Missing required property: comment");
     }
     return CsatDto(
-      rating: _readJsonInteger(json["rating"]),
+      rating: json["rating"] as int,
       comment: json["comment"] as String?,
       additionalProperties: {
         for (final entry in json.entries)
@@ -35,14 +35,4 @@ class CsatDto {
     "rating": this.rating,
     "comment": this.comment,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

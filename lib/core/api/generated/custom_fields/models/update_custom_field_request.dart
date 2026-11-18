@@ -19,7 +19,7 @@ class UpdateCustomFieldRequest {
         : null,
     isRequired: json.containsKey("isRequired") ? json["isRequired"] as bool : false,
     isActive: json.containsKey("isActive") ? json["isActive"] as bool : true,
-    position: json.containsKey("position") ? _readJsonInteger(json["position"]) : 0,
+    position: json.containsKey("position") ? json["position"] as int : 0,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -49,14 +49,4 @@ class UpdateCustomFieldRequest {
     "isActive": this.isActive,
     "position": this.position,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

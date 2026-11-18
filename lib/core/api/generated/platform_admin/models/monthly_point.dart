@@ -9,7 +9,7 @@ class MonthlyPoint {
 
   factory MonthlyPoint.fromJson(Map<String, Object?> json) => MonthlyPoint(
     month: json["month"] as String,
-    value: _readJsonInteger(json["value"]),
+    value: json["value"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -30,14 +30,4 @@ class MonthlyPoint {
     "month": this.month,
     "value": this.value,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

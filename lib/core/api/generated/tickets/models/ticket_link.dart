@@ -10,7 +10,7 @@ class TicketLink {
 
   factory TicketLink.fromJson(Map<String, Object?> json) => TicketLink(
     id: json["id"] as String,
-    number: _readJsonInteger(json["number"]),
+    number: json["number"] as int,
     subject: json["subject"] as String,
     additionalProperties: {
       for (final entry in json.entries)
@@ -35,14 +35,4 @@ class TicketLink {
     "number": this.number,
     "subject": this.subject,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

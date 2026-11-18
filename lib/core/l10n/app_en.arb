@@ -204,5 +204,230 @@
       }
     }
   },
-  "selectTicket": "Choose a ticket to see it here."
+  "selectTicket": "Choose a ticket to see it here.",
+  "reply": "Reply",
+  "note": "Internal note",
+  "replyHint": "Reply to {name}",
+  "@replyHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noteHint": "Note for your team. The customer won't see it.",
+  "send": "Send",
+  "sendAndSet": "Send and set to {status}",
+  "@sendAndSet": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "addNote": "Add note",
+  "internalNote": "Internal note",
+  "ticketActions": "Ticket actions",
+  "status": "Status",
+  "priority": "Priority",
+  "tags": "Tags",
+  "assignee": "Assignee",
+  "team": "Team",
+  "requester": "Requester",
+  "assignToMe": "Assign to me",
+  "assignTo": "Assign to…",
+  "unassign": "Unassign",
+  "watch": "Watch",
+  "stopWatching": "Stop watching",
+  "watchers": "Watchers",
+  "addTag": "Add a tag",
+  "save": "Save",
+  "firstResponse": "First response",
+  "resolution": "Resolution",
+  "slaDone": "Done",
+  "customFields": "Details",
+  "noLongerAvailable": "This ticket is no longer available.",
+  "closedNotice": "This ticket is closed. Replies open a new conversation on the web.",
+  "staleTicket": "Someone else changed this ticket. It has been reloaded with their change.",
+  "applyAgain": "Apply mine again",
+  "dismiss": "Dismiss",
+  "mentionSuggestions": "People to mention",
+  "readOnly": "You can read tickets but not change them.",
+  "eventCreated": "{actor} created the ticket",
+  "@eventCreated": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      }
+    }
+  },
+  "eventSubjectChanged": "{actor} changed the subject from “{from}” to “{to}”",
+  "@eventSubjectChanged": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "eventStatusChanged": "{actor} changed the status from {from} to {to}",
+  "@eventStatusChanged": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "eventPriorityChanged": "{actor} changed the priority from {from} to {to}",
+  "@eventPriorityChanged": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "eventTypeChanged": "{actor} changed the type from {from} to {to}",
+  "@eventTypeChanged": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "eventAssigneeChanged": "{actor} changed the assignee from {from} to {to}",
+  "@eventAssigneeChanged": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "eventTeamChanged": "{actor} changed the team from {from} to {to}",
+  "@eventTeamChanged": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "eventTagsChanged": "{actor} changed the tags from {from} to {to}",
+  "@eventTagsChanged": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "eventCustomFieldChanged": "{actor} changed {field} from {from} to {to}",
+  "@eventCustomFieldChanged": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "field": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "eventMergedInto": "{actor} merged this ticket into {to}",
+  "@eventMergedInto": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "eventMergedFrom": "{actor} merged ticket {to} into this one",
+  "@eventMergedFrom": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "eventSlaBreached": "The {to} deadline was missed",
+  "@eventSlaBreached": {
+    "placeholders": {
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "eventCsatSubmitted": "{actor} rated the support {to} out of 5",
+  "@eventCsatSubmitted": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "eventOther": "{actor} updated the ticket",
+  "@eventOther": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      }
+    }
+  },
+  "actorStaff": "An agent",
+  "actorCustomer": "The customer",
+  "actorSystem": "NexDesk",
+  "actorApiKey": "An integration",
+  "none": "none"
 }

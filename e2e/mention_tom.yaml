@@ -1,0 +1,44 @@
+# Maya @mentions Tom in an internal note, and Tom gets a Mention notification for it.
+appId: app.nexdesk.mobile.dev
+env:
+  PASSWORD: "NexDesk-demo-2026"
+---
+- runScript: scripts/mention_token.js
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "maya@brightpath.demo"
+- tapOn: "Password"
+- inputText: ${PASSWORD}
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 30000
+- tapOn:
+    text: "(?s)#\\d+  .*"
+    index: 0
+- extendedWaitUntil:
+    visible: "Reply to .*"
+    timeout: 20000
+- tapOn: "Internal note"
+- tapOn: "Note for your team.*"
+- inputText: "@tom"
+- extendedWaitUntil:
+    visible: "Tom Okafor"
+    timeout: 10000
+- tapOn: "Tom Okafor"
+- inputText: "please look at ${output.mention}"
+- hideKeyboard
+- tapOn: "Add note"
+- extendedWaitUntil:
+    visible: "(?s).*@Tom Okafor please look at ${output.mention}.*"
+    timeout: 20000
+- runScript:
+    file: scripts/tom_was_mentioned.js
+    env:
+      PASSWORD: ${PASSWORD}
+- assertTrue: ${output.tomMentioned}

@@ -11,11 +11,7 @@ class IssueApiKeyRequest {
   factory IssueApiKeyRequest.fromJson(Map<String, Object?> json) => IssueApiKeyRequest(
     name: json["name"] as String,
     scopes: (json["scopes"] as List<Object?>).map((item) => item as String).toList(),
-    expiresInDays: json.containsKey("expiresInDays")
-        ? json["expiresInDays"] == null
-              ? null
-              : _readJsonInteger(json["expiresInDays"])
-        : null,
+    expiresInDays: json.containsKey("expiresInDays") ? json["expiresInDays"] as int? : null,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -39,14 +35,4 @@ class IssueApiKeyRequest {
     "scopes": this.scopes.map((item) => item).toList(),
     if (this.expiresInDays != null) "expiresInDays": this.expiresInDays,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }
