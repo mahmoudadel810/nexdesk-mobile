@@ -13,7 +13,7 @@ class AdminInvoice {
   factory AdminInvoice.fromJson(Map<String, Object?> json) => AdminInvoice(
     number: json["number"] as String,
     planName: json["planName"] as String,
-    amountCents: _readJsonInteger(json["amountCents"]),
+    amountCents: json["amountCents"] as int,
     currency: json["currency"] as String,
     issuedAt: DateTime.parse(json["issuedAt"] as String).toUtc(),
     additionalProperties: {
@@ -45,14 +45,4 @@ class AdminInvoice {
     "currency": this.currency,
     "issuedAt": this.issuedAt.toUtc().toIso8601String(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

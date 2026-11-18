@@ -15,7 +15,7 @@ class CsatSurveyDto {
       throw ArgumentError("Missing required property: csat");
     }
     return CsatSurveyDto(
-      ticketNumber: _readJsonInteger(json["ticketNumber"]),
+      ticketNumber: json["ticketNumber"] as int,
       ticketSubject: json["ticketSubject"] as String,
       csat: json["csat"] == null ? null : CsatDto.fromJson(json["csat"] as Map<String, Object?>),
       additionalProperties: {
@@ -42,14 +42,4 @@ class CsatSurveyDto {
     "ticketSubject": this.ticketSubject,
     "csat": this.csat?.toJson(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

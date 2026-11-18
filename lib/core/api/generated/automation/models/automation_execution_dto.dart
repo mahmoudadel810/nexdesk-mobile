@@ -20,7 +20,7 @@ class AutomationExecutionDto {
     id: json["id"] as String,
     ruleId: json["ruleId"] as String,
     ticketId: json["ticketId"] as String,
-    ticketNumber: _readJsonInteger(json["ticketNumber"]),
+    ticketNumber: json["ticketNumber"] as int,
     ticketSubject: json["ticketSubject"] as String,
     outcome: ExecutionOutcome.fromJson(json["outcome"]),
     steps: (json["steps"] as List<Object?>)
@@ -74,14 +74,4 @@ class AutomationExecutionDto {
     "steps": this.steps.map((item) => item.toJson()).toList(),
     "createdAt": this.createdAt.toUtc().toIso8601String(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

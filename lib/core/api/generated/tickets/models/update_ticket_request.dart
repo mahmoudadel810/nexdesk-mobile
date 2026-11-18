@@ -47,11 +47,7 @@ class UpdateTicketRequest {
                     (key, item) => MapEntry(key, item as String),
                   )
           : null,
-      version: json.containsKey("version")
-          ? json["version"] == null
-                ? null
-                : _readJsonInteger(json["version"])
-          : null,
+      version: json.containsKey("version") ? json["version"] as int? : null,
       additionalProperties: {
         for (final entry in json.entries)
           if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -97,14 +93,4 @@ class UpdateTicketRequest {
       "customFields": this.customFields?.map((key, item) => MapEntry(key, item)),
     if (this.version != null) "version": this.version,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

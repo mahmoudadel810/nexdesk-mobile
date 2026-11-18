@@ -4,7 +4,7 @@ class CsatRequest {
   const CsatRequest({required this.rating, this.comment, this.additionalProperties = const {}});
 
   factory CsatRequest.fromJson(Map<String, Object?> json) => CsatRequest(
-    rating: _readJsonInteger(json["rating"]),
+    rating: json["rating"] as int,
     comment: json.containsKey("comment") ? json["comment"] as String? : null,
     additionalProperties: {
       for (final entry in json.entries)
@@ -26,14 +26,4 @@ class CsatRequest {
     "rating": this.rating,
     if (this.comment != null) "comment": this.comment,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

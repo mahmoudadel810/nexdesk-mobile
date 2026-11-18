@@ -17,7 +17,7 @@ class SlaBreachDto {
   factory SlaBreachDto.fromJson(Map<String, Object?> json) => SlaBreachDto(
     id: json["id"] as String,
     ticketId: json["ticketId"] as String,
-    ticketNumber: _readJsonInteger(json["ticketNumber"]),
+    ticketNumber: json["ticketNumber"] as int,
     ticketSubject: json["ticketSubject"] as String,
     metric: SlaMetric.fromJson(json["metric"]),
     dueAt: DateTime.parse(json["dueAt"] as String).toUtc(),
@@ -65,14 +65,4 @@ class SlaBreachDto {
     "dueAt": this.dueAt.toUtc().toIso8601String(),
     "breachedAt": this.breachedAt.toUtc().toIso8601String(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

@@ -26,20 +26,16 @@ class AdminTenantUsage {
       throw ArgumentError("Missing required property: maxAutomationRules");
     }
     return AdminTenantUsage(
-      agents: _readJsonInteger(json["agents"]),
-      maxAgents: json["maxAgents"] == null ? null : _readJsonInteger(json["maxAgents"]),
-      ticketsThisMonth: _readJsonInteger(json["ticketsThisMonth"]),
-      maxTicketsPerMonth: json["maxTicketsPerMonth"] == null
-          ? null
-          : _readJsonInteger(json["maxTicketsPerMonth"]),
-      storageBytes: _readJsonInteger(json["storageBytes"]),
-      maxStorageBytes: _readJsonInteger(json["maxStorageBytes"]),
-      automationRules: _readJsonInteger(json["automationRules"]),
-      maxAutomationRules: json["maxAutomationRules"] == null
-          ? null
-          : _readJsonInteger(json["maxAutomationRules"]),
-      activeApiKeys: _readJsonInteger(json["activeApiKeys"]),
-      webhooks: _readJsonInteger(json["webhooks"]),
+      agents: json["agents"] as int,
+      maxAgents: json["maxAgents"] as int?,
+      ticketsThisMonth: json["ticketsThisMonth"] as int,
+      maxTicketsPerMonth: json["maxTicketsPerMonth"] as int?,
+      storageBytes: json["storageBytes"] as int,
+      maxStorageBytes: json["maxStorageBytes"] as int,
+      automationRules: json["automationRules"] as int,
+      maxAutomationRules: json["maxAutomationRules"] as int?,
+      activeApiKeys: json["activeApiKeys"] as int,
+      webhooks: json["webhooks"] as int,
       additionalProperties: {
         for (final entry in json.entries)
           if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -96,14 +92,4 @@ class AdminTenantUsage {
     "activeApiKeys": this.activeApiKeys,
     "webhooks": this.webhooks,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

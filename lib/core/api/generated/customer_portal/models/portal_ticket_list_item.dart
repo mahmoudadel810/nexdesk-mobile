@@ -15,7 +15,7 @@ class PortalTicketListItem {
 
   factory PortalTicketListItem.fromJson(Map<String, Object?> json) => PortalTicketListItem(
     id: json["id"] as String,
-    number: _readJsonInteger(json["number"]),
+    number: json["number"] as int,
     subject: json["subject"] as String,
     status: TicketStatus.fromJson(json["status"]),
     createdAt: DateTime.parse(json["createdAt"] as String).toUtc(),
@@ -59,14 +59,4 @@ class PortalTicketListItem {
     "createdAt": this.createdAt.toUtc().toIso8601String(),
     "lastActivityAt": this.lastActivityAt.toUtc().toIso8601String(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

@@ -33,7 +33,7 @@ class InvoiceDto {
       planCode: json["planCode"] as String,
       planName: json["planName"] as String,
       reason: InvoiceReason.fromJson(json["reason"]),
-      amountCents: _readJsonInteger(json["amountCents"]),
+      amountCents: json["amountCents"] as int,
       currency: json["currency"] as String,
       issuedAt: DateTime.parse(json["issuedAt"] as String).toUtc(),
       paidAt: DateTime.parse(json["paidAt"] as String).toUtc(),
@@ -109,14 +109,4 @@ class InvoiceDto {
     "cardBrand": this.cardBrand,
     "cardLast4": this.cardLast4,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

@@ -15,7 +15,7 @@ class CsatPoint {
     return CsatPoint(
       date: json["date"] as String,
       average: json["average"] as num?,
-      responses: _readJsonInteger(json["responses"]),
+      responses: json["responses"] as int,
       additionalProperties: {
         for (final entry in json.entries)
           if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -40,14 +40,4 @@ class CsatPoint {
     "average": this.average,
     "responses": this.responses,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

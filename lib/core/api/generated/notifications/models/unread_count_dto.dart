@@ -4,7 +4,7 @@ class UnreadCountDto {
   const UnreadCountDto({required this.count, this.additionalProperties = const {}});
 
   factory UnreadCountDto.fromJson(Map<String, Object?> json) => UnreadCountDto(
-    count: _readJsonInteger(json["count"]),
+    count: json["count"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -22,14 +22,4 @@ class UnreadCountDto {
       if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
     "count": this.count,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

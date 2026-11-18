@@ -23,7 +23,7 @@ class CustomFieldDto {
     options: (json["options"] as List<Object?>).map((item) => item as String).toList(),
     isRequired: json["isRequired"] as bool,
     isActive: json["isActive"] as bool,
-    position: _readJsonInteger(json["position"]),
+    position: json["position"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -71,14 +71,4 @@ class CustomFieldDto {
     "isActive": this.isActive,
     "position": this.position,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

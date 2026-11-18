@@ -11,7 +11,7 @@ class PriorityCount {
 
   factory PriorityCount.fromJson(Map<String, Object?> json) => PriorityCount(
     priority: TicketPriority.fromJson(json["priority"]),
-    count: _readJsonInteger(json["count"]),
+    count: json["count"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -32,14 +32,4 @@ class PriorityCount {
     "priority": this.priority.toJson(),
     "count": this.count,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

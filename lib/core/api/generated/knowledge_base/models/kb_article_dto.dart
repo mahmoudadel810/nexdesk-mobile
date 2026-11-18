@@ -37,9 +37,9 @@ class KbArticleDto {
           ? null
           : DateTime.parse(json["publishedAt"] as String).toUtc(),
       updatedAt: DateTime.parse(json["updatedAt"] as String).toUtc(),
-      viewCount: _readJsonInteger(json["viewCount"]),
-      helpfulCount: _readJsonInteger(json["helpfulCount"]),
-      notHelpfulCount: _readJsonInteger(json["notHelpfulCount"]),
+      viewCount: json["viewCount"] as int,
+      helpfulCount: json["helpfulCount"] as int,
+      notHelpfulCount: json["notHelpfulCount"] as int,
       additionalProperties: {
         for (final entry in json.entries)
           if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -108,14 +108,4 @@ class KbArticleDto {
     "helpfulCount": this.helpfulCount,
     "notHelpfulCount": this.notHelpfulCount,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

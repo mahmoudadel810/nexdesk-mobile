@@ -2,7 +2,7 @@
 
 import '../../audit/models/actor_dto.dart';
 import 'attachment_dto.dart';
-import 'timeline_item_event_type.dart';
+import 'ticket_event_type.dart';
 import 'timeline_kind.dart';
 
 class TimelineItem {
@@ -47,7 +47,7 @@ class TimelineItem {
       attachments: (json["attachments"] as List<Object?>)
           .map((item) => AttachmentDto.fromJson(item as Map<String, Object?>))
           .toList(),
-      eventType: TimelineItemEventType.fromJson(json["eventType"]),
+      eventType: json["eventType"] == null ? null : TicketEventType.fromJson(json["eventType"]),
       field: json["field"] as String?,
       oldValue: json["oldValue"] as String?,
       newValue: json["newValue"] as String?,
@@ -72,7 +72,7 @@ class TimelineItem {
 
   final List<AttachmentDto> attachments;
 
-  final TimelineItemEventType eventType;
+  final TicketEventType? eventType;
 
   final String? field;
 
@@ -106,7 +106,7 @@ class TimelineItem {
     "body": this.body,
     "isInternal": this.isInternal,
     "attachments": this.attachments.map((item) => item.toJson()).toList(),
-    "eventType": this.eventType.toJson(),
+    "eventType": this.eventType?.toJson(),
     "field": this.field,
     "oldValue": this.oldValue,
     "newValue": this.newValue,

@@ -13,11 +13,7 @@ class ProblemDetails {
   factory ProblemDetails.fromJson(Map<String, Object?> json) => ProblemDetails(
     type: json.containsKey("type") ? json["type"] as String? : null,
     title: json.containsKey("title") ? json["title"] as String? : null,
-    status: json.containsKey("status")
-        ? json["status"] == null
-              ? null
-              : _readJsonInteger(json["status"])
-        : null,
+    status: json.containsKey("status") ? json["status"] as int? : null,
     detail: json.containsKey("detail") ? json["detail"] as String? : null,
     instance: json.containsKey("instance") ? json["instance"] as String? : null,
     additionalProperties: {
@@ -49,14 +45,4 @@ class ProblemDetails {
     if (this.detail != null) "detail": this.detail,
     if (this.instance != null) "instance": this.instance,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

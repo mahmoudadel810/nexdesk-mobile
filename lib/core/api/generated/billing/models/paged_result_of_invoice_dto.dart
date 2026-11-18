@@ -15,9 +15,9 @@ class PagedResultOfInvoiceDto {
     items: (json["items"] as List<Object?>)
         .map((item) => InvoiceDto.fromJson(item as Map<String, Object?>))
         .toList(),
-    page: _readJsonInteger(json["page"]),
-    pageSize: _readJsonInteger(json["pageSize"]),
-    totalCount: _readJsonInteger(json["totalCount"]),
+    page: json["page"] as int,
+    pageSize: json["pageSize"] as int,
+    totalCount: json["totalCount"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -44,14 +44,4 @@ class PagedResultOfInvoiceDto {
     "pageSize": this.pageSize,
     "totalCount": this.totalCount,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

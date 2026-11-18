@@ -27,7 +27,7 @@ class NotificationDto {
       id: json["id"] as String,
       type: NotificationType.fromJson(json["type"]),
       ticketId: json["ticketId"] as String,
-      ticketNumber: _readJsonInteger(json["ticketNumber"]),
+      ticketNumber: json["ticketNumber"] as int,
       ticketSubject: json["ticketSubject"] as String,
       actorName: json["actorName"] as String?,
       preview: json["preview"] as String?,
@@ -85,14 +85,4 @@ class NotificationDto {
     "createdAt": this.createdAt.toUtc().toIso8601String(),
     "isRead": this.isRead,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

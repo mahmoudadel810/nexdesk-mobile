@@ -18,11 +18,7 @@ class AssignTicketRequest {
     return AssignTicketRequest(
       assigneeId: json["assigneeId"] as String?,
       teamId: json["teamId"] as String?,
-      version: json.containsKey("version")
-          ? json["version"] == null
-                ? null
-                : _readJsonInteger(json["version"])
-          : null,
+      version: json.containsKey("version") ? json["version"] as int? : null,
       additionalProperties: {
         for (final entry in json.entries)
           if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -47,14 +43,4 @@ class AssignTicketRequest {
     "teamId": this.teamId,
     if (this.version != null) "version": this.version,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

@@ -16,10 +16,10 @@ class SlaComplianceRow {
 
   factory SlaComplianceRow.fromJson(Map<String, Object?> json) => SlaComplianceRow(
     priority: TicketPriority.fromJson(json["priority"]),
-    firstResponseMet: _readJsonInteger(json["firstResponseMet"]),
-    firstResponseBreached: _readJsonInteger(json["firstResponseBreached"]),
-    resolutionMet: _readJsonInteger(json["resolutionMet"]),
-    resolutionBreached: _readJsonInteger(json["resolutionBreached"]),
+    firstResponseMet: json["firstResponseMet"] as int,
+    firstResponseBreached: json["firstResponseBreached"] as int,
+    resolutionMet: json["resolutionMet"] as int,
+    resolutionBreached: json["resolutionBreached"] as int,
     firstResponsePercent: json.containsKey("firstResponsePercent")
         ? json["firstResponsePercent"] as num?
         : null,
@@ -69,14 +69,4 @@ class SlaComplianceRow {
     if (this.firstResponsePercent != null) "firstResponsePercent": this.firstResponsePercent,
     if (this.resolutionPercent != null) "resolutionPercent": this.resolutionPercent,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

@@ -13,7 +13,7 @@ class AttachmentDto {
     id: json["id"] as String,
     fileName: json["fileName"] as String,
     contentType: json["contentType"] as String,
-    sizeBytes: _readJsonInteger(json["sizeBytes"]),
+    sizeBytes: json["sizeBytes"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -40,14 +40,4 @@ class AttachmentDto {
     "contentType": this.contentType,
     "sizeBytes": this.sizeBytes,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

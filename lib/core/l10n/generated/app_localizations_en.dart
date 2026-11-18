@@ -337,4 +337,195 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectTicket => 'Choose a ticket to see it here.';
+
+  @override
+  String get reply => 'Reply';
+
+  @override
+  String get note => 'Internal note';
+
+  @override
+  String replyHint(String name) {
+    return 'Reply to $name';
+  }
+
+  @override
+  String get noteHint => 'Note for your team. The customer won\'t see it.';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String sendAndSet(String status) {
+    return 'Send and set to $status';
+  }
+
+  @override
+  String get addNote => 'Add note';
+
+  @override
+  String get internalNote => 'Internal note';
+
+  @override
+  String get ticketActions => 'Ticket actions';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get priority => 'Priority';
+
+  @override
+  String get tags => 'Tags';
+
+  @override
+  String get assignee => 'Assignee';
+
+  @override
+  String get team => 'Team';
+
+  @override
+  String get requester => 'Requester';
+
+  @override
+  String get assignToMe => 'Assign to me';
+
+  @override
+  String get assignTo => 'Assign to…';
+
+  @override
+  String get unassign => 'Unassign';
+
+  @override
+  String get watch => 'Watch';
+
+  @override
+  String get stopWatching => 'Stop watching';
+
+  @override
+  String get watchers => 'Watchers';
+
+  @override
+  String get addTag => 'Add a tag';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get firstResponse => 'First response';
+
+  @override
+  String get resolution => 'Resolution';
+
+  @override
+  String get slaDone => 'Done';
+
+  @override
+  String get customFields => 'Details';
+
+  @override
+  String get noLongerAvailable => 'This ticket is no longer available.';
+
+  @override
+  String get closedNotice => 'This ticket is closed. Replies open a new conversation on the web.';
+
+  @override
+  String get staleTicket => 'Someone else changed this ticket. It has been reloaded with their change.';
+
+  @override
+  String get applyAgain => 'Apply mine again';
+
+  @override
+  String get dismiss => 'Dismiss';
+
+  @override
+  String get mentionSuggestions => 'People to mention';
+
+  @override
+  String get readOnly => 'You can read tickets but not change them.';
+
+  @override
+  String eventCreated(String actor) {
+    return '$actor created the ticket';
+  }
+
+  @override
+  String eventSubjectChanged(String actor, String from, String to) {
+    return '$actor changed the subject from “$from” to “$to”';
+  }
+
+  @override
+  String eventStatusChanged(String actor, String from, String to) {
+    return '$actor changed the status from $from to $to';
+  }
+
+  @override
+  String eventPriorityChanged(String actor, String from, String to) {
+    return '$actor changed the priority from $from to $to';
+  }
+
+  @override
+  String eventTypeChanged(String actor, String from, String to) {
+    return '$actor changed the type from $from to $to';
+  }
+
+  @override
+  String eventAssigneeChanged(String actor, String from, String to) {
+    return '$actor changed the assignee from $from to $to';
+  }
+
+  @override
+  String eventTeamChanged(String actor, String from, String to) {
+    return '$actor changed the team from $from to $to';
+  }
+
+  @override
+  String eventTagsChanged(String actor, String from, String to) {
+    return '$actor changed the tags from $from to $to';
+  }
+
+  @override
+  String eventCustomFieldChanged(String actor, String field, String from, String to) {
+    return '$actor changed $field from $from to $to';
+  }
+
+  @override
+  String eventMergedInto(String actor, String to) {
+    return '$actor merged this ticket into $to';
+  }
+
+  @override
+  String eventMergedFrom(String actor, String to) {
+    return '$actor merged ticket $to into this one';
+  }
+
+  @override
+  String eventSlaBreached(String to) {
+    return 'The $to deadline was missed';
+  }
+
+  @override
+  String eventCsatSubmitted(String actor, String to) {
+    return '$actor rated the support $to out of 5';
+  }
+
+  @override
+  String eventOther(String actor) {
+    return '$actor updated the ticket';
+  }
+
+  @override
+  String get actorStaff => 'An agent';
+
+  @override
+  String get actorCustomer => 'The customer';
+
+  @override
+  String get actorSystem => 'NexDesk';
+
+  @override
+  String get actorApiKey => 'An integration';
+
+  @override
+  String get none => 'none';
 }

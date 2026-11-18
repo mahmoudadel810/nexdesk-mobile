@@ -16,6 +16,7 @@ This is Phase 16. The plan, with every decision and the steps 16.1 to 16.12, is 
 | 16.4 | This app's skeleton: flavors, theme, English and Arabic, generated API client, cache, tests | here |
 | 16.5 | Sign-in and session: refresh token in secure storage, one refresh at a time, error messages by code, blocked screens, minimum version, workspace colour, account language, sign-out wipe | here |
 | 16.6 | Inbox: Mine, Unassigned, SLA (breached / at risk) and All, saved views from the web, search, paging, pull to refresh, cached lists offline, tablet split | here |
+| 16.7 | Ticket detail: header with live SLA countdowns, timeline with internal notes set apart, reply or note composer with @mentions and a per-ticket draft, send and set status, actions sheet (status, priority, tags, assign, watch), stale-ticket banner with Apply again, read-only for viewers | here, nexdesk-api (nullable enums in OpenAPI) |
 
 
 ### How the session works

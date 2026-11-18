@@ -29,9 +29,9 @@ class AdminTenantListItem {
       status: TenantStatus.fromJson(json["status"]),
       planCode: json["planCode"] as String,
       planName: json["planName"] as String,
-      monthlyPriceCents: _readJsonInteger(json["monthlyPriceCents"]),
-      agents: _readJsonInteger(json["agents"]),
-      ticketsThisMonth: _readJsonInteger(json["ticketsThisMonth"]),
+      monthlyPriceCents: json["monthlyPriceCents"] as int,
+      agents: json["agents"] as int,
+      ticketsThisMonth: json["ticketsThisMonth"] as int,
       ownerEmail: json["ownerEmail"] as String?,
       createdAt: DateTime.parse(json["createdAt"] as String).toUtc(),
       additionalProperties: {
@@ -94,14 +94,4 @@ class AdminTenantListItem {
     "ownerEmail": this.ownerEmail,
     "createdAt": this.createdAt.toUtc().toIso8601String(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

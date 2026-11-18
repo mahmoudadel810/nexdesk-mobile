@@ -18,8 +18,8 @@ class KbCategoryDto {
       id: json["id"] as String,
       name: json["name"] as String,
       description: json["description"] as String?,
-      position: _readJsonInteger(json["position"]),
-      articleCount: _readJsonInteger(json["articleCount"]),
+      position: json["position"] as int,
+      articleCount: json["articleCount"] as int,
       additionalProperties: {
         for (final entry in json.entries)
           if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -50,14 +50,4 @@ class KbCategoryDto {
     "position": this.position,
     "articleCount": this.articleCount,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

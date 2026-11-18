@@ -16,13 +16,13 @@ class PlatformOverview {
   });
 
   factory PlatformOverview.fromJson(Map<String, Object?> json) => PlatformOverview(
-    workspaces: _readJsonInteger(json["workspaces"]),
-    activeWorkspaces: _readJsonInteger(json["activeWorkspaces"]),
-    suspendedWorkspaces: _readJsonInteger(json["suspendedWorkspaces"]),
-    payingWorkspaces: _readJsonInteger(json["payingWorkspaces"]),
-    mrrCents: _readJsonInteger(json["mrrCents"]),
+    workspaces: json["workspaces"] as int,
+    activeWorkspaces: json["activeWorkspaces"] as int,
+    suspendedWorkspaces: json["suspendedWorkspaces"] as int,
+    payingWorkspaces: json["payingWorkspaces"] as int,
+    mrrCents: json["mrrCents"] as int,
     currency: json["currency"] as String,
-    signupsLast30Days: _readJsonInteger(json["signupsLast30Days"]),
+    signupsLast30Days: json["signupsLast30Days"] as int,
     plans: (json["plans"] as List<Object?>)
         .map((item) => PlanShare.fromJson(item as Map<String, Object?>))
         .toList(),
@@ -73,14 +73,4 @@ class PlatformOverview {
     "signupsLast30Days": this.signupsLast30Days,
     "plans": this.plans.map((item) => item.toJson()).toList(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

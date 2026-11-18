@@ -15,10 +15,10 @@ class AdminTenantTotals {
       throw ArgumentError("Missing required property: lastTicketActivityAt");
     }
     return AdminTenantTotals(
-      tickets: _readJsonInteger(json["tickets"]),
-      openTickets: _readJsonInteger(json["openTickets"]),
-      customers: _readJsonInteger(json["customers"]),
-      kbArticles: _readJsonInteger(json["kbArticles"]),
+      tickets: json["tickets"] as int,
+      openTickets: json["openTickets"] as int,
+      customers: json["customers"] as int,
+      kbArticles: json["kbArticles"] as int,
       lastTicketActivityAt: json["lastTicketActivityAt"] == null
           ? null
           : DateTime.parse(json["lastTicketActivityAt"] as String).toUtc(),
@@ -58,14 +58,4 @@ class AdminTenantTotals {
     "kbArticles": this.kbArticles,
     "lastTicketActivityAt": this.lastTicketActivityAt?.toUtc().toIso8601String(),
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

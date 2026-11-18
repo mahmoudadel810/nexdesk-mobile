@@ -11,9 +11,9 @@ class OnboardingStatusDto {
 
   factory OnboardingStatusDto.fromJson(Map<String, Object?> json) => OnboardingStatusDto(
     completed: json["completed"] as bool,
-    teamCount: _readJsonInteger(json["teamCount"]),
-    memberCount: _readJsonInteger(json["memberCount"]),
-    pendingInvitationCount: _readJsonInteger(json["pendingInvitationCount"]),
+    teamCount: json["teamCount"] as int,
+    memberCount: json["memberCount"] as int,
+    pendingInvitationCount: json["pendingInvitationCount"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -45,14 +45,4 @@ class OnboardingStatusDto {
     "memberCount": this.memberCount,
     "pendingInvitationCount": this.pendingInvitationCount,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

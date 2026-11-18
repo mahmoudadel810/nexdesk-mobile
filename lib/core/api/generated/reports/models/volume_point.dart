@@ -10,8 +10,8 @@ class VolumePoint {
 
   factory VolumePoint.fromJson(Map<String, Object?> json) => VolumePoint(
     date: json["date"] as String,
-    created: _readJsonInteger(json["created"]),
-    solved: _readJsonInteger(json["solved"]),
+    created: json["created"] as int,
+    solved: json["solved"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -35,14 +35,4 @@ class VolumePoint {
     "created": this.created,
     "solved": this.solved,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

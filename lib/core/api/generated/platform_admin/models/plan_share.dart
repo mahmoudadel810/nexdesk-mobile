@@ -12,8 +12,8 @@ class PlanShare {
   factory PlanShare.fromJson(Map<String, Object?> json) => PlanShare(
     planCode: json["planCode"] as String,
     planName: json["planName"] as String,
-    workspaces: _readJsonInteger(json["workspaces"]),
-    mrrCents: _readJsonInteger(json["mrrCents"]),
+    workspaces: json["workspaces"] as int,
+    mrrCents: json["mrrCents"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -40,14 +40,4 @@ class PlanShare {
     "workspaces": this.workspaces,
     "mrrCents": this.mrrCents,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

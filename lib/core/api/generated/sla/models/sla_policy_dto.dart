@@ -12,8 +12,8 @@ class SlaPolicyDto {
 
   factory SlaPolicyDto.fromJson(Map<String, Object?> json) => SlaPolicyDto(
     priority: TicketPriority.fromJson(json["priority"]),
-    firstResponseMinutes: _readJsonInteger(json["firstResponseMinutes"]),
-    resolutionMinutes: _readJsonInteger(json["resolutionMinutes"]),
+    firstResponseMinutes: json["firstResponseMinutes"] as int,
+    resolutionMinutes: json["resolutionMinutes"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -37,14 +37,4 @@ class SlaPolicyDto {
     "firstResponseMinutes": this.firstResponseMinutes,
     "resolutionMinutes": this.resolutionMinutes,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }

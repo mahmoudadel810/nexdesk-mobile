@@ -13,7 +13,7 @@ class InboundEmailResult {
   factory InboundEmailResult.fromJson(Map<String, Object?> json) => InboundEmailResult(
     outcome: InboundEmailOutcome.fromJson(json["outcome"]),
     ticketId: json["ticketId"] as String,
-    ticketNumber: _readJsonInteger(json["ticketNumber"]),
+    ticketNumber: json["ticketNumber"] as int,
     additionalProperties: {
       for (final entry in json.entries)
         if (!_knownKeys.contains(entry.key)) entry.key: entry.value,
@@ -37,14 +37,4 @@ class InboundEmailResult {
     "ticketId": this.ticketId,
     "ticketNumber": this.ticketNumber,
   };
-}
-
-int _readJsonInteger(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is double && value.isFinite && value == value.toInt()) {
-    return value.toInt();
-  }
-  throw FormatException('Expected a JSON integer.', value);
 }
