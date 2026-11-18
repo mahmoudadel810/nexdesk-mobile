@@ -6,6 +6,7 @@ import 'package:material_ui/material_ui.dart';
 import '../core/l10n/generated/app_localizations.dart';
 import 'preferences.dart';
 import 'router.dart';
+import 'startup.dart';
 import 'theme.dart';
 
 class NexDeskApp extends ConsumerWidget {
@@ -13,6 +14,7 @@ class NexDeskApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(accountEffectsProvider);
     final language = ref.watch(languageProvider);
     final seed = ref.watch(brandColorProvider) ?? nexDeskSeed;
     return MaterialApp.router(
