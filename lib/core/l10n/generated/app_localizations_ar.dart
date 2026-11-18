@@ -569,6 +569,110 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get newTicket => 'تذكرة جديدة';
+
+  @override
+  String get newTicketSubtitle => 'سجّل طلبًا وصلك عبر الهاتف أو المحادثة أو وجهًا لوجه.';
+
+  @override
+  String get subject => 'الموضوع';
+
+  @override
+  String get description => 'الوصف';
+
+  @override
+  String get requesterEmail => 'بريد العميل الإلكتروني';
+
+  @override
+  String get requesterHint => 'ابدأ الكتابة للعثور على عميل موجود.';
+
+  @override
+  String get requesterName => 'اسم العميل (اختياري)';
+
+  @override
+  String get type => 'النوع';
+
+  @override
+  String get createTicket => 'إنشاء التذكرة';
+
+  @override
+  String ticketCreated(int number) {
+    return 'تم إنشاء التذكرة رقم $number.';
+  }
+
+  @override
+  String get fieldRequired => 'املأ هذا الحقل.';
+
+  @override
+  String get typeQuestion => 'سؤال';
+
+  @override
+  String get typeIncident => 'حادثة';
+
+  @override
+  String get typeProblem => 'مشكلة';
+
+  @override
+  String get typeTask => 'مهمة';
+
+  @override
+  String get availability => 'الحالة';
+
+  @override
+  String get availabilityOnline => 'متصل';
+
+  @override
+  String get availabilityAway => 'بعيد';
+
+  @override
+  String get availabilityOffline => 'غير متصل';
+
+  @override
+  String get theme => 'المظهر';
+
+  @override
+  String get themeSystem => 'حسب النظام';
+
+  @override
+  String get themeLight => 'فاتح';
+
+  @override
+  String get themeDark => 'داكن';
+
+  @override
+  String get appLock => 'القفل بالبصمة أو الوجه';
+
+  @override
+  String get appLockHint => 'يُطلب مجددًا بعد 5 دقائق من الغياب.';
+
+  @override
+  String get appLockUnavailable => 'اضبط بصمة أو وجهًا أو قفل شاشة على هذا الهاتف لاستخدام هذه الميزة.';
+
+  @override
+  String get unlock => 'فتح القفل';
+
+  @override
+  String get lockedTitle => 'NexDesk مقفل';
+
+  @override
+  String get unlockReason => 'افتح قفل NexDesk';
+
+  @override
+  String get about => 'حول التطبيق';
+
+  @override
+  String version(String version) {
+    return 'الإصدار $version';
+  }
+
+  @override
+  String get aboutText =>
+      'NexDesk مكتب مساعدة لفرق الدعم: التذاكر واتفاقيات مستوى الخدمة ومركز مساعدة للعملاء. هذا التطبيق للموظفين أثناء التنقل؛ أما الإعدادات والتقارير فعلى الويب.';
+
+  @override
+  String get openOnWeb => 'افتح NexDesk على الويب';
+
+  @override
   String get notificationSettings => 'إعدادات الإشعارات';
 
   @override

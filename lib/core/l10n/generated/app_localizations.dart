@@ -1004,6 +1004,204 @@ abstract class AppLocalizations {
   /// **'Remove {name}'**
   String removeAttachment(String name);
 
+  /// No description provided for @newTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'New ticket'**
+  String get newTicket;
+
+  /// No description provided for @newTicketSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Record a request you received by phone, chat or in person.'**
+  String get newTicketSubtitle;
+
+  /// No description provided for @subject.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get subject;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @requesterEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer email'**
+  String get requesterEmail;
+
+  /// No description provided for @requesterHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Start typing to find an existing customer.'**
+  String get requesterHint;
+
+  /// No description provided for @requesterName.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer name (optional)'**
+  String get requesterName;
+
+  /// No description provided for @type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get type;
+
+  /// No description provided for @createTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Create ticket'**
+  String get createTicket;
+
+  /// No description provided for @ticketCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket #{number} created.'**
+  String ticketCreated(int number);
+
+  /// No description provided for @fieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill this in.'**
+  String get fieldRequired;
+
+  /// No description provided for @typeQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Question'**
+  String get typeQuestion;
+
+  /// No description provided for @typeIncident.
+  ///
+  /// In en, this message translates to:
+  /// **'Incident'**
+  String get typeIncident;
+
+  /// No description provided for @typeProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'Problem'**
+  String get typeProblem;
+
+  /// No description provided for @typeTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get typeTask;
+
+  /// No description provided for @availability.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability'**
+  String get availability;
+
+  /// No description provided for @availabilityOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get availabilityOnline;
+
+  /// No description provided for @availabilityAway.
+  ///
+  /// In en, this message translates to:
+  /// **'Away'**
+  String get availabilityAway;
+
+  /// No description provided for @availabilityOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get availabilityOffline;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystem;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @appLock.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock with fingerprint or face'**
+  String get appLock;
+
+  /// No description provided for @appLockHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Asks again after 5 minutes away.'**
+  String get appLockHint;
+
+  /// No description provided for @appLockUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up a fingerprint, face or screen lock on this phone to use this.'**
+  String get appLockUnavailable;
+
+  /// No description provided for @unlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get unlock;
+
+  /// No description provided for @lockedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NexDesk is locked'**
+  String get lockedTitle;
+
+  /// No description provided for @unlockReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock NexDesk'**
+  String get unlockReason;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// No description provided for @version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String version(String version);
+
+  /// No description provided for @aboutText.
+  ///
+  /// In en, this message translates to:
+  /// **'NexDesk is a help desk for support teams: tickets, SLAs and a customer help centre. This app is for agents on the move; settings and reports live on the web.'**
+  String get aboutText;
+
+  /// No description provided for @openOnWeb.
+  ///
+  /// In en, this message translates to:
+  /// **'Open NexDesk on the web'**
+  String get openOnWeb;
+
   /// No description provided for @notificationSettings.
   ///
   /// In en, this message translates to:

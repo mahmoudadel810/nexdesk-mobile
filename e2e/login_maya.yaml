@@ -23,6 +23,9 @@ appId: app.nexdesk.mobile.dev
     timeout: 30000
 - tapOn: "Profile\n.*"
 - assertVisible: "Workspace\nBrightPath Software"
+- scrollUntilVisible:
+    element: "Sign out"
+    direction: DOWN
 - tapOn: "Sign out"
 - tapOn: "Sign out"
 - assertVisible: "Sign in to your workspace"

@@ -1,0 +1,41 @@
+# Maya records a phone request from Casey: she finds Casey by email, creates the ticket, and it opens.
+appId: app.nexdesk.mobile.dev
+env:
+  PASSWORD: "NexDesk-demo-2026"
+---
+- runScript: scripts/mention_token.js
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "maya@brightpath.demo"
+- tapOn: "Password"
+- inputText: ${PASSWORD}
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 30000
+- tapOn: "New ticket"
+- tapOn: "Customer email"
+- inputText: "casey"
+- extendedWaitUntil:
+    visible: "(?s).*casey@customers\\.demo.*"
+    timeout: 15000
+- tapOn: "(?s).*casey@customers\\.demo.*"
+- tapOn: "Subject"
+- inputText: "Phone call ${output.mention}"
+- tapOn: "Description"
+- inputText: "Casey called: the November invoice is missing."
+- hideKeyboard
+- scrollUntilVisible:
+    element: "Create ticket"
+    direction: DOWN
+- tapOn: "Create ticket"
+- extendedWaitUntil:
+    visible: "(?s).*Phone call ${output.mention}.*"
+    timeout: 20000
+- assertVisible: "Reply to Casey Morgan"
+- takeScreenshot: build/e2e/create-ticket

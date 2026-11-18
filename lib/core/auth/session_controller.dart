@@ -132,6 +132,15 @@ class SessionController extends Notifier<SessionState> {
     state = const SignedOut();
   }
 
+  /// After the person changed their profile: the API answers with the new session details.
+  void updateDetails(SessionDto details) {
+    final session = current;
+    if (session == null) return;
+    state = SignedIn(
+      Session(accessToken: session.accessToken, expiresAt: session.expiresAt, details: details),
+    );
+  }
+
   /// Back to the sign-in screen from a blocked state.
   void startOver() => state = const SignedOut();
 

@@ -561,6 +561,110 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get newTicket => 'New ticket';
+
+  @override
+  String get newTicketSubtitle => 'Record a request you received by phone, chat or in person.';
+
+  @override
+  String get subject => 'Subject';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get requesterEmail => 'Customer email';
+
+  @override
+  String get requesterHint => 'Start typing to find an existing customer.';
+
+  @override
+  String get requesterName => 'Customer name (optional)';
+
+  @override
+  String get type => 'Type';
+
+  @override
+  String get createTicket => 'Create ticket';
+
+  @override
+  String ticketCreated(int number) {
+    return 'Ticket #$number created.';
+  }
+
+  @override
+  String get fieldRequired => 'Fill this in.';
+
+  @override
+  String get typeQuestion => 'Question';
+
+  @override
+  String get typeIncident => 'Incident';
+
+  @override
+  String get typeProblem => 'Problem';
+
+  @override
+  String get typeTask => 'Task';
+
+  @override
+  String get availability => 'Availability';
+
+  @override
+  String get availabilityOnline => 'Online';
+
+  @override
+  String get availabilityAway => 'Away';
+
+  @override
+  String get availabilityOffline => 'Offline';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get appLock => 'Lock with fingerprint or face';
+
+  @override
+  String get appLockHint => 'Asks again after 5 minutes away.';
+
+  @override
+  String get appLockUnavailable => 'Set up a fingerprint, face or screen lock on this phone to use this.';
+
+  @override
+  String get unlock => 'Unlock';
+
+  @override
+  String get lockedTitle => 'NexDesk is locked';
+
+  @override
+  String get unlockReason => 'Unlock NexDesk';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String version(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get aboutText =>
+      'NexDesk is a help desk for support teams: tickets, SLAs and a customer help centre. This app is for agents on the move; settings and reports live on the web.';
+
+  @override
+  String get openOnWeb => 'Open NexDesk on the web';
+
+  @override
   String get notificationSettings => 'Notification settings';
 
   @override

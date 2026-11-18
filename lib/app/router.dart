@@ -12,8 +12,10 @@ import '../features/inbox/presentation/inbox_screen.dart';
 import '../features/inbox/presentation/search_screen.dart';
 import '../features/notifications/presentation/notification_settings_screen.dart';
 import '../features/notifications/presentation/notifications_screen.dart';
+import '../features/profile/presentation/about_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
 import '../features/shell/presentation/app_shell.dart';
+import '../features/ticket/presentation/create_ticket_screen.dart';
 import '../features/ticket/presentation/ticket_screen.dart';
 import 'config.dart';
 
@@ -26,6 +28,8 @@ abstract final class Routes {
   static const notifications = '/app/notifications';
   static const profile = '/app/profile';
   static const notificationSettings = '/app/profile/notifications';
+  static const about = '/app/profile/about';
+  static const newTicket = '/app/tickets/new';
   static const simulatePush = '/simulate-push';
 }
 
@@ -95,6 +99,8 @@ final routerProvider = Provider<GoRouter>((ref) {
                 builder: (_, _) => const InboxScreen(),
                 routes: [
                   GoRoute(path: 'search', builder: (_, _) => const SearchScreen()),
+                  // Before ':id', so "new" is not read as a ticket id.
+                  GoRoute(path: 'new', builder: (_, _) => const CreateTicketScreen()),
                   GoRoute(
                     path: ':id',
                     builder: (_, state) => TicketScreen(ticketId: state.pathParameters['id']!),
@@ -113,6 +119,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 builder: (_, _) => const ProfileScreen(),
                 routes: [
                   GoRoute(path: 'notifications', builder: (_, _) => const NotificationSettingsScreen()),
+                  GoRoute(path: 'about', builder: (_, _) => const AboutScreen()),
                 ],
               ),
             ],
