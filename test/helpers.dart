@@ -16,6 +16,7 @@ Future<ProviderContainer> pumpApp(
   FakeApi? api,
   MemoryTokenStore? tokens,
   Size size = const Size(400, 860),
+  List<Object> overrides = const [],
 }) async {
   SharedPreferences.setMockInitialValues({'nexdesk.language': ?language});
   final preferences = await SharedPreferences.getInstance();
@@ -35,7 +36,7 @@ Future<ProviderContainer> pumpApp(
   final container = fakeContainer(
     fake,
     tokens: tokens,
-    extra: [sharedPreferencesProvider.overrideWithValue(preferences)],
+    extra: [sharedPreferencesProvider.overrideWithValue(preferences), ...overrides],
   );
   addTearDown(container.dispose);
   await tester.pumpWidget(UncontrolledProviderScope(container: container, child: const NexDeskApp()));

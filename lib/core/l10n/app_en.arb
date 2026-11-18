@@ -1,7 +1,9 @@
 {
   "@@locale": "en",
   "appName": "NexDesk",
-  "@appName": { "description": "The product name." },
+  "@appName": {
+    "description": "The product name."
+  },
   "tagline": "Your help desk, in your pocket.",
   "signInTitle": "Sign in to your workspace",
   "signInSubtitle": "Use the email and password you use on the web.",
@@ -21,7 +23,13 @@
   "errorNetwork": "Can't reach NexDesk. Check your connection and try again.",
   "errorUnexpected": "Something went wrong. Try again.",
   "errorReference": "Reference: {id}",
-  "@errorReference": { "placeholders": { "id": { "type": "String" } } },
+  "@errorReference": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
   "sessionEnded": "Your session ended. Sign in again.",
   "wakingServer": "Waking the server, this can take up to a minute…",
   "blockedSuspendedTitle": "This workspace is suspended",
@@ -41,11 +49,160 @@
   "inbox": "Inbox",
   "notifications": "Notifications",
   "profile": "Profile",
-  "greeting": "Hello, {name}",
-  "@greeting": { "placeholders": { "name": { "type": "String" } } },
   "workspace": "Workspace",
   "role": "Role",
   "signOut": "Sign out",
   "signOutConfirm": "Sign out of NexDesk on this phone?",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "tabMine": "Mine",
+  "tabUnassigned": "Unassigned",
+  "tabSla": "SLA",
+  "tabAll": "All",
+  "slaBreached": "Breached",
+  "slaAtRisk": "At risk",
+  "searchTickets": "Search tickets",
+  "searchHint": "Subject, message, requester or #number",
+  "savedViews": "Saved views",
+  "noSavedViews": "No saved views yet. Save one on the web and it shows here.",
+  "sharedView": "Shared",
+  "clearView": "Back to the inbox",
+  "emptyMine": "Nothing assigned to you. Enjoy the quiet.",
+  "emptyList": "No tickets here.",
+  "emptySearch": "No tickets match.",
+  "retry": "Try again",
+  "offlineSince": "Offline. Showing tickets from {time}.",
+  "@offlineSince": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "ticketCount": "{count, plural, =0{No tickets} =1{1 ticket} other{{count} tickets}}",
+  "@ticketCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unassignedPerson": "Unassigned",
+  "statusNew": "New",
+  "statusOpen": "Open",
+  "statusPending": "Pending",
+  "statusOnHold": "On hold",
+  "statusSolved": "Solved",
+  "statusClosed": "Closed",
+  "priorityLow": "Low",
+  "priorityNormal": "Normal",
+  "priorityHigh": "High",
+  "priorityUrgent": "Urgent",
+  "minutesShort": "{count} min",
+  "@minutesShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursShort": "{count} h",
+  "@hoursShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "daysShort": "{count} d",
+  "@daysShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "slaDueIn": "Due in {time}",
+  "@slaDueIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "slaOverdue": "Overdue {time}",
+  "@slaOverdue": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "slaPaused": "Paused",
+  "slaMet": "On time",
+  "slaFirstResponseDue": "First response due in {time}",
+  "@slaFirstResponseDue": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "slaResolutionDue": "Resolution due in {time}",
+  "@slaResolutionDue": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "slaFirstResponseOverdue": "First response overdue by {time}",
+  "@slaFirstResponseOverdue": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "slaResolutionOverdue": "Resolution overdue by {time}",
+  "@slaResolutionOverdue": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "justNow": "just now",
+  "agoMinutes": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
+  "@agoMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agoHours": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
+  "@agoHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agoDays": "{count, plural, =1{yesterday} other{{count} days ago}}",
+  "@agoDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ticketTitle": "Ticket #{number}",
+  "@ticketTitle": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "selectTicket": "Choose a ticket to see it here."
 }

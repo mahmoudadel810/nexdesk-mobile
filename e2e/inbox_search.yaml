@@ -1,0 +1,28 @@
+# Search finds tickets by words in their messages, and a ticket number puts that ticket first.
+appId: app.nexdesk.mobile.dev
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "sarah@brightpath.demo"
+- tapOn: "Password"
+- inputText: "NexDesk-demo-2026"
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "Mine\n.*"
+    timeout: 30000
+- tapOn: "Search tickets"
+- inputText: "invoice"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 20000
+- eraseText: 20
+- inputText: "#1"
+- extendedWaitUntil:
+    visible: "(?s)#1  .*"
+    timeout: 20000
+- takeScreenshot: build/e2e/search-number

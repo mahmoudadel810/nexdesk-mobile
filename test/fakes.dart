@@ -104,3 +104,45 @@ ProviderContainer fakeContainer(FakeApi api, {MemoryTokenStore? tokens, List<Obj
   );
   return container;
 }
+
+/// One ticket as the list endpoint returns it.
+Map<String, Object?> ticketJson(
+  int number, {
+  String status = 'Open',
+  String priority = 'Normal',
+  String? assignee = 'Maya Chen',
+  DateTime? lastActivity,
+  DateTime? resolutionDue,
+  bool paused = false,
+  bool breached = false,
+}) => {
+  'id': 'ticket-$number',
+  'number': number,
+  'subject': 'Subject $number',
+  'status': status,
+  'priority': priority,
+  'type': 'Question',
+  'channel': 'Email',
+  'requester': {'id': 'c$number', 'name': 'Casey Morgan', 'email': 'casey@customers.demo'},
+  'assignee': assignee == null ? null : {'id': 'user-maya', 'name': assignee, 'email': null},
+  'team': null,
+  'tags': <String>[],
+  'createdAt': DateTime.utc(2026, 11, 1).toIso8601String(),
+  'lastActivityAt': (lastActivity ?? DateTime.utc(2026, 11, 18, 8)).toIso8601String(),
+  'sla': {
+    'firstResponseDueAt': null,
+    'firstResponseBreached': false,
+    'firstResponseMet': true,
+    'resolutionDueAt': resolutionDue?.toIso8601String(),
+    'resolutionBreached': breached,
+    'isPaused': paused,
+    'isEscalated': false,
+  },
+};
+
+Map<String, Object?> pageJson(List<Map<String, Object?>> items, {int page = 1, int? total}) => {
+  'items': items,
+  'page': page,
+  'pageSize': 25,
+  'totalCount': total ?? items.length,
+};

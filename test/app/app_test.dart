@@ -97,9 +97,9 @@ void main() {
     await _signIn(tester, 'maya@brightpath.demo', 'pw');
 
     expect(_path(container), Routes.inbox);
-    expect(find.byKey(const Key('greeting')), findsOneWidget);
+    expect(find.text('تذاكري'), findsOneWidget);
     expect(container.read(brandColorProvider), const Color(0xFF1E6091));
-    expect(Directionality.of(tester.element(find.byKey(const Key('greeting')))), TextDirection.rtl);
+    expect(Directionality.of(tester.element(find.text('تذاكري'))), TextDirection.rtl);
   });
 
   testWidgets('a stored sign-in survives a relaunch', (tester) async {

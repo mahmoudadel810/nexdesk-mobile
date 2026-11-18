@@ -13,7 +13,7 @@ appId: app.nexdesk.mobile.dev
 - hideKeyboard
 - tapOn: "Sign in"
 - extendedWaitUntil:
-    visible: "مرحبًا، ليلى الحربي"
+    visible: "تذاكري\n.*"
     timeout: 30000
 - assertVisible: "الوارد"
 - takeScreenshot: build/e2e/layla-inbox

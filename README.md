@@ -15,6 +15,8 @@ This is Phase 16. The plan, with every decision and the steps 16.1 to 16.12, is 
 | 16.3 | `GET /mobile/config`, app-link files, Push column on the web | nexdesk-api, nexdesk-web |
 | 16.4 | This app's skeleton: flavors, theme, English and Arabic, generated API client, cache, tests | here |
 | 16.5 | Sign-in and session: refresh token in secure storage, one refresh at a time, error messages by code, blocked screens, minimum version, workspace colour, account language, sign-out wipe | here |
+| 16.6 | Inbox: Mine, Unassigned, SLA (breached / at risk) and All, saved views from the web, search, paging, pull to refresh, cached lists offline, tablet split | here |
+
 
 ### How the session works
 
@@ -113,3 +115,16 @@ test/                             unit, widget and golden tests
 e2e/                              Maestro flows
 scripts/                          verify, update-api, checks
 ```
+
+### How the inbox works
+
+- Each list keeps its first three pages on the phone. Opening a list shows that copy at once, then the
+  network answer replaces it; offline, the copy stays with an "Offline" banner and its age.
+- Pages are 25 tickets. Tickets that move between pages while you scroll are shown once.
+- The SLA chip shows the next deadline that matters, with an icon as well as colour, and reads it out in
+  full ("Resolution overdue by 2 h"). Solved and closed tickets have none.
+- Saved views come from the web and filter exactly as they do there.
+- Search covers subjects, messages and requesters; a ticket number lists that ticket first.
+- From 840 dp wide, the open ticket sits beside the list.
+
+`e2e/inbox_tabs.yaml` and `e2e/inbox_search.yaml` run against the seeded local API.

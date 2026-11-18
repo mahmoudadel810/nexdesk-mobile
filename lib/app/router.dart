@@ -7,9 +7,12 @@ import '../core/auth/session_controller.dart';
 import '../features/auth/presentation/blocked_screen.dart';
 import '../features/auth/presentation/sign_in_screen.dart';
 import '../features/auth/presentation/splash_screen.dart';
+import '../features/inbox/presentation/inbox_screen.dart';
+import '../features/inbox/presentation/search_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
 import '../features/shell/presentation/app_shell.dart';
 import '../features/shell/presentation/placeholder_screen.dart';
+import '../features/ticket/presentation/ticket_screen.dart';
 
 /// The same paths as the web app, so a link from an email or a push opens the same place.
 abstract final class Routes {
@@ -62,7 +65,14 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: Routes.inbox,
-                builder: (_, _) => const PlaceholderScreen(section: Section.inbox),
+                builder: (_, _) => const InboxScreen(),
+                routes: [
+                  GoRoute(path: 'search', builder: (_, _) => const SearchScreen()),
+                  GoRoute(
+                    path: ':id',
+                    builder: (_, state) => TicketScreen(ticketId: state.pathParameters['id']!),
+                  ),
+                ],
               ),
             ],
           ),

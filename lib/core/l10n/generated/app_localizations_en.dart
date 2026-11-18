@@ -131,11 +131,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profile => 'Profile';
 
   @override
-  String greeting(String name) {
-    return 'Hello, $name';
-  }
-
-  @override
   String get workspace => 'Workspace';
 
   @override
@@ -149,4 +144,197 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancel => 'Cancel';
+
+  @override
+  String get tabMine => 'Mine';
+
+  @override
+  String get tabUnassigned => 'Unassigned';
+
+  @override
+  String get tabSla => 'SLA';
+
+  @override
+  String get tabAll => 'All';
+
+  @override
+  String get slaBreached => 'Breached';
+
+  @override
+  String get slaAtRisk => 'At risk';
+
+  @override
+  String get searchTickets => 'Search tickets';
+
+  @override
+  String get searchHint => 'Subject, message, requester or #number';
+
+  @override
+  String get savedViews => 'Saved views';
+
+  @override
+  String get noSavedViews => 'No saved views yet. Save one on the web and it shows here.';
+
+  @override
+  String get sharedView => 'Shared';
+
+  @override
+  String get clearView => 'Back to the inbox';
+
+  @override
+  String get emptyMine => 'Nothing assigned to you. Enjoy the quiet.';
+
+  @override
+  String get emptyList => 'No tickets here.';
+
+  @override
+  String get emptySearch => 'No tickets match.';
+
+  @override
+  String get retry => 'Try again';
+
+  @override
+  String offlineSince(String time) {
+    return 'Offline. Showing tickets from $time.';
+  }
+
+  @override
+  String ticketCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tickets',
+      one: '1 ticket',
+      zero: 'No tickets',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get unassignedPerson => 'Unassigned';
+
+  @override
+  String get statusNew => 'New';
+
+  @override
+  String get statusOpen => 'Open';
+
+  @override
+  String get statusPending => 'Pending';
+
+  @override
+  String get statusOnHold => 'On hold';
+
+  @override
+  String get statusSolved => 'Solved';
+
+  @override
+  String get statusClosed => 'Closed';
+
+  @override
+  String get priorityLow => 'Low';
+
+  @override
+  String get priorityNormal => 'Normal';
+
+  @override
+  String get priorityHigh => 'High';
+
+  @override
+  String get priorityUrgent => 'Urgent';
+
+  @override
+  String minutesShort(int count) {
+    return '$count min';
+  }
+
+  @override
+  String hoursShort(int count) {
+    return '$count h';
+  }
+
+  @override
+  String daysShort(int count) {
+    return '$count d';
+  }
+
+  @override
+  String slaDueIn(String time) {
+    return 'Due in $time';
+  }
+
+  @override
+  String slaOverdue(String time) {
+    return 'Overdue $time';
+  }
+
+  @override
+  String get slaPaused => 'Paused';
+
+  @override
+  String get slaMet => 'On time';
+
+  @override
+  String slaFirstResponseDue(String time) {
+    return 'First response due in $time';
+  }
+
+  @override
+  String slaResolutionDue(String time) {
+    return 'Resolution due in $time';
+  }
+
+  @override
+  String slaFirstResponseOverdue(String time) {
+    return 'First response overdue by $time';
+  }
+
+  @override
+  String slaResolutionOverdue(String time) {
+    return 'Resolution overdue by $time';
+  }
+
+  @override
+  String get justNow => 'just now';
+
+  @override
+  String agoMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes ago',
+      one: '1 minute ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String agoHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hours ago',
+      one: '1 hour ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String agoDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days ago',
+      one: 'yesterday',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ticketTitle(String number) {
+    return 'Ticket #$number';
+  }
+
+  @override
+  String get selectTicket => 'Choose a ticket to see it here.';
 }

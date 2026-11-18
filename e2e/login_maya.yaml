@@ -13,13 +13,13 @@ appId: app.nexdesk.mobile.dev
 - hideKeyboard
 - tapOn: "Sign in"
 - extendedWaitUntil:
-    visible: "Hello, Maya Chen"
+    visible: "Mine\n.*"
     timeout: 30000
 - takeScreenshot: build/e2e/maya-inbox
 - stopApp
 - launchApp
 - extendedWaitUntil:
-    visible: "Hello, Maya Chen"
+    visible: "Mine\n.*"
     timeout: 30000
 - tapOn: "Profile\n.*"
 - assertVisible: "Workspace\nBrightPath Software"
