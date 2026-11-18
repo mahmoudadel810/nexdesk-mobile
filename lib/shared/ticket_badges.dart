@@ -75,7 +75,13 @@ class PriorityMark extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (icon != null) Icon(icon, size: 16, color: color),
-        Text(label, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: color)),
+        Flexible(
+          child: Text(
+            label,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(color: color),
+          ),
+        ),
       ],
     );
   }
@@ -144,7 +150,13 @@ class SlaChip extends StatelessWidget {
         children: [
           Icon(icon, size: 16, color: color),
           const SizedBox(width: 4),
-          Text(summary.text, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: color)),
+          Flexible(
+            child: Text(
+              summary.text,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(color: color),
+            ),
+          ),
         ],
       ),
     );

@@ -1,0 +1,23 @@
+# Play internal testing, run by hand from mobile/android: `fastlane internal`.
+# Needs ~/.config/nexdesk-mobile/key.properties + upload-keystore.jks (signing) and play-service-account.json
+# (a Play Console service account with release rights). The first upload of a new app must be done once in the
+# Play Console by hand; after that this lane takes over.
+default_platform(:android)
+
+platform :android do
+  desc "Build the prod App Bundle and send it to the internal testing track"
+  lane :internal do
+    Dir.chdir("../..") do
+      sh("scripts/firebase-config.sh")
+      sh("flutter", "build", "appbundle", "--flavor", "prod", "-t", "lib/main_prod.dart", "--release")
+    end
+    upload_to_play_store(
+      track: "internal",
+      aab: "../build/app/outputs/bundle/prodRelease/app-prod-release.aab",
+      release_status: "draft",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+  end
+end

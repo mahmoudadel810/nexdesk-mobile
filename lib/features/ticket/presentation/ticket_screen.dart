@@ -248,12 +248,13 @@ class _Header extends ConsumerWidget {
             key: const Key('ticket-assignee'),
           ),
           if (ticket.team case final team?) row(l10n.team, team.name),
-          if (ticket.tags.isNotEmpty) row(l10n.tags, ticket.tags.join(', ')),
+          if (ticket.tags.isNotEmpty) row(l10n.tags, ticket.tags.join(l10n.listSeparator)),
           if (open && firstResponse != null) row(l10n.firstResponse, firstResponse),
           if (open && resolution != null) row(l10n.resolution, resolution),
           for (final entry in ticket.customFields.entries)
             if (entry.value.isNotEmpty) row(labels[entry.key] ?? entry.key, entry.value),
-          if (ticket.watchers.isNotEmpty) row(l10n.watchers, ticket.watchers.map((w) => w.name).join(', ')),
+          if (ticket.watchers.isNotEmpty)
+            row(l10n.watchers, ticket.watchers.map((w) => w.name).join(l10n.listSeparator)),
         ],
       ),
     );

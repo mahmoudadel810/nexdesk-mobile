@@ -569,6 +569,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get listSeparator => '، ';
+
+  @override
   String get newTicket => 'تذكرة جديدة';
 
   @override

@@ -1,0 +1,3 @@
+# The Play service account key stays outside the repository, next to the upload key.
+json_key_file(File.join(Dir.home, ".config/nexdesk-mobile/play-service-account.json"))
+package_name("app.nexdesk.mobile")

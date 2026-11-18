@@ -561,6 +561,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get listSeparator => ', ';
+
+  @override
   String get newTicket => 'New ticket';
 
   @override
