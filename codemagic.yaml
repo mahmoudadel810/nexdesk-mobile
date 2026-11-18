@@ -1,0 +1,66 @@
+# iOS builds on Codemagic's Macs, started by hand from its dashboard or CLI (not on push): this is a remote Mac,
+# not CI. Verification stays in scripts/verify.sh. Needs, in Codemagic:
+#   - an App Store Connect API key integration named "nexdesk_asc" (automatic code signing),
+#   - an environment group "nexdesk_firebase" with GOOGLE_SERVICE_INFO_PLIST (base64), optional.
+workflows:
+  ios-testflight:
+    name: iOS to TestFlight
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      app_store_connect: nexdesk_asc
+    environment:
+      flutter: 3.50.0
+      xcode: latest
+      groups:
+        - nexdesk_firebase
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: app.nexdesk.mobile
+    scripts:
+      - name: Firebase config (optional; push is off without it)
+        script: |
+          if [ -n "${GOOGLE_SERVICE_INFO_PLIST:-}" ]; then
+            echo "$GOOGLE_SERVICE_INFO_PLIST" | base64 --decode > ios/Runner/GoogleService-Info.plist
+          fi
+      - name: Dependencies
+        script: flutter pub get
+      - name: Tests
+        script: flutter test
+      - name: Signing
+        script: xcode-project use-profiles
+      - name: Build
+        script: |
+          flutter build ipa --release -t lib/main_prod.dart \
+            --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID") + 1)) \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+
+  # Not runnable yet: the flows target the Android dev app id (app.nexdesk.mobile.dev) and their scripts call the
+  # API at localhost:8080. It needs an iOS dev flavor (set up in Xcode on a Mac) and NEXDESK_API_BASE_URL pointing
+  # at a seeded, reachable API, with the scripts reading it.
+  ios-simulator-e2e:
+    name: iOS simulator, Maestro full demo
+    instance_type: mac_mini_m2
+    max_build_duration: 90
+    environment:
+      flutter: 3.50.0
+      xcode: latest
+    scripts:
+      - name: Build for the simulator
+        script: |
+          flutter pub get
+          flutter build ios --simulator --debug -t lib/main_dev.dart \
+            --dart-define=API_BASE_URL="$NEXDESK_API_BASE_URL"
+      - name: Maestro
+        script: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          export PATH="$PATH:$HOME/.maestro/bin"
+          xcrun simctl boot "iPhone 16" || true
+          xcrun simctl install booted build/ios/iphonesimulator/Runner.app
+          maestro test e2e/suites/full_demo.yaml

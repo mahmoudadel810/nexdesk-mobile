@@ -453,6 +453,10 @@
       }
     }
   },
+  "listSeparator": ", ",
+  "@listSeparator": {
+    "description": "Between items of a list, such as tags."
+  },
   "newTicket": "New ticket",
   "newTicketSubtitle": "Record a request you received by phone, chat or in person.",
   "subject": "Subject",

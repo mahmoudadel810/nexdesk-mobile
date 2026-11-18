@@ -39,6 +39,9 @@ env:
 - scrollUntilVisible:
     element: "(?s).*@Maya Chen live check ${output.mention}.*"
     direction: DOWN
-    timeout: 20000
+    # The demo ticket's timeline grows with every run of the other flows.
+    timeout: 90000
+    speed: 80
+    visibilityPercentage: 50
 - assertVisible: "Notifications, \\d+ unread.*"
 - takeScreenshot: build/e2e/live-updates

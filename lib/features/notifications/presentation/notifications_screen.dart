@@ -26,10 +26,12 @@ class NotificationsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(l10n.notifications),
         actions: [
-          TextButton(
+          // An icon with a tooltip, so a large text size cannot push the title off the bar.
+          IconButton(
             key: const Key('mark-all-read'),
+            tooltip: l10n.markAllRead,
+            icon: const Icon(Icons.done_all),
             onPressed: state.unread == 0 ? null : controller.markAllRead,
-            child: Text(l10n.markAllRead),
           ),
         ],
       ),

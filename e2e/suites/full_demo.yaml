@@ -1,0 +1,18 @@
+# The whole demo in one run, in the order it is shown: Maya in English, then Layla in Arabic. Each step is one of the
+# flows that verify.sh also runs on its own. Run with: maestro test e2e/suites/full_demo.yaml
+appId: app.nexdesk.mobile.dev
+---
+- runFlow: ../login_maya.yaml
+- runFlow: ../inbox_tabs.yaml
+- runFlow: ../inbox_search.yaml
+- runFlow: ../reply_and_note.yaml
+- runFlow: ../mention_tom.yaml
+- runFlow: ../attach_photo.yaml
+- runFlow: ../live_updates.yaml
+- runFlow: ../create_ticket.yaml
+- runFlow: ../push_tap_routing.yaml
+- runFlow: ../deeplink_ticket.yaml
+- runFlow: ../draft_survives_kill.yaml
+- runFlow: ../viewer_readonly.yaml
+- runFlow: ../switch_language.yaml
+- runFlow: ../login_layla_rtl.yaml

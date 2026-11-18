@@ -1004,6 +1004,12 @@ abstract class AppLocalizations {
   /// **'Remove {name}'**
   String removeAttachment(String name);
 
+  /// Between items of a list, such as tags.
+  ///
+  /// In en, this message translates to:
+  /// **', '**
+  String get listSeparator;
+
   /// No description provided for @newTicket.
   ///
   /// In en, this message translates to:

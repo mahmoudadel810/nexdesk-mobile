@@ -1,0 +1,72 @@
+# Store screenshots in English (Maya, BrightPath) and Arabic (Layla, Souqna).
+# Run with scripts/store-screenshots.sh, which collects them into build/store/.
+appId: app.nexdesk.mobile.dev
+env:
+  PASSWORD: "NexDesk-demo-2026"
+---
+# English
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- takeScreenshot: build/store/en-1-sign-in
+- tapOn: "Email"
+- inputText: "maya@brightpath.demo"
+- tapOn: "Password"
+- inputText: ${PASSWORD}
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 30000
+- takeScreenshot: build/store/en-2-inbox
+- tapOn:
+    text: "(?s)#\\d+  .*"
+    index: 0
+- extendedWaitUntil:
+    visible: "Reply to .*"
+    timeout: 20000
+- takeScreenshot: build/store/en-3-ticket
+- tapOn: "Notifications.*"
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: build/store/en-4-notifications
+# The first tap returns to the ticket left open in the Inbox tab, the second to the list.
+- tapOn: "Inbox.*"
+- tapOn: "Inbox.*"
+- tapOn: "New ticket"
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: build/store/en-5-new-ticket
+# Arabic
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "layla@souqna.demo"
+- tapOn: "Password"
+- inputText: ${PASSWORD}
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "الوارد"
+    timeout: 30000
+# Layla is the owner and has nothing assigned, so her shots use the All tab.
+- tapOn: "الكل.*"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 30000
+- takeScreenshot: build/store/ar-1-inbox
+- tapOn:
+    text: "(?s)#\\d+  .*"
+    index: 0
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: build/store/ar-2-ticket
+- tapOn: "الإشعارات.*"
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: build/store/ar-3-notifications

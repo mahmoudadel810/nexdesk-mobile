@@ -152,6 +152,7 @@
   "fileNoLongerAvailable": "الملف لم يعد متاحًا",
   "cannotOpenFile": "لا يوجد تطبيق على هذا الهاتف يمكنه فتح هذا الملف.",
   "removeAttachment": "إزالة {name}",
+  "listSeparator": "، ",
   "newTicket": "تذكرة جديدة",
   "newTicketSubtitle": "سجّل طلبًا وصلك عبر الهاتف أو المحادثة أو وجهًا لوجه.",
   "subject": "الموضوع",
