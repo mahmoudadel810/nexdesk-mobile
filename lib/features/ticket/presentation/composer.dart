@@ -4,9 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../core/api/generated/nex_desk_api.dart';
+import '../../../core/errors/app_error.dart';
 import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../shared/mentions.dart';
 import '../../../shared/ticket_badges.dart';
+import '../../attachments/attachment_repository.dart';
+import '../../attachments/attachment_rules.dart';
+import '../../attachments/device_files.dart';
+import '../../attachments/presentation/attachment_text.dart';
+import '../../attachments/presentation/outgoing_attachments.dart';
 import '../application/ticket_controller.dart';
 import '../data/ticket_repository.dart';
 
@@ -27,6 +33,7 @@ class _ComposerState extends ConsumerState<Composer> {
   bool _internal = false;
   Timer? _saveDraft;
   List<UserDto> _suggestions = const [];
+  final _outgoing = <Outgoing>[];
 
   String get _ticketId => widget.ticket.id;
 
@@ -47,6 +54,9 @@ class _ComposerState extends ConsumerState<Composer> {
   @override
   void dispose() {
     _saveDraft?.cancel();
+    for (final item in _outgoing) {
+      item.cancel.cancel();
+    }
     _text.dispose();
     _focus.dispose();
     super.dispose();
@@ -82,16 +92,66 @@ class _ComposerState extends ConsumerState<Composer> {
     _focus.requestFocus();
   }
 
+  bool get _uploading => _outgoing.any((o) => o.uploading);
+
+  Future<void> _attach() async {
+    final source = await chooseAttachSource(context);
+    if (source == null || !mounted) return;
+    final files = ref.read(deviceFilesProvider);
+    final picked = await switch (source) {
+      AttachSource.camera => files.takePhoto(),
+      AttachSource.gallery => files.choosePhoto(),
+      AttachSource.files => files.chooseFile(),
+    };
+    if (picked == null || !mounted) return;
+    final l10n = AppLocalizations.of(context);
+    final item = Outgoing(picked);
+    final problem = checkAttachment(picked.name, picked.sizeBytes);
+    setState(() {
+      if (problem != null) item.problem = attachmentProblemText(problem, l10n);
+      _outgoing.add(item);
+    });
+    if (problem != null) return;
+    try {
+      final uploaded = await ref
+          .read(attachmentRepositoryProvider)
+          .upload(
+            picked,
+            cancel: item.cancel,
+            onProgress: (progress) {
+              if (mounted) setState(() => item.progress = progress);
+            },
+          );
+      if (mounted) setState(() => item.uploaded = uploaded);
+    } on AppError catch (error) {
+      if (!mounted || error.code == AttachmentCodes.cancelled) return;
+      setState(() => item.problem = attachmentErrorText(error, l10n));
+    }
+  }
+
+  void _remove(Outgoing item) {
+    item.cancel.cancel();
+    setState(() => _outgoing.remove(item));
+  }
+
   Future<void> _send([TicketStatus? setStatus]) async {
     final body = _text.text.trim();
-    if (body.isEmpty) return;
+    if (body.isEmpty || _uploading) return;
     _saveDraft?.cancel();
     final sent = await ref
         .read(ticketProvider(_ticketId).notifier)
-        .send(body, internal: _internal, setStatus: setStatus);
+        .send(
+          body,
+          internal: _internal,
+          setStatus: setStatus,
+          attachmentIds: [for (final o in _outgoing) ?o.uploaded?.id],
+        );
     if (sent && mounted) {
       _text.clear();
-      setState(() => _suggestions = const []);
+      setState(() {
+        _suggestions = const [];
+        _outgoing.clear();
+      });
     }
   }
 
@@ -146,10 +206,20 @@ class _ComposerState extends ConsumerState<Composer> {
                   _storeDraft();
                 },
               ),
+              if (_outgoing.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                OutgoingAttachments(items: _outgoing, onRemove: _remove),
+              ],
               const SizedBox(height: 8),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  IconButton(
+                    key: const Key('attach'),
+                    tooltip: l10n.attach,
+                    icon: const Icon(Icons.attach_file),
+                    onPressed: busy ? null : _attach,
+                  ),
                   Expanded(
                     child: TextField(
                       key: const Key('composer'),
@@ -176,10 +246,11 @@ class _ComposerState extends ConsumerState<Composer> {
                       key: const Key('send'),
                       tooltip: _internal ? l10n.addNote : l10n.send,
                       icon: Icon(_internal ? Icons.note_add_outlined : Icons.send),
-                      onPressed: _send,
+                      onPressed: _uploading ? null : _send,
                     ),
                     PopupMenuButton<TicketStatus>(
                       key: const Key('send-and-set'),
+                      enabled: !_uploading,
                       tooltip: l10n.sendAndSet('…'),
                       onSelected: _send,
                       itemBuilder: (_) => [

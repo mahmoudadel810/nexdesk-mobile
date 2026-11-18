@@ -37,21 +37,27 @@ class _TicketScreenState extends ConsumerState<TicketScreen> {
     super.dispose();
   }
 
-  /// New entries arrive at the end of the timeline, so the person sees what they just sent.
+  /// New entries arrive at the end of the timeline. After the person's own send, or when they were already
+  /// reading the end, the view follows them; someone reading older history is left where they are.
   void _followNewEntries(TicketState? previous, TicketState next) {
     final before = previous?.view?.timeline.length;
     final after = next.view?.timeline.length;
     if (before == null || after == null || after <= before) return;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_scroll.hasClients) return;
-      unawaited(
-        _scroll.animateTo(
-          _scroll.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeOut,
-        ),
+    final ownSend = previous?.busy ?? false;
+    final atEnd = _scroll.hasClients && _scroll.position.extentAfter < 200;
+    if (!ownSend && !atEnd) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) => unawaited(_scrollToEnd()));
+  }
+
+  Future<void> _scrollToEnd() async {
+    // Entries below the fold are laid out as the list scrolls, which can grow the end; settle on the real one.
+    for (var i = 0; i < 3 && _scroll.hasClients && _scroll.position.extentAfter > 0; i++) {
+      await _scroll.animateTo(
+        _scroll.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOut,
       );
-    });
+    }
   }
 
   @override

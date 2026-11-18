@@ -528,4 +528,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get none => 'none';
+
+  @override
+  String get attach => 'Attach a file';
+
+  @override
+  String get takePhoto => 'Take a photo';
+
+  @override
+  String get choosePhoto => 'Choose a photo';
+
+  @override
+  String get chooseFile => 'Choose a file';
+
+  @override
+  String fileTooLarge(String limit) {
+    return 'Over the $limit limit';
+  }
+
+  @override
+  String get fileTypeBlocked => 'This type of file can\'t be sent';
+
+  @override
+  String get invalidAttachment => 'Upload this file again';
+
+  @override
+  String get fileNoLongerAvailable => 'File no longer available';
+
+  @override
+  String get cannotOpenFile => 'No app on this phone can open this file.';
+
+  @override
+  String removeAttachment(String name) {
+    return 'Remove $name';
+  }
+
+  @override
+  String uploading(int percent) {
+    return 'Uploading, $percent%';
+  }
 }

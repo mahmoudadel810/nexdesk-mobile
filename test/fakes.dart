@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -10,6 +11,7 @@ import 'package:nexdesk_mobile/core/api/generated/nex_desk_api.dart';
 import 'package:nexdesk_mobile/core/auth/session_controller.dart';
 import 'package:nexdesk_mobile/core/auth/token_store.dart';
 import 'package:nexdesk_mobile/core/cache/database.dart';
+import 'package:nexdesk_mobile/core/cache/file_cache.dart';
 
 typedef FakeHandler = FutureOr<ResponseBody> Function(RequestOptions request);
 
@@ -27,6 +29,8 @@ class FakeApi implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     calls.add(options);
+    // Reading the body is what moves Dio's upload progress.
+    await requestStream?.drain<void>();
     final handler = routes['${options.method} ${options.path}'];
     if (handler == null) return json(404, {'title': 'Not Found', 'status': 404});
     return handler(options);
@@ -84,6 +88,9 @@ Map<String, Object?> authBody({
   },
 };
 
+/// Stands in for the OS cache directory, which path_provider cannot reach in tests.
+final testCacheDirectory = Directory.systemTemp.createTempSync('nexdesk-test-cache');
+
 Dio fakeDio(FakeApi api) => Dio(BaseOptions(baseUrl: 'http://api.test'))..httpClientAdapter = api;
 
 /// A container wired to the fake API, an in-memory token store and an in-memory database.
@@ -93,6 +100,7 @@ ProviderContainer fakeContainer(FakeApi api, {MemoryTokenStore? tokens, List<Obj
     overrides: [
       tokenStoreProvider.overrideWithValue(tokens ?? MemoryTokenStore()),
       databaseProvider.overrideWithValue(database),
+      fileCacheProvider.overrideWithValue(FileCache(() async => testCacheDirectory)),
       authApiProvider.overrideWith((ref) => NexDeskApi(fakeDio(api))),
       dioProvider.overrideWith((ref) {
         final dio = fakeDio(api);

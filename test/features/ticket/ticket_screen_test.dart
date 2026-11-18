@@ -1,51 +1,23 @@
-import 'dart:convert';
-import 'dart:io';
+import 'dart:async';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:nexdesk_mobile/app/router.dart';
-import 'package:nexdesk_mobile/core/auth/session_controller.dart';
-import 'package:nexdesk_mobile/core/auth/token_store.dart';
+import 'package:nexdesk_mobile/features/ticket/application/ticket_controller.dart';
 import 'package:nexdesk_mobile/features/ticket/presentation/ticket_screen.dart';
 
 import '../../fakes.dart';
-import '../../helpers.dart';
-
-final now = DateTime.utc(2026, 11, 18, 12);
-final ticket = jsonDecode(File('test/fixtures/ticket.json').readAsStringSync()) as Map<String, Object?>;
-final timeline = jsonDecode(File('test/fixtures/timeline.json').readAsStringSync()) as List<Object?>;
-final ticketId = ticket['id']! as String;
-final ticketPath = '/api/v1/tickets/$ticketId';
-
-FakeApi ticketApi({required List<String> permissions}) {
-  final auth = authBody(access: 'a', refresh: 'r2');
-  (auth['session']! as Map<String, Object?>)['permissions'] = permissions;
-  final api = FakeApi();
-  api.routes['POST /api/v1/auth/mobile/refresh'] = (_) => json(200, auth);
-  api.routes['GET /api/v1/tickets'] = (_) => json(200, pageJson([]));
-  api.routes['GET $ticketPath'] = (_) => json(200, ticket);
-  api.routes['GET $ticketPath/timeline'] = (_) => json(200, timeline);
-  api.routes['GET /api/v1/users'] = (_) => json(200, pageJson([]));
-  api.routes['GET /api/v1/custom-fields'] = (_) => json(200, []);
-  return api;
-}
-
-Future<ProviderContainer> openTicket(WidgetTester tester, FakeApi api) async {
-  final container = await pumpApp(
-    tester,
-    api: api,
-    tokens: MemoryTokenStore('r1'),
-    overrides: [clockProvider.overrideWithValue(() => now)],
-  );
-  container.read(routerProvider).go('/app/tickets/$ticketId');
-  await tester.pumpAndSettle();
-  return container;
-}
-
-const agent = ['tickets.view', 'tickets.reply', 'tickets.edit'];
+import 'ticket_helpers.dart';
 
 void main() {
+  testWidgets('someone who may reply but not edit gets the composer and no ticket actions', (tester) async {
+    await openTicket(tester, ticketApi(permissions: ['tickets.view', 'tickets.reply']));
+
+    expect(find.byKey(const Key('composer')), findsOneWidget);
+    expect(find.byKey(const Key('read-only')), findsNothing);
+    expect(find.byKey(const Key('ticket-actions')), findsNothing);
+  });
+
   testWidgets('a viewer reads the ticket but gets a read-only notice instead of the composer', (
     tester,
   ) async {
@@ -118,5 +90,25 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Sent from the phone', findRichText: true).hitTestable(), findsOneWidget);
+  });
+
+  testWidgets('someone reading older history is not moved when new entries arrive', (tester) async {
+    Map<String, Object?> message(int n) => {
+      ...timeline[0]! as Map<String, Object?>,
+      'id': 'message-$n',
+      'body': 'Earlier message $n',
+    };
+    final long = [for (var n = 0; n < 20; n++) message(n)];
+    final api = ticketApi(permissions: agent);
+    api.routes['GET $ticketPath/timeline'] = (_) => json(200, long);
+    final container = await openTicket(tester, api);
+    expect(find.text('Earlier message 0', findRichText: true).hitTestable(), findsOneWidget);
+
+    long.add({...message(99), 'body': 'From the web'});
+    unawaited(container.read(ticketProvider(ticketId).notifier).refresh());
+    await tester.pumpAndSettle();
+    expect(container.read(ticketProvider(ticketId)).view!.timeline, hasLength(21));
+
+    expect(find.text('Earlier message 0', findRichText: true).hitTestable(), findsOneWidget);
   });
 }

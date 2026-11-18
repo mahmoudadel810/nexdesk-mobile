@@ -1,0 +1,41 @@
+# Maya starts a reply, the app is killed, and the unsent text is still there when she opens the ticket again.
+appId: app.nexdesk.mobile.dev
+---
+- runScript: scripts/mention_token.js
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "maya@brightpath.demo"
+- tapOn: "Password"
+- inputText: "NexDesk-demo-2026"
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 30000
+- tapOn:
+    text: "(?s)#\\d+  .*"
+    index: 0
+- extendedWaitUntil:
+    visible: "Reply to .*"
+    timeout: 20000
+- copyTextFrom: "#\\d+"
+- tapOn: "Reply to .*"
+- inputText: "Unsent draft ${output.mention}"
+- hideKeyboard
+# The draft is saved 400 ms after the last keystroke.
+- waitForAnimationToEnd:
+    timeout: 2000
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 30000
+- tapOn:
+    text: "(?s)${maestro.copiedText}  .*"
+- extendedWaitUntil:
+    visible: "Unsent draft ${output.mention}"
+    timeout: 20000

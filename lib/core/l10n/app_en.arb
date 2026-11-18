@@ -429,5 +429,37 @@
   "actorCustomer": "The customer",
   "actorSystem": "NexDesk",
   "actorApiKey": "An integration",
-  "none": "none"
+  "none": "none",
+  "attach": "Attach a file",
+  "takePhoto": "Take a photo",
+  "choosePhoto": "Choose a photo",
+  "chooseFile": "Choose a file",
+  "fileTooLarge": "Over the {limit} limit",
+  "@fileTooLarge": {
+    "placeholders": {
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "fileTypeBlocked": "This type of file can't be sent",
+  "invalidAttachment": "Upload this file again",
+  "fileNoLongerAvailable": "File no longer available",
+  "cannotOpenFile": "No app on this phone can open this file.",
+  "removeAttachment": "Remove {name}",
+  "@removeAttachment": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "uploading": "Uploading, {percent}%",
+  "@uploading": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  }
 }

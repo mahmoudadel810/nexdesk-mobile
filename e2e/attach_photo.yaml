@@ -1,0 +1,55 @@
+# Maya replies with a 12 MP photo from the gallery (scripts/e2e-fixtures.sh puts it there). The app shrinks it, and
+# the API stores it as a JPEG under 2 MB on the reply.
+appId: app.nexdesk.mobile.dev
+env:
+  PASSWORD: "NexDesk-demo-2026"
+---
+- runScript: scripts/mention_token.js
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "maya@brightpath.demo"
+- tapOn: "Password"
+- inputText: ${PASSWORD}
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 30000
+- tapOn:
+    text: "(?s)#\\d+  .*"
+    index: 0
+- extendedWaitUntil:
+    visible: "Reply to .*"
+    timeout: 20000
+- copyTextFrom: "#\\d+"
+- tapOn: "Reply to .*"
+- inputText: "Photo of the error ${output.mention}"
+- hideKeyboard
+- tapOn: "Attach a file"
+- tapOn: "Choose a photo"
+# The Android photo picker, newest first: the fixture pushed just before the flows.
+- extendedWaitUntil:
+    visible: "Photo taken on .*"
+    timeout: 20000
+- tapOn:
+    text: "Photo taken on .*"
+    index: 0
+# Shrunk on the phone: a 6.6 MB photo is now a few hundred KB.
+- extendedWaitUntil:
+    visible: ".*\\.jpg · \\d+ KB"
+    timeout: 30000
+- tapOn: "Send"
+- extendedWaitUntil:
+    visible: "(?s).*Photo of the error ${output.mention}.*"
+    timeout: 20000
+- runScript:
+    file: scripts/reply_has_photo.js
+    env:
+      PASSWORD: ${PASSWORD}
+      NUMBER: ${maestro.copiedText}
+- assertTrue: ${output.photoStored}
+- takeScreenshot: build/e2e/attach-photo
