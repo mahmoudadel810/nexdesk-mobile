@@ -1,0 +1,28 @@
+# Maya signs in, stays signed in across a relaunch, then signs out. Needs the local API seeded with --seed.
+appId: app.nexdesk.mobile.dev
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "maya@brightpath.demo"
+- tapOn: "Password"
+- inputText: "NexDesk-demo-2026"
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "Hello, Maya Chen"
+    timeout: 30000
+- takeScreenshot: build/e2e/maya-inbox
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible: "Hello, Maya Chen"
+    timeout: 30000
+- tapOn: "Profile\n.*"
+- assertVisible: "Workspace\nBrightPath Software"
+- tapOn: "Sign out"
+- tapOn: "Sign out"
+- assertVisible: "Sign in to your workspace"

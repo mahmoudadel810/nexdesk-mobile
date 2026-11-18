@@ -1,0 +1,23 @@
+# Layla's account is in Arabic, so the app switches to Arabic and right to left as soon as she signs in.
+appId: app.nexdesk.mobile.dev
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "layla@souqna.demo"
+- tapOn: "Password"
+- inputText: "NexDesk-demo-2026"
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "مرحبًا، ليلى الحربي"
+    timeout: 30000
+- assertVisible: "الوارد"
+- takeScreenshot: build/e2e/layla-inbox
+- tapOn: "الملف الشخصي\n.*"
+- tapOn: "تسجيل الخروج"
+- tapOn: "تسجيل الخروج"
+- assertVisible: "سجّل الدخول إلى مساحة عملك"

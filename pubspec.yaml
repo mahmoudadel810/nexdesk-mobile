@@ -24,6 +24,8 @@ dependencies:
   drift: ^2.35.4
   drift_flutter: ^0.3.1
   cupertino_ui: ^1.1.7
+  package_info_plus: ^10.2.2
+  url_launcher: ^6.3.3
 
 dev_dependencies:
   flutter_test:

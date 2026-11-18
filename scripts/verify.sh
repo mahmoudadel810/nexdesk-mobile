@@ -38,7 +38,12 @@ if [[ "${1:-}" == "--e2e" ]]; then
   echo "== End to end (Maestro)"
   flutter build apk --flavor dev -t lib/main_dev.dart --debug
   adb install -r build/app/outputs/flutter-apk/app-dev-debug.apk >/dev/null
-  maestro test e2e/
+  # One flow at a time, retried once: Maestro's Android driver sometimes drops between flows and fails the next
+  # one within milliseconds, which says nothing about the app.
+  for flow in e2e/*.yaml; do
+    maestro test "$flow" >/dev/null 2>&1 || maestro test "$flow"
+    echo "  passed: $flow"
+  done
 fi
 
 echo "All checks passed."

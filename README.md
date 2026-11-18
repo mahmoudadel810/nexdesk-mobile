@@ -14,6 +14,25 @@ This is Phase 16. The plan, with every decision and the steps 16.1 to 16.12, is 
 | 16.2 | Devices and the Push notification channel | nexdesk-api |
 | 16.3 | `GET /mobile/config`, app-link files, Push column on the web | nexdesk-api, nexdesk-web |
 | 16.4 | This app's skeleton: flavors, theme, English and Arabic, generated API client, cache, tests | here |
+| 16.5 | Sign-in and session: refresh token in secure storage, one refresh at a time, error messages by code, blocked screens, minimum version, workspace colour, account language, sign-out wipe | here |
+
+### How the session works
+
+- The refresh token is kept in the Keychain or Android Keystore; the access token only in memory.
+- Every request goes through one interceptor: it adds the bearer token, refreshes a minute before expiry,
+  refreshes once and replays on a `401`, signs out on a second `401`, and waits out a `429` for reads.
+- Refreshes are single-flight: ten requests with an expired token make one refresh call. The API treats a
+  refresh token used twice as stolen, so overlapping refreshes would sign the phone out.
+- The new refresh token is saved before the new access token is used.
+- `invalid-refresh-token` signs out quietly ("Your session ended"); `tenant-suspended` and
+  `account-disabled` show a blocked screen; platform admins are sent to the web.
+- On launch the app checks `GET /mobile/config` and asks for an update if its build is too old.
+- After sign-in the interface follows the account's language, and the theme takes the workspace's
+  help-centre colour (cached, so it does not flash on the next launch).
+- Signing out revokes the sign-in on the server and wipes secure storage and the cache.
+
+The Maestro flows `login_maya`, `login_wrong_password` and `login_layla_rtl` need the local API seeded with
+`--seed` (demo password `NexDesk-demo-2026`).
 
 ## Stack
 
