@@ -1,5 +1,5 @@
 // Finds this run's reply on ticket NUMBER ("#271") through the local API and checks that its photo was stored as a
-// JPEG under 2 MB.
+// JPEG under 2 MB, named by when it was taken.
 var api = 'http://localhost:8080/api/v1';
 var login = http.post(api + '/auth/mobile/login', {
   headers: { 'Content-Type': 'application/json' },
@@ -14,5 +14,6 @@ var reply = timeline.filter(function (item) {
   return item.body && item.body.indexOf(output.mention) >= 0;
 })[0];
 var photo = reply && reply.attachments[0];
-output.photoStored = !!photo && photo.contentType === 'image/jpeg' && photo.sizeBytes < 2 * 1024 * 1024;
+output.photoStored = !!photo && photo.contentType === 'image/jpeg' && photo.sizeBytes < 2 * 1024 * 1024 &&
+  /^photo-\d{8}-\d{6}\.jpg$/.test(photo.fileName);
 console.log('photo on #' + number + ': ' + JSON.stringify(photo));

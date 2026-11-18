@@ -38,6 +38,10 @@ void main() {
     expect(contentTypeOf('data.bin'), 'application/octet-stream');
   });
 
+  test('photos are named by when they were taken, not by the picker', () {
+    expect(photoName(DateTime(2026, 11, 8, 9, 5, 3)), 'photo-20261108-090503.jpg');
+  });
+
   test('sizes read as KB below a megabyte and MB above', () {
     expect(fileSizeText(1500), '2 KB');
     expect(fileSizeText((2.4 * mb).round()), '2.4 MB');

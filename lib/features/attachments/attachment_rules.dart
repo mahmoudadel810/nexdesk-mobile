@@ -45,6 +45,12 @@ bool isPhoto(String fileName) => _photoExtensions.contains(extensionOf(fileName)
 
 String contentTypeOf(String fileName) => _contentTypes[extensionOf(fileName)] ?? 'application/octet-stream';
 
+/// "photo-20261118-142305.jpg": the name a photo from the camera or the library is sent with.
+String photoName(DateTime at) {
+  String two(int n) => n.toString().padLeft(2, '0');
+  return 'photo-${at.year}${two(at.month)}${two(at.day)}-${two(at.hour)}${two(at.minute)}${two(at.second)}.jpg';
+}
+
 /// "850 KB", "2.4 MB".
 String fileSizeText(int bytes) {
   if (bytes < 1024 * 1024) return '${(bytes / 1024).ceil()} KB';

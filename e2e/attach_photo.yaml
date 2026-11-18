@@ -40,7 +40,7 @@ env:
     index: 0
 # Shrunk on the phone: a 6.6 MB photo is now a few hundred KB.
 - extendedWaitUntil:
-    visible: ".*\\.jpg · \\d+ KB"
+    visible: "photo-\\d{8}-\\d{6}\\.jpg · \\d+ KB"
     timeout: 30000
 - tapOn: "Send"
 - extendedWaitUntil:
