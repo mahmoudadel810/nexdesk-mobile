@@ -143,12 +143,17 @@ The full plan with every decision and the delivery steps 16.1 to 16.12 is
 
 ## Quick start
 
-You need Flutter 3.50, Java 17, the Android SDK and Maestro. `scripts/env.sh` looks for them in
-`~/dev-tools` (`flutter/`, `jdk-17/`, `android-sdk/`) and otherwise uses what is on `PATH`.
+You need Flutter 3.50, Java 17, the Android SDK, Maestro and ffmpeg (it makes the photo the attachment
+flows pick). `scripts/env.sh` looks for the first three in `~/dev-tools` (`flutter/`, `jdk-17/`,
+`android-sdk/`) and otherwise uses what is on `PATH`.
 
-1. Start the API with demo data, from [nexdesk-api](https://github.com/mahmoudadel810/nexdesk-api):
+1. Start the API with demo data, from [nexdesk-api](https://github.com/mahmoudadel810/nexdesk-api)
+   (its [quick start](https://github.com/mahmoudadel810/nexdesk-api#quick-start) says more):
 
    ```bash
+   cp .env.example .env
+   # Replace JWT_SIGNING_KEY (32+ characters, e.g. `openssl rand -base64 48`), INBOUND_SECRET (16+)
+   # and PLATFORM_ADMIN_PASSWORD (12+) in .env.
    docker compose up -d --build
    docker compose run --rm api --seed
    ```
