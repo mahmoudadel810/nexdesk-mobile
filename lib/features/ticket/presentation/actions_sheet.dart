@@ -3,6 +3,8 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../../core/api/generated/nex_desk_api.dart';
 import '../../../core/auth/session_controller.dart';
+import '../../../core/errors/app_error.dart';
+import '../../../core/errors/error_messages.dart';
 import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../shared/ticket_badges.dart';
 import '../application/ticket_controller.dart';
@@ -46,7 +48,24 @@ class _ActionsSheetState extends ConsumerState<ActionsSheet> {
 
   Future<void> _pickAssignee() async {
     final l10n = AppLocalizations.of(context);
-    final people = await ref.read(peopleProvider.future);
+    final messenger = ScaffoldMessenger.of(context);
+    void cannotLoad(Object error) => messenger.showSnackBar(
+      SnackBar(content: Text(error is AppError ? messageFor(error, l10n) : l10n.errorUnexpected)),
+    );
+    // A failed load is retried in the background for a while, so its error is shown now rather than awaited.
+    final loaded = ref.read(peopleProvider);
+    final List<UserDto> people;
+    if (loaded.value case final value?) {
+      people = value;
+    } else if (loaded.error case final error?) {
+      return cannotLoad(error);
+    } else {
+      try {
+        people = await ref.read(peopleProvider.future);
+      } on Object catch (error) {
+        return cannotLoad(error);
+      }
+    }
     if (!mounted) return;
     final agents = people.where((p) => p.role != Role.viewer).toList();
     final picked = await showModalBottomSheet<UserDto>(
