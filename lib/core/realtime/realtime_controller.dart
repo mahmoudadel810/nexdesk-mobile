@@ -76,13 +76,15 @@ class RealtimeController extends Notifier<LiveStatus> {
     state = LiveStatus.connecting;
     final connected = await _hub.start();
     if (!ref.mounted) return;
+    // Signed out, or closed for the background, while it was opening: the stop then came too early.
+    if (!_wanted || state == LiveStatus.off) {
+      if (connected) unawaited(_hub.stop());
+      state = LiveStatus.off;
+      return;
+    }
     if (connected) {
       _attempt = 0;
       state = LiveStatus.connected;
-      return;
-    }
-    if (!_wanted) {
-      state = LiveStatus.off;
       return;
     }
     final delay = ForeverRetry.delays[_attempt.clamp(0, ForeverRetry.delays.length - 1)];
