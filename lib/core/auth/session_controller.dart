@@ -189,3 +189,12 @@ final sessionProvider = NotifierProvider<SessionController, SessionState>(Sessio
 final signedInUserProvider = Provider<String?>(
   (ref) => ref.watch(sessionProvider.select((s) => s is SignedIn ? s.session.user.id : null)),
 );
+
+/// For a provider that writes one person's data to the phone: whether that person is still the one signed in,
+/// so an answer that arrives after they signed out is not stored over the wiped cache. It asks the session
+/// itself, because a provider nobody listens to is only rebuilt when it is next read.
+bool Function() stillSignedIn(Ref ref) {
+  final owner = ref.watch(signedInUserProvider);
+  final session = ref.read(sessionProvider.notifier);
+  return () => owner != null && session.current?.user.id == owner;
+}

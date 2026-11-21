@@ -22,7 +22,7 @@ class TicketPage {
 /// Ticket lists for the inbox. The first three pages of each list are kept on the phone, so the inbox opens
 /// at once and still shows something offline; the network answer replaces them.
 class TicketsRepository {
-  TicketsRepository(this._api, this._database, this._me, this._now);
+  TicketsRepository(this._api, this._database, this._me, this._now, this._current);
 
   static const cachedPages = 3;
 
@@ -30,6 +30,13 @@ class TicketsRepository {
   final AppDatabase _database;
   final String Function() _me;
   final DateTime Function() _now;
+
+  /// Whether the person this was made for is still signed in; an answer for someone who left is not stored.
+  final bool Function() _current;
+
+  Future<void> _put(String key, String json) async {
+    if (_current()) await _database.put(key, json, _now());
+  }
 
   Future<TicketPage?> cached(InboxQuery query, int page) async {
     final row = await _database.read(_key(query, page));
@@ -49,7 +56,7 @@ class TicketsRepository {
     }
 
     if (page <= cachedPages) {
-      await _database.put(_key(query, page), jsonEncode(result.toJson()), _now());
+      await _put(_key(query, page), jsonEncode(result.toJson()));
     }
     return TicketPage(result: result);
   }
@@ -57,7 +64,7 @@ class TicketsRepository {
   Future<List<SavedViewDto>> savedViews() async {
     try {
       final views = await _api.savedViews.listSavedViews();
-      await _database.put('views', jsonEncode([for (final v in views) v.toJson()]), _now());
+      await _put('views', jsonEncode([for (final v in views) v.toJson()]));
       return views;
     } on Object catch (error) {
       final row = await _database.read('views');
@@ -80,5 +87,6 @@ final ticketsRepositoryProvider = Provider<TicketsRepository>(
     ref.watch(databaseProvider),
     () => ref.read(sessionProvider.notifier).current?.user.id ?? '',
     ref.watch(clockProvider),
+    stillSignedIn(ref),
   ),
 );

@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nexdesk_mobile/core/auth/session_controller.dart';
+import 'package:nexdesk_mobile/core/cache/database.dart';
 import 'package:nexdesk_mobile/features/inbox/presentation/inbox_screen.dart';
 import 'package:nexdesk_mobile/features/notifications/application/notifications_controller.dart';
+import 'package:nexdesk_mobile/features/ticket/data/ticket_repository.dart';
 
 import '../../fakes.dart';
 
@@ -85,5 +87,44 @@ void main() {
 
     expect(container.read(notificationsProvider).items, isEmpty);
     expect(container.read(notificationsProvider).unread, 0);
+  });
+
+  test("the last person's answer arriving after sign-out is not written to the phone's cache", () async {
+    final api = FakeApi();
+    final held = Completer<ResponseBody>();
+    api.routes[login] = (_) => json(200, authBody(access: 'a1', refresh: 'r1'));
+    api.routes['POST /api/v1/auth/mobile/logout'] = (_) => json(204, '');
+    api.routes['GET /api/v1/users'] = (_) => held.future;
+    final container = fakeContainer(api);
+    addTearDown(container.dispose);
+    final session = container.read(sessionProvider.notifier);
+
+    await session.signIn('maya@brightpath.demo', 'pw');
+    final team = container.read(ticketRepositoryProvider).people();
+    await pumpEventQueue();
+    await session.signOut();
+
+    held.complete(
+      json(
+        200,
+        pageJson([
+          {
+            'id': 'user-tom',
+            'email': 'tom@brightpath.demo',
+            'fullName': 'Tom Okafor',
+            'role': 'Agent',
+            'isActive': true,
+            'availability': 'Online',
+            'emailVerified': true,
+            'lastLoginAt': null,
+            'createdAt': '2026-11-01T09:00:00Z',
+          },
+        ]),
+      ),
+    );
+    await team;
+    await pumpEventQueue();
+
+    expect(await container.read(databaseProvider).read('people'), isNull);
   });
 }

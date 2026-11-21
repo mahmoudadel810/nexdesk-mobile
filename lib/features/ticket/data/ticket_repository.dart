@@ -22,11 +22,18 @@ typedef Draft = ({String body, bool internal});
 
 /// Reading and changing one ticket. The last 50 opened tickets are kept on the phone with their timelines.
 class TicketRepository {
-  TicketRepository(this._api, this._database, this._now);
+  TicketRepository(this._api, this._database, this._now, this._current);
 
   final NexDeskApi _api;
   final AppDatabase _database;
   final DateTime Function() _now;
+
+  /// Whether the person this was made for is still signed in; an answer for someone who left is not stored.
+  final bool Function() _current;
+
+  Future<void> _put(String key, String json) async {
+    if (_current()) await _database.put(key, json, _now());
+  }
 
   Future<TicketView?> cached(String id) async {
     final row = await _database.read('ticket:$id');
@@ -96,7 +103,7 @@ class TicketRepository {
   Future<List<UserDto>> people() async {
     try {
       final page = await _api.users.listUsers(isActive: true, page: 1, pageSize: 100);
-      await _database.put('people', jsonEncode([for (final u in page.items) u.toJson()]), _now());
+      await _put('people', jsonEncode([for (final u in page.items) u.toJson()]));
       return page.items;
     } on Object catch (error) {
       final row = await _database.read('people');
@@ -112,7 +119,7 @@ class TicketRepository {
     try {
       final fields = await _api.customFields.listCustomFields();
       final labels = {for (final f in fields) f.key: f.label};
-      await _database.put('field-labels', jsonEncode(labels), _now());
+      await _put('field-labels', jsonEncode(labels));
       return labels;
     } on Object {
       final row = await _database.read('field-labels');
@@ -129,18 +136,18 @@ class TicketRepository {
 
   Future<void> saveDraft(String id, Draft draft) => draft.body.trim().isEmpty
       ? clearDraft(id)
-      : _database.put('draft:$id', jsonEncode({'body': draft.body, 'internal': draft.internal}), _now());
+      : _put('draft:$id', jsonEncode({'body': draft.body, 'internal': draft.internal}));
 
   Future<void> clearDraft(String id) => _database.remove('draft:$id');
 
   Future<void> _store(TicketDetailDto ticket, List<TimelineItem> timeline) async {
-    await _database.put(
+    if (!_current()) return;
+    await _put(
       'ticket:${ticket.id}',
       jsonEncode({
         'ticket': ticket.toJson(),
         'timeline': [for (final item in timeline) item.toJson()],
       }),
-      _now(),
     );
     await _database.keepNewest('ticket:', 50);
   }
@@ -155,5 +162,10 @@ class TicketRepository {
 }
 
 final ticketRepositoryProvider = Provider<TicketRepository>(
-  (ref) => TicketRepository(ref.watch(apiProvider), ref.watch(databaseProvider), ref.watch(clockProvider)),
+  (ref) => TicketRepository(
+    ref.watch(apiProvider),
+    ref.watch(databaseProvider),
+    ref.watch(clockProvider),
+    stillSignedIn(ref),
+  ),
 );
