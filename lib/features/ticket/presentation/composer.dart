@@ -3,13 +3,18 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../app/startup.dart';
 import '../../../core/api/generated/nex_desk_api.dart';
+import '../../../core/auth/session.dart';
+import '../../../core/auth/session_controller.dart';
 import '../../../core/l10n/generated/app_localizations.dart';
+import '../../../shared/article_links.dart';
 import '../../../shared/mentions.dart';
 import '../../../shared/ticket_badges.dart';
 import '../../attachments/presentation/outgoing_attachments.dart';
 import '../application/ticket_controller.dart';
 import '../data/ticket_repository.dart';
+import 'article_sheet.dart';
 
 /// Writing a public reply or an internal note. Typing "@" suggests teammates; what is written is kept on the
 /// phone as a draft until it is sent, so it survives the app being closed.
@@ -89,6 +94,21 @@ class _ComposerState extends ConsumerState<Composer> {
     _focus.requestFocus();
   }
 
+  /// Puts "Title: link" to a published article where the caret was, or at the end when there was none.
+  Future<void> _insertArticle(String webBaseUrl, String tenantSlug) async {
+    final selection = _text.selection;
+    final article = await pickArticle(context);
+    if (article == null || !mounted) return;
+    final caret = selection.isValid ? selection.baseOffset : _text.text.length;
+    final url = articleUrl(webBaseUrl, tenantSlug, article.slug);
+    final result = insertArticleLink(_text.text, caret, article.title, url);
+    _text.value = TextEditingValue(
+      text: result.text,
+      selection: TextSelection.collapsed(offset: result.caret),
+    );
+    _focus.requestFocus();
+  }
+
   bool get _uploading => _outgoing.uploading;
 
   Future<void> _send([TicketStatus? setStatus]) async {
@@ -111,6 +131,16 @@ class _ComposerState extends ConsumerState<Composer> {
     final scheme = Theme.of(context).colorScheme;
     final busy = ref.watch(ticketProvider(_ticketId).select((s) => s.busy));
     ref.watch(peopleProvider);
+    final session = switch (ref.watch(sessionProvider)) {
+      SignedIn(:final session) => session,
+      _ => null,
+    };
+    // The link is the customer portal's page, so it needs the web address and the workspace.
+    final webBaseUrl = ref.watch(webBaseUrlProvider);
+    final tenantSlug = session?.tenant?.slug;
+    final articleLinks = webBaseUrl != null && tenantSlug != null && (session?.can('kb.view') ?? false)
+        ? (base: webBaseUrl, slug: tenantSlug)
+        : null;
 
     return Material(
       color: _internal ? scheme.tertiaryContainer : scheme.surfaceContainer,
@@ -170,6 +200,13 @@ class _ComposerState extends ConsumerState<Composer> {
                     icon: const Icon(Icons.attach_file),
                     onPressed: busy ? null : () => unawaited(_outgoing.pick(context)),
                   ),
+                  if (articleLinks case (:final base, :final slug))
+                    IconButton(
+                      key: const Key('insert-article'),
+                      tooltip: l10n.insertArticle,
+                      icon: const Icon(Icons.menu_book_outlined),
+                      onPressed: busy ? null : () => unawaited(_insertArticle(base, slug)),
+                    ),
                   Expanded(
                     child: TextField(
                       key: const Key('composer'),

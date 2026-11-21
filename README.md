@@ -11,8 +11,9 @@ customers keep using the web help centre ([nexdesk-web](https://github.com/mahmo
   (a ticket number lists that ticket first), paging, pull to refresh, and the last pages kept for offline
   reading. On tablets the open ticket sits beside the list.
 - **Ticket**: the header with live SLA countdowns, and a timeline with internal notes set apart. The
-  composer writes a reply or a note, with @mention suggestions, a draft kept per ticket (it survives the
-  app being killed) and "send and set status". The actions sheet covers status, priority, tags, assign and
+  composer writes a reply or a note, with @mention suggestions, links to published help articles (the
+  customer portal page, as on the web), a draft kept per ticket (it survives the app being killed) and
+  "send and set status". The actions sheet covers status, priority, tags, assign and
   watch. When someone else changed the ticket first, a banner reloads it and offers "Apply mine again".
   Viewers read only.
 - **Attachments**: camera, photo library and files. Photos are sent as JPEG at most 2048 px on the long
@@ -205,7 +206,7 @@ scripts/verify.sh --e2e    # plus: build the dev app and run every Maestro flow 
 - **Goldens** of sign-in, the inbox (light and dark, both directions) and the Arabic new-ticket form are in
   `test/goldens/`; refresh them on purpose with `flutter test --update-goldens`.
 - **Maestro** (`e2e/`) drives the dev app against the seeded local API: sign-in, Arabic, inbox tabs and
-  search, reply and note, Tom's mention notification, photo attachment, live updates, catching up after the
+  search, reply and note, Tom's mention notification, a help article link, photo attachment, live updates, catching up after the
   network drops (airplane mode on and off), new ticket, language
   switch, push tap routing, a deep link while signed out, the draft surviving a kill, and the viewer's
   read-only ticket. Scripts in `e2e/scripts/` check results through the API, such as Tom's notification

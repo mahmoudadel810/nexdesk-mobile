@@ -1,0 +1,52 @@
+# Maya links the seeded "Download an invoice" help article in a note: the composer gets the customer portal
+# link to it, and the note is posted with it.
+appId: app.nexdesk.mobile.dev
+env:
+  PASSWORD: "NexDesk-demo-2026"
+---
+- runScript: scripts/mention_token.js
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Sign in to your workspace"
+    timeout: 60000
+- tapOn: "Email"
+- inputText: "maya@brightpath.demo"
+- tapOn: "Password"
+- inputText: ${PASSWORD}
+- hideKeyboard
+- tapOn: "Sign in"
+- extendedWaitUntil:
+    visible: "(?s)#\\d+  .*"
+    timeout: 30000
+- tapOn:
+    text: "(?s)#\\d+  .*"
+    index: 0
+- extendedWaitUntil:
+    visible: "Reply to .*"
+    timeout: 20000
+- tapOn: "Internal note"
+- tapOn: "Note for your team.*"
+- inputText: "${output.mention} "
+- hideKeyboard
+- tapOn: "Insert a help article"
+- extendedWaitUntil:
+    visible: "Link a help article"
+    timeout: 10000
+- tapOn: "Search published articles"
+- inputText: "invoice"
+# A list tile reads its title and category as one label.
+- extendedWaitUntil:
+    visible: "(?s)Download an invoice.*Billing and plans"
+    timeout: 10000
+- tapOn: "(?s)Download an invoice.*Billing and plans"
+- extendedWaitUntil:
+    visible: "(?s).*${output.mention} Download an invoice: http.*/portal/brightpath/kb/download-an-invoice.*"
+    timeout: 10000
+- hideKeyboard
+- tapOn: "Add note"
+# The composer is empty again once the note is posted, so the text left on screen is the note's.
+- extendedWaitUntil:
+    visible: "Note for your team.*"
+    timeout: 20000
+- assertVisible: "(?s).*${output.mention} Download an invoice: http.*/portal/brightpath/kb/download-an-invoice.*"
