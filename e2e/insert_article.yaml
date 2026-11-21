@@ -35,10 +35,11 @@ env:
     timeout: 10000
 - tapOn: "Search published articles"
 - inputText: "invoice"
+# A list tile reads its title and category as one label.
 - extendedWaitUntil:
-    visible: "Download an invoice"
+    visible: "(?s)Download an invoice.*Billing and plans"
     timeout: 10000
-- tapOn: "Download an invoice"
+- tapOn: "(?s)Download an invoice.*Billing and plans"
 - extendedWaitUntil:
     visible: "(?s).*${output.mention} Download an invoice: http.*/portal/brightpath/kb/download-an-invoice.*"
     timeout: 10000
