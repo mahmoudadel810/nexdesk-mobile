@@ -62,6 +62,7 @@ Map<String, Object?> authBody({
   bool platformAdmin = false,
   String language = 'en',
   String slug = 'brightpath',
+  String userId = 'user-maya',
 }) => {
   'accessToken': access,
   'expiresAt': (expiresAt ?? DateTime.now().toUtc().add(const Duration(minutes: 15))).toIso8601String(),
@@ -69,7 +70,7 @@ Map<String, Object?> authBody({
   'refreshTokenExpiresAt': DateTime.now().toUtc().add(const Duration(days: 14)).toIso8601String(),
   'session': {
     'user': {
-      'id': 'user-maya',
+      'id': userId,
       'email': 'maya@brightpath.demo',
       'fullName': 'Maya Chen',
       'role': platformAdmin ? null : 'Agent',
@@ -99,6 +100,9 @@ class FakeLiveHub implements LiveHub {
   int starts = 0;
   int stops = 0;
 
+  /// Holds the next start open until completed, like a slow network.
+  Completer<void>? holdStart;
+
   void emit(LiveEvent event) => _events.add(event);
 
   @override
@@ -107,6 +111,9 @@ class FakeLiveHub implements LiveHub {
   @override
   Future<bool> start() async {
     starts++;
+    final hold = holdStart;
+    holdStart = null;
+    if (hold != null) await hold.future;
     if (connects) emit(const LiveConnected());
     return connects;
   }

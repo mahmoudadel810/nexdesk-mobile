@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/generated/nex_desk_api.dart';
+import '../../../core/auth/session_controller.dart';
 import '../../../core/errors/app_error.dart';
 import '../../../core/realtime/live_hub.dart';
 import '../../../core/realtime/realtime_controller.dart';
@@ -74,6 +75,7 @@ class InboxController extends Notifier<InboxState> {
 
   @override
   InboxState build() {
+    if (ref.watch(signedInUserProvider) == null) return const InboxState();
     final events = ref.watch(liveEventsProvider).listen(_onEvent);
     ref.onDispose(() {
       unawaited(events.cancel());
@@ -99,6 +101,7 @@ class InboxController extends Notifier<InboxState> {
 
   Future<void> _start() async {
     final cached = await _tickets.cached(query, 1);
+    if (!ref.mounted) return;
     if (cached != null && state.loading) {
       state = InboxState(
         items: cached.result.items,
@@ -131,6 +134,7 @@ class InboxController extends Notifier<InboxState> {
     state = state.copyWith(loadingMore: true);
     try {
       final next = await _tickets.fetch(query, state.page + 1);
+      if (!ref.mounted) return;
       final seen = {for (final item in state.items) item.id};
       state = state.copyWith(
         items: [...state.items, ...next.result.items.where((item) => seen.add(item.id))],
@@ -139,7 +143,7 @@ class InboxController extends Notifier<InboxState> {
         loadingMore: false,
       );
     } on AppError catch (error) {
-      state = state.copyWith(loadingMore: false, error: error);
+      if (ref.mounted) state = state.copyWith(loadingMore: false, error: error);
     }
   }
 }
@@ -147,5 +151,6 @@ class InboxController extends Notifier<InboxState> {
 final inboxProvider = NotifierProvider.family<InboxController, InboxState, InboxQuery>(InboxController.new);
 
 final savedViewsProvider = FutureProvider<List<SavedViewDto>>(
-  (ref) => ref.watch(ticketsRepositoryProvider).savedViews(),
+  (ref) async =>
+      ref.watch(signedInUserProvider) == null ? const [] : ref.watch(ticketsRepositoryProvider).savedViews(),
 );

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,11 +12,17 @@ import 'package:nexdesk_mobile/core/realtime/realtime_controller.dart';
 import '../../fakes.dart';
 
 /// A signed-in container with the realtime controller running, all on a fake clock.
-(ProviderContainer, FakeLiveHub) signedIn(FakeAsync async, {bool connects = true}) {
+(ProviderContainer, FakeLiveHub) signedIn(
+  FakeAsync async, {
+  bool connects = true,
+  Completer<void>? holdStart,
+}) {
   final api = FakeApi();
   api.routes['POST /api/v1/auth/mobile/refresh'] = (_) => json(200, authBody(access: 'a', refresh: 'r2'));
   api.routes['POST /api/v1/auth/mobile/logout'] = (_) => json(204, {});
-  final hub = FakeLiveHub()..connects = connects;
+  final hub = FakeLiveHub()
+    ..connects = connects
+    ..holdStart = holdStart;
   final container = fakeContainer(api, tokens: MemoryTokenStore('r1'), hub: hub);
   container.read(sessionProvider.notifier).restore();
   // Signing in goes through Dio, which needs its timers to run; the realtime controller does not exist yet.
@@ -32,6 +40,24 @@ void main() {
 
       expect(hub.starts, 1);
       expect(container.read(realtimeProvider), LiveStatus.connected);
+      container.dispose();
+    });
+  });
+
+  test('signing out while the connection is still opening leaves it closed', () {
+    fakeAsync((async) {
+      final opening = Completer<void>();
+      final (container, hub) = signedIn(async, holdStart: opening);
+      expect(container.read(realtimeProvider), LiveStatus.connecting);
+
+      unawaited(container.read(sessionProvider.notifier).signOut());
+      async.elapse(const Duration(seconds: 1));
+      final stopsAtSignOut = hub.stops;
+      opening.complete();
+      async.flushMicrotasks();
+
+      expect(container.read(realtimeProvider), LiveStatus.off);
+      expect(hub.stops, stopsAtSignOut + 1, reason: 'the connection that opened late is closed again');
       container.dispose();
     });
   });

@@ -15,7 +15,10 @@ import 'ticket_list.dart';
 /// The saved view the inbox is showing instead of its tabs, if any.
 class SelectedView extends Notifier<SavedViewDto?> {
   @override
-  SavedViewDto? build() => null;
+  SavedViewDto? build() {
+    ref.watch(signedInUserProvider);
+    return null;
+  }
 
   // ignore: use_setters_to_change_properties
   void set(SavedViewDto? view) => state = view;
@@ -26,7 +29,10 @@ final selectedViewProvider = NotifierProvider<SelectedView, SavedViewDto?>(Selec
 /// On tablets the inbox and the open ticket sit side by side.
 class SelectedTicket extends Notifier<String?> {
   @override
-  String? build() => null;
+  String? build() {
+    ref.watch(signedInUserProvider);
+    return null;
+  }
 
   // ignore: use_setters_to_change_properties
   void set(String? id) => state = id;
