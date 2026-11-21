@@ -42,6 +42,9 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
   List<NotificationPreferenceDto>? _edited;
   AppError? _saveError;
 
+  /// Each save sends the whole set, so only the answer to the newest one says what is stored.
+  int _saves = 0;
+
   /// Saves the whole set, as the web does; on failure the switch goes back and the reason shows.
   Future<void> _toggle(
     List<NotificationPreferenceDto> current,
@@ -63,6 +66,7 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
         else
           p,
     ];
+    final save = ++_saves;
     setState(() {
       _edited = next;
       _saveError = null;
@@ -79,9 +83,9 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
               ],
             ),
           );
-      if (mounted) setState(() => _edited = saved);
+      if (mounted && save == _saves) setState(() => _edited = saved);
     } on Object catch (error) {
-      if (mounted) {
+      if (mounted && save == _saves) {
         setState(() {
           _edited = current;
           _saveError = AppError.from(error);
