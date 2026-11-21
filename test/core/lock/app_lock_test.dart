@@ -16,12 +16,19 @@ class FakeBiometrics implements Biometrics {
   bool answer;
   int asked = 0;
 
+  /// Runs while the first prompt is up, like the system dialog that takes the app out of focus and back.
+  /// Only once, so a prompt that reopens itself shows up as a second ask instead of an endless loop.
+  void Function()? whilePrompting;
+
   @override
   Future<bool> available() async => true;
 
   @override
   Future<bool> confirm(String reason) async {
     asked++;
+    final prompting = whilePrompting;
+    whilePrompting = null;
+    prompting?.call();
     return answer;
   }
 }
@@ -102,5 +109,30 @@ void main() {
     await tester.tap(find.byKey(const Key('unlock')));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('lock-screen')), findsNothing);
+  });
+
+  testWidgets('the fingerprint prompt taking the app out of focus does not open the prompt again', (
+    tester,
+  ) async {
+    final (biometrics, container) = await open(tester);
+    await container.read(appLockProvider.notifier).setEnabled(true, 'unlock');
+    biometrics.whilePrompting = () {
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    };
+
+    await lifecycle(tester, AppLifecycleState.inactive);
+    clock = clock.add(const Duration(minutes: 5));
+    biometrics.answer = false;
+    final asksBefore = biometrics.asked;
+    await lifecycle(tester, AppLifecycleState.resumed);
+    await tester.pumpAndSettle();
+
+    expect(
+      biometrics.asked,
+      asksBefore + 1,
+      reason: 'a cancelled prompt leaves the lock screen and its button',
+    );
+    expect(find.byKey(const Key('lock-screen')), findsOneWidget);
   });
 }

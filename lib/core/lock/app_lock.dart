@@ -64,6 +64,10 @@ class AppLockController extends Notifier<AppLockState> {
 
   DateTime? _leftAt;
 
+  /// The system prompt is up. It takes the app out of focus and back, which must not count as leaving
+  /// the app, or the prompt would reopen itself as soon as it closes.
+  bool _unlocking = false;
+
   bool get _signedIn => ref.read(sessionProvider) is SignedIn;
 
   @override
@@ -88,12 +92,13 @@ class AppLockController extends Notifier<AppLockState> {
   }
 
   void appHidden() {
-    if (!_signedIn) return;
+    if (!_signedIn || _unlocking) return;
     _leftAt ??= ref.read(clockProvider)();
     state = state.copyWith(obscured: true);
   }
 
   void appShown() {
+    if (_unlocking) return;
     final leftAt = _leftAt;
     _leftAt = null;
     final away = leftAt == null ? Duration.zero : ref.read(clockProvider)().difference(leftAt);
@@ -104,7 +109,14 @@ class AppLockController extends Notifier<AppLockState> {
   }
 
   Future<void> unlock(String reason) async {
-    if (await ref.read(biometricsProvider).confirm(reason)) state = state.copyWith(locked: false);
+    // One prompt at a time: the lock screen's button and the automatic prompt can both ask.
+    if (_unlocking) return;
+    _unlocking = true;
+    try {
+      if (await ref.read(biometricsProvider).confirm(reason)) state = state.copyWith(locked: false);
+    } finally {
+      _unlocking = false;
+    }
   }
 }
 
