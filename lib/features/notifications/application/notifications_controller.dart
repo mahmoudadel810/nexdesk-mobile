@@ -57,8 +57,15 @@ class NotificationsState {
 class NotificationsController extends Notifier<NotificationsState> {
   NotificationsRepository get _repository => ref.read(notificationsRepositoryProvider);
 
+  /// Counts rebuilds. Riverpod keeps this object when someone else signs in, so an answer requested before
+  /// that is recognised by the count it started with and dropped.
+  int _builds = 0;
+
+  bool _outdated(int build) => !ref.mounted || build != _builds;
+
   @override
   NotificationsState build() {
+    _builds++;
     if (ref.watch(signedInUserProvider) == null) return const NotificationsState();
     final events = ref.watch(liveEventsProvider).listen(_onEvent);
     ref.onDispose(() => unawaited(events.cancel()));
@@ -67,9 +74,10 @@ class NotificationsController extends Notifier<NotificationsState> {
   }
 
   Future<void> refresh() async {
+    final build = _builds;
     try {
       final (page, unread) = (await _repository.page(1), await _repository.unreadCount());
-      if (!ref.mounted) return;
+      if (_outdated(build)) return;
       state = NotificationsState(
         items: page.items,
         page: 1,
@@ -78,16 +86,17 @@ class NotificationsController extends Notifier<NotificationsState> {
         loading: false,
       );
     } on AppError catch (error) {
-      if (ref.mounted) state = state.copyWith(loading: false, error: error);
+      if (!_outdated(build)) state = state.copyWith(loading: false, error: error);
     }
   }
 
   Future<void> loadMore() async {
     if (state.loading || state.loadingMore || !state.hasMore || state.error != null) return;
+    final build = _builds;
     state = state.copyWith(loadingMore: true);
     try {
       final next = await _repository.page(state.page + 1);
-      if (!ref.mounted) return;
+      if (_outdated(build)) return;
       final seen = {for (final n in state.items) n.id};
       state = state.copyWith(
         items: [...state.items, ...next.items.where((n) => seen.add(n.id))],
@@ -96,32 +105,34 @@ class NotificationsController extends Notifier<NotificationsState> {
         loadingMore: false,
       );
     } on AppError catch (error) {
-      if (ref.mounted) state = state.copyWith(loadingMore: false, error: error);
+      if (!_outdated(build)) state = state.copyWith(loadingMore: false, error: error);
     }
   }
 
   Future<void> markRead(NotificationDto notification) async {
     if (notification.isRead) return;
+    final build = _builds;
     state = state.copyWith(
       items: [for (final n in state.items) n.id == notification.id ? _read(n) : n],
       unread: state.unread > 0 ? state.unread - 1 : 0,
     );
     try {
       final unread = await _repository.markRead(notification.id);
-      if (ref.mounted) state = state.copyWith(unread: unread);
+      if (!_outdated(build)) state = state.copyWith(unread: unread);
     } on AppError {
       // The badge corrects itself on the next reload.
     }
   }
 
   Future<void> markAllRead() async {
+    final build = _builds;
     final before = state;
     state = state.copyWith(items: [for (final n in state.items) _read(n)], unread: 0, clearError: true);
     try {
       final unread = await _repository.markAllRead();
-      if (ref.mounted) state = state.copyWith(unread: unread);
+      if (!_outdated(build)) state = state.copyWith(unread: unread);
     } on AppError catch (error) {
-      if (ref.mounted) state = before.copyWith(error: error);
+      if (!_outdated(build)) state = before.copyWith(error: error);
     }
   }
 

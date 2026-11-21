@@ -51,8 +51,16 @@ class TicketController extends Notifier<TicketState> {
 
   TicketRepository get _tickets => ref.read(ticketRepositoryProvider);
 
+  /// Counts rebuilds. Riverpod keeps this object when someone else signs in, so an answer requested before
+  /// that is recognised by the count it started with and dropped.
+  int _builds = 0;
+
+  bool _outdated(int build) => !ref.mounted || build != _builds;
+
   @override
   TicketState build() {
+    _builds++;
+    _pending = null;
     if (ref.watch(signedInUserProvider) == null) return const TicketState();
     final events = ref.watch(liveEventsProvider).listen(_onEvent);
     ref.onDispose(() => unawaited(events.cancel()));
@@ -72,18 +80,20 @@ class TicketController extends Notifier<TicketState> {
   }
 
   Future<void> _start() async {
+    final build = _builds;
     final cached = await _tickets.cached(id);
-    if (!ref.mounted) return;
+    if (_outdated(build)) return;
     if (cached != null && state.view == null) state = TicketState(view: cached, loading: false);
     await refresh();
   }
 
   Future<void> refresh() async {
+    final build = _builds;
     try {
       final view = await _tickets.fetch(id);
-      if (ref.mounted) state = state.copyWith(view: view, loading: false, clearError: true);
+      if (!_outdated(build)) state = state.copyWith(view: view, loading: false, clearError: true);
     } on AppError catch (error) {
-      if (ref.mounted) state = state.copyWith(loading: false, error: error);
+      if (!_outdated(build)) state = state.copyWith(loading: false, error: error);
     }
   }
 
@@ -181,16 +191,17 @@ class TicketController extends Notifier<TicketState> {
 
   Future<bool> _run(Future<TicketView> Function(TicketRepository tickets) action) async {
     if (state.busy) return false;
+    final build = _builds;
     state = state.copyWith(busy: true, clearError: true, stale: false);
     try {
       final view = await action(_tickets);
-      if (ref.mounted) state = state.copyWith(view: view, busy: false);
+      if (!_outdated(build)) state = state.copyWith(view: view, busy: false);
       return true;
     } on AppError catch (error) {
-      if (!ref.mounted) return false;
+      if (_outdated(build)) return false;
       if (error.code == 'stale-ticket') {
         await refresh();
-        if (ref.mounted) state = state.copyWith(busy: false, stale: true);
+        if (!_outdated(build)) state = state.copyWith(busy: false, stale: true);
       } else {
         state = state.copyWith(busy: false, error: error);
       }

@@ -73,8 +73,15 @@ class InboxController extends Notifier<InboxState> {
 
   Timer? _reload;
 
+  /// Counts rebuilds. Riverpod keeps this object when someone else signs in, so an answer requested before
+  /// that is recognised by the count it started with and dropped.
+  int _builds = 0;
+
+  bool _outdated(int build) => !ref.mounted || build != _builds;
+
   @override
   InboxState build() {
+    _builds++;
     if (ref.watch(signedInUserProvider) == null) return const InboxState();
     final events = ref.watch(liveEventsProvider).listen(_onEvent);
     ref.onDispose(() {
@@ -100,8 +107,9 @@ class InboxController extends Notifier<InboxState> {
   }
 
   Future<void> _start() async {
+    final build = _builds;
     final cached = await _tickets.cached(query, 1);
-    if (!ref.mounted) return;
+    if (_outdated(build)) return;
     if (cached != null && state.loading) {
       state = InboxState(
         items: cached.result.items,
@@ -115,9 +123,10 @@ class InboxController extends Notifier<InboxState> {
   }
 
   Future<void> refresh() async {
+    final build = _builds;
     try {
       final fresh = await _tickets.fetch(query, 1);
-      if (!ref.mounted) return;
+      if (_outdated(build)) return;
       state = InboxState(
         items: fresh.result.items,
         page: 1,
@@ -125,16 +134,17 @@ class InboxController extends Notifier<InboxState> {
         loading: false,
       );
     } on AppError catch (error) {
-      if (ref.mounted) state = state.copyWith(loading: false, error: error);
+      if (!_outdated(build)) state = state.copyWith(loading: false, error: error);
     }
   }
 
   Future<void> loadMore() async {
     if (state.loadingMore || state.loading || !state.hasMore || state.error != null) return;
+    final build = _builds;
     state = state.copyWith(loadingMore: true);
     try {
       final next = await _tickets.fetch(query, state.page + 1);
-      if (!ref.mounted) return;
+      if (_outdated(build)) return;
       final seen = {for (final item in state.items) item.id};
       state = state.copyWith(
         items: [...state.items, ...next.result.items.where((item) => seen.add(item.id))],
@@ -143,7 +153,7 @@ class InboxController extends Notifier<InboxState> {
         loadingMore: false,
       );
     } on AppError catch (error) {
-      if (ref.mounted) state = state.copyWith(loadingMore: false, error: error);
+      if (!_outdated(build)) state = state.copyWith(loadingMore: false, error: error);
     }
   }
 }

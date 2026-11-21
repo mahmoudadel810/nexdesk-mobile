@@ -53,6 +53,19 @@ void main() {
     expect(find.byKey(const Key('stale-banner')), findsNothing);
   });
 
+  testWidgets('Assign to says why when the team cannot be loaded', (tester) async {
+    final api = ticketApi(permissions: agent);
+    api.routes['GET /api/v1/users'] = (_) => problem(500, 'internal-error');
+    await openTicket(tester, api);
+
+    await tester.tap(find.byKey(const Key('ticket-actions')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Assign to…'));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('Something went wrong'), findsOneWidget);
+  });
+
   testWidgets('what is typed in the composer comes back after leaving the ticket', (tester) async {
     final container = await openTicket(tester, ticketApi(permissions: agent));
 

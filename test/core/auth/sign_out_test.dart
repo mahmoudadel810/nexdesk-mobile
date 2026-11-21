@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nexdesk_mobile/core/auth/session_controller.dart';
 import 'package:nexdesk_mobile/features/inbox/presentation/inbox_screen.dart';
@@ -52,5 +55,35 @@ void main() {
     await pumpEventQueue();
     expect(container.read(notificationsProvider).items, isEmpty);
     expect(api.count(notifications), 2);
+  });
+
+  test("the last person's answer arriving after the next one signed in is dropped", () async {
+    final api = FakeApi();
+    final held = Completer<ResponseBody>();
+    api.routes[login] = (_) => json(200, authBody(access: 'a1', refresh: 'r1'));
+    api.routes['POST /api/v1/auth/mobile/logout'] = (_) => json(204, '');
+    api.routes[notifications] = (_) => held.future;
+    api.routes[unreadCount] = (_) => json(200, {'count': 2});
+    final container = fakeContainer(api);
+    addTearDown(container.dispose);
+    final session = container.read(sessionProvider.notifier);
+
+    await session.signIn('maya@brightpath.demo', 'pw');
+    container.listen(notificationsProvider, (_, _) {});
+    await pumpEventQueue();
+    expect(api.count(notifications), 1, reason: "Maya's list is still on its way");
+
+    await session.signOut();
+    api.routes[login] = (_) => json(200, authBody(access: 'a2', refresh: 'r2', userId: 'user-sam'));
+    api.routes[notifications] = (_) => json(200, pageJson([]));
+    api.routes[unreadCount] = (_) => json(200, {'count': 0});
+    await session.signIn('sam@brightpath.demo', 'pw');
+    await pumpEventQueue();
+
+    held.complete(json(200, pageJson([notification('n1'), notification('n2')])));
+    await pumpEventQueue();
+
+    expect(container.read(notificationsProvider).items, isEmpty);
+    expect(container.read(notificationsProvider).unread, 0);
   });
 }

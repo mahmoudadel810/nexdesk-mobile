@@ -20,6 +20,9 @@ class FakeDeviceFiles implements DeviceFiles {
   PickedFile? next;
   final opened = <File>[];
 
+  /// Thrown by [open], like a viewer plugin or the file system failing.
+  Object? openError;
+
   @override
   Future<PickedFile?> takePhoto() async => next;
 
@@ -31,6 +34,7 @@ class FakeDeviceFiles implements DeviceFiles {
 
   @override
   Future<bool> open(File file) async {
+    if (openError case final error?) throw error;
     opened.add(file);
     return true;
   }
@@ -226,5 +230,34 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.textContaining('File no longer available'), findsWidgets);
     expect(tester.widget<ActionChip>(find.byKey(const Key('attachment-att-gone'))).onPressed, isNull);
+  });
+
+  testWidgets('a file the phone fails to save or open says so and can be tried again', (tester) async {
+    final withFile = [
+      {
+        ...timeline[0]! as Map<String, Object?>,
+        'attachments': [
+          {'id': 'att-ok', 'fileName': 'invoice.pdf', 'contentType': 'application/pdf', 'sizeBytes': 3},
+        ],
+      },
+    ];
+    final api = ticketApi(permissions: agent);
+    api.routes['GET $ticketPath/timeline'] = (_) => json(200, withFile);
+    final files = FakeDeviceFiles()..openError = const FileSystemException('No space left on device');
+    final attachments = FakeAttachments()..downloads['att-ok'] = File('/cache/invoice.pdf');
+    await openTicket(
+      tester,
+      api,
+      overrides: [
+        deviceFilesProvider.overrideWithValue(files),
+        attachmentRepositoryProvider.overrideWithValue(attachments),
+      ],
+    );
+
+    await tester.tap(find.byKey(const Key('attachment-att-ok')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Something went wrong. Try again.'), findsOneWidget);
+    expect(tester.widget<ActionChip>(find.byKey(const Key('attachment-att-ok'))).onPressed, isNotNull);
   });
 }
