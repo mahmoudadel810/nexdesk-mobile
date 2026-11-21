@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/generated/nex_desk_api.dart';
+import '../../../core/auth/session_controller.dart';
 import '../../../core/errors/app_error.dart';
 import '../../../core/realtime/live_hub.dart';
 import '../../../core/realtime/realtime_controller.dart';
@@ -58,6 +59,7 @@ class NotificationsController extends Notifier<NotificationsState> {
 
   @override
   NotificationsState build() {
+    if (ref.watch(signedInUserProvider) == null) return const NotificationsState();
     final events = ref.watch(liveEventsProvider).listen(_onEvent);
     ref.onDispose(() => unawaited(events.cancel()));
     Future.microtask(refresh);
@@ -85,6 +87,7 @@ class NotificationsController extends Notifier<NotificationsState> {
     state = state.copyWith(loadingMore: true);
     try {
       final next = await _repository.page(state.page + 1);
+      if (!ref.mounted) return;
       final seen = {for (final n in state.items) n.id};
       state = state.copyWith(
         items: [...state.items, ...next.items.where((n) => seen.add(n.id))],
@@ -93,7 +96,7 @@ class NotificationsController extends Notifier<NotificationsState> {
         loadingMore: false,
       );
     } on AppError catch (error) {
-      state = state.copyWith(loadingMore: false, error: error);
+      if (ref.mounted) state = state.copyWith(loadingMore: false, error: error);
     }
   }
 
@@ -105,7 +108,7 @@ class NotificationsController extends Notifier<NotificationsState> {
     );
     try {
       final unread = await _repository.markRead(notification.id);
-      state = state.copyWith(unread: unread);
+      if (ref.mounted) state = state.copyWith(unread: unread);
     } on AppError {
       // The badge corrects itself on the next reload.
     }
@@ -115,9 +118,10 @@ class NotificationsController extends Notifier<NotificationsState> {
     final before = state;
     state = state.copyWith(items: [for (final n in state.items) _read(n)], unread: 0, clearError: true);
     try {
-      state = state.copyWith(unread: await _repository.markAllRead());
+      final unread = await _repository.markAllRead();
+      if (ref.mounted) state = state.copyWith(unread: unread);
     } on AppError catch (error) {
-      state = before.copyWith(error: error);
+      if (ref.mounted) state = before.copyWith(error: error);
     }
   }
 

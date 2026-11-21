@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/generated/nex_desk_api.dart';
+import '../../../core/auth/session_controller.dart';
 import '../../../core/errors/app_error.dart';
 import '../../../core/realtime/live_hub.dart';
 import '../../../core/realtime/realtime_controller.dart';
@@ -52,6 +53,7 @@ class TicketController extends Notifier<TicketState> {
 
   @override
   TicketState build() {
+    if (ref.watch(signedInUserProvider) == null) return const TicketState();
     final events = ref.watch(liveEventsProvider).listen(_onEvent);
     ref.onDispose(() => unawaited(events.cancel()));
     Future.microtask(_start);
@@ -71,6 +73,7 @@ class TicketController extends Notifier<TicketState> {
 
   Future<void> _start() async {
     final cached = await _tickets.cached(id);
+    if (!ref.mounted) return;
     if (cached != null && state.view == null) state = TicketState(view: cached, loading: false);
     await refresh();
   }
@@ -180,12 +183,14 @@ class TicketController extends Notifier<TicketState> {
     if (state.busy) return false;
     state = state.copyWith(busy: true, clearError: true, stale: false);
     try {
-      state = state.copyWith(view: await action(_tickets), busy: false);
+      final view = await action(_tickets);
+      if (ref.mounted) state = state.copyWith(view: view, busy: false);
       return true;
     } on AppError catch (error) {
+      if (!ref.mounted) return false;
       if (error.code == 'stale-ticket') {
         await refresh();
-        state = state.copyWith(busy: false, stale: true);
+        if (ref.mounted) state = state.copyWith(busy: false, stale: true);
       } else {
         state = state.copyWith(busy: false, error: error);
       }
@@ -197,8 +202,12 @@ class TicketController extends Notifier<TicketState> {
 final ticketProvider = NotifierProvider.family<TicketController, TicketState, String>(TicketController.new);
 
 /// The workspace's active team, for @mentions and assigning.
-final peopleProvider = FutureProvider<List<UserDto>>((ref) => ref.watch(ticketRepositoryProvider).people());
+final peopleProvider = FutureProvider<List<UserDto>>(
+  (ref) async =>
+      ref.watch(signedInUserProvider) == null ? const [] : ref.watch(ticketRepositoryProvider).people(),
+);
 
 final fieldLabelsProvider = FutureProvider<Map<String, String>>(
-  (ref) => ref.watch(ticketRepositoryProvider).fieldLabels(),
+  (ref) async =>
+      ref.watch(signedInUserProvider) == null ? const {} : ref.watch(ticketRepositoryProvider).fieldLabels(),
 );

@@ -183,3 +183,9 @@ class SessionController extends Notifier<SessionState> {
 }
 
 final sessionProvider = NotifierProvider<SessionController, SessionState>(SessionController.new);
+
+/// The id of whoever is signed in, or null. Everything kept in memory for one person watches it, so signing
+/// out drops it and the next person on this phone starts empty.
+final signedInUserProvider = Provider<String?>(
+  (ref) => ref.watch(sessionProvider.select((s) => s is SignedIn ? s.session.user.id : null)),
+);
