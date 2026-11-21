@@ -34,6 +34,9 @@ class _AttachmentChipState extends ConsumerState<AttachmentChip> {
     } on AppError catch (error) {
       if (error.code == AttachmentCodes.notFound && mounted) setState(() => _gone = true);
       messenger.showSnackBar(SnackBar(content: Text(attachmentErrorText(error, l10n))));
+    } on Object {
+      // Saving to the cache or the phone's viewer failed (a full disk, a plugin error).
+      messenger.showSnackBar(SnackBar(content: Text(l10n.errorUnexpected)));
     } finally {
       if (mounted) setState(() => _opening = false);
     }
