@@ -950,6 +950,30 @@ abstract class AppLocalizations {
   /// **'Attach a file'**
   String get attach;
 
+  /// No description provided for @insertArticle.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert a help article'**
+  String get insertArticle;
+
+  /// No description provided for @linkArticleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Link a help article'**
+  String get linkArticleTitle;
+
+  /// No description provided for @searchArticles.
+  ///
+  /// In en, this message translates to:
+  /// **'Search published articles'**
+  String get searchArticles;
+
+  /// No description provided for @noArticles.
+  ///
+  /// In en, this message translates to:
+  /// **'No published article matches.'**
+  String get noArticles;
+
   /// No description provided for @takePhoto.
   ///
   /// In en, this message translates to:

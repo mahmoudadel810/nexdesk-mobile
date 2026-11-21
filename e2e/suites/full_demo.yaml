@@ -7,6 +7,7 @@ appId: app.nexdesk.mobile.dev
 - runFlow: ../inbox_search.yaml
 - runFlow: ../reply_and_note.yaml
 - runFlow: ../mention_tom.yaml
+- runFlow: ../insert_article.yaml
 - runFlow: ../attach_photo.yaml
 - runFlow: ../live_updates.yaml
 - runFlow: ../reconnect_catch_up.yaml

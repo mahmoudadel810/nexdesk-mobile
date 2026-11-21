@@ -530,6 +530,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get attach => 'Attach a file';
 
   @override
+  String get insertArticle => 'Insert a help article';
+
+  @override
+  String get linkArticleTitle => 'Link a help article';
+
+  @override
+  String get searchArticles => 'Search published articles';
+
+  @override
+  String get noArticles => 'No published article matches.';
+
+  @override
   String get takePhoto => 'Take a photo';
 
   @override

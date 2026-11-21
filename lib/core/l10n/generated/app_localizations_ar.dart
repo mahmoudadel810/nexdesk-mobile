@@ -538,6 +538,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get attach => 'إرفاق ملف';
 
   @override
+  String get insertArticle => 'إدراج مقال مساعدة';
+
+  @override
+  String get linkArticleTitle => 'ربط مقال مساعدة';
+
+  @override
+  String get searchArticles => 'ابحث في المقالات المنشورة';
+
+  @override
+  String get noArticles => 'لا يوجد مقال منشور مطابق.';
+
+  @override
   String get takePhoto => 'التقاط صورة';
 
   @override
